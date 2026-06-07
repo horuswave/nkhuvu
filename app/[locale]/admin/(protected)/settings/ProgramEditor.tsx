@@ -5,7 +5,7 @@ import { Plus, Trash2, MapPin } from "lucide-react";
 import type {
   ProgramItem,
   ProgramItemType,
-} from "../../../components/invitation/ProgramSection";
+} from "../../../../../components/invitation/ProgramSection";
 
 // Re-export so SettingsForm only needs one import
 export type { ProgramItem, ProgramItemType };

@@ -5,7 +5,7 @@ import { updateMyEvent } from "@/actions/events";
 import { useRouter } from "next/navigation";
 import ProgramEditor, { type ProgramItem } from "./ProgramEditor";
 import GiftListEditor, { type GiftItem } from "./GiftListEditor"; // ← NEW
-import type { RsvpFields } from "../../../components/invitation/RsvpForm";
+import type { RsvpFields } from "../../../../../components/invitation/RsvpForm";
 
 const FONT_DISPLAY_OPTIONS = [
   "Cormorant Garamond",

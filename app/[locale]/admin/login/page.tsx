@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useTranslations } from "@/i18n";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const t = useTranslations("admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -25,19 +27,19 @@ export default function AdminLoginPage() {
       });
 
       if (!result) {
-        setError("Unable to sign in.");
+        setError(t("errors.unable"));
         return;
       }
 
       if (result.error) {
-        setError("Invalid email or password.");
+        setError(t("errors.invalidCredentials"));
         return;
       }
 
       router.push(result.url || "/admin/dashboard");
       router.refresh();
     } catch {
-      setError("Something went wrong. Try again.");
+      setError(t("errors.somethingWentWrong"));
     } finally {
       setLoading(false);
     }
@@ -56,11 +58,9 @@ export default function AdminLoginPage() {
             className="text-3xl text-stone-800 mb-1"
             style={{ fontFamily: "Georgia, serif" }}
           >
-            Admin Dashboard
+            {t("title")}
           </h1>
-          <p className="text-stone-400 text-sm">
-            Anniversary App · Organizer Access
-          </p>
+          <p className="text-stone-400 text-sm">{t("subtitle")}</p>
         </div>
 
         <form
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
         >
           <div>
             <label className="block text-stone-600 text-sm font-medium mb-2">
-              Email
+              {t("form.emailLabel")}
             </label>
             <input
               type="email"
@@ -78,13 +78,13 @@ export default function AdminLoginPage() {
               required
               autoFocus
               className="w-full px-4 py-2.5 border border-stone-200 rounded text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-200"
-              placeholder="you@example.com"
+              placeholder={t("form.emailPlaceholder")}
             />
           </div>
 
           <div>
             <label className="block text-stone-600 text-sm font-medium mb-2">
-              Password
+              {t("form.passwordLabel")}
             </label>
             <input
               type="password"
@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className="w-full px-4 py-2.5 border border-stone-200 rounded text-sm focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-200"
-              placeholder="••••••••"
+              placeholder={t("form.passwordPlaceholder")}
             />
           </div>
 
@@ -107,7 +107,7 @@ export default function AdminLoginPage() {
             disabled={loading}
             className="w-full py-3 bg-amber-600 hover:bg-amber-700 disabled:bg-stone-200 disabled:text-stone-400 text-white text-sm tracking-widest uppercase transition-colors rounded"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? t("buttons.signingIn") : t("buttons.signIn")}
           </button>
         </form>
       </div>

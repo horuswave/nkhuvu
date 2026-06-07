@@ -10,7 +10,7 @@ import GiftListSection from "@/components/invitation/Giftlistsection";
 import type {
   GiftItem,
   GiftItemType,
-} from "@/app/admin/settings/GiftListEditor";
+} from "@/app/[locale]/admin/(protected)/settings/GiftListEditor";
 
 /**
  * /convite – demo page that showcases the full invitation layout with

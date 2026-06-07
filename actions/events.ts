@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import type { RsvpFields } from "@/components/invitation/RsvpForm";
 import type { ProgramItem } from "@/components/invitation/ProgramSection";
-import type { GiftItem } from "@/app/admin/settings/GiftListEditor"; // adjust path to match your project
+import type { GiftItem } from "@/app/[locale]/admin/(protected)/settings/GiftListEditor"; // adjust path to match your project
 
 export async function getAllEvents() {
   await requireSuperAdmin();

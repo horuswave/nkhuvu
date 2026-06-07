@@ -1,5 +1,5 @@
 import { EventData } from "@/types";
-import type { GiftItem } from "@/app/admin/settings/GiftListEditor";
+import type { GiftItem } from "@/app/[locale]/admin/(protected)/settings/GiftListEditor";
 
 function GiftIcon() {
   return (

@@ -1,0 +1,487 @@
+{
+  "nav": {
+    "dashboard": "Painel de Controle",
+    "guests": "Lista de Convidados",
+    "communications": "Comunicações",
+    "tables": "Gestão de Mesas",
+    "program": "Programa",
+    "gifts": "Presentes",
+    "settings": "Configurações"
+  },
+  "common": {
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "saved": "✓ Guardado",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Adicionar",
+    "close": "Fechar",
+    "back": "Voltar",
+    "search": "Pesquisar",
+    "loading": "Carregando…",
+    "error": "Erro",
+    "success": "Sucesso",
+    "confirm": "Confirmar",
+    "copy": "Copiar",
+    "copied": "Copiado!",
+    "yes": "Sim",
+    "no": "Não",
+    "optional": "Opcional",
+    "required": "Obrigatório"
+  },
+  "dashboard": {
+    "pageTitle": "Painel de Controle",
+    "overview": "Visão Geral",
+    "responseRate": "Taxa de Resposta",
+    "recentRsvps": "RSVPs Recentes",
+    "of": "de",
+    "households": "agregados",
+    "responded": "responderam",
+    "guests": "convidados",
+    "backLink": "← Painel de Controle",
+    "guestCount": "{count} convidado{plural}"
+  },
+  "guests": {
+    "pageTitle": "Lista de Convidados",
+    "addGuest": "+ Adicionar Convidado",
+    "addGuestShort": "+ Adicionar",
+    "newGuestPageTitle": "Adicionar Convidado",
+    "editGuestPageTitle": "Editar Convidado",
+    "fullName": "Nome completo / Nome do agregado",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "preferredContact": "Forma de contacto preferida",
+    "maxGuests": "Máximo de convidados permitidos (incluindo principal)",
+    "internalNotes": "Notas internas",
+    "markAsVip": "Marcar como VIP",
+    "noGuestsYet": "Sem convidados ainda.",
+    "addFirstGuest": "Adicione seu primeiro convidado →",
+    "notesVisibleToAdmins": "Notas visíveis apenas para administradores…",
+    "emailPlaceholder": "convidado@email.com",
+    "phonePlaceholder": "+351 912 345 678",
+    "householdNameExample": "António & Sofia Silva",
+    "saveChanges": "Guardar Alterações",
+    "contactMethods": {
+      "EMAIL": "✉️ E-mail",
+      "WHATSAPP": "💬 WhatsApp",
+      "SMS": "📱 SMS",
+      "MANUAL": "👤 Manual"
+    },
+    "tableHeaders": {
+      "guest": "Convidado",
+      "contact": "Contacto",
+      "status": "Estado",
+      "guestCount": "Convidados",
+      "table": "Mesa",
+      "actions": ""
+    },
+    "search": "Pesquisar por nome, e-mail ou telefone…",
+    "filterLabels": {
+      "ALL": "Todos",
+      "PENDING": "Pendente",
+      "ATTENDING": "Confirmado",
+      "DECLINED": "Recusou",
+      "MAYBE": "Talvez"
+    },
+    "rsvpStatus": {
+      "PENDING": "Pendente",
+      "ATTENDING": "Confirmado",
+      "DECLINED": "Recusou",
+      "MAYBE": "Talvez"
+    },
+    "showingOf": "Mostrando {filtered} de {total} convidados",
+    "deleteConfirm": "Eliminar {name}? Isto não pode ser desfeito.",
+    "noMatchingGuests": "Nenhum convidado corresponde aos seus filtros.",
+    "guestListPageTitle": "{count} agregados · {eventTitle}"
+  },
+  "guestForm": {
+    "newGuest": "Adicionar Convidado",
+    "editGuest": "Guardar Alterações",
+    "somethingWentWrong": "Algo correu mal."
+  },
+  "communications": {
+    "pageTitle": "Comunicações",
+    "noMessages": "Nenhuma mensagem enviada ainda.",
+    "messagesSent": "{count} mensagens enviadas",
+    "goToGuestList": "Vá para a lista de convidados para enviar convites →",
+    "tableHeaders": {
+      "guest": "Convidado",
+      "type": "Tipo",
+      "channel": "Canal",
+      "status": "Estado",
+      "sent": "Enviado"
+    },
+    "channelIcons": {
+      "SMS": "📱",
+      "WHATSAPP": "💬",
+      "EMAIL": "✉️",
+      "MANUAL": "👤"
+    },
+    "statusBadges": {
+      "SENT": "Enviado",
+      "DELIVERED": "Entregue",
+      "FAILED": "Falhou",
+      "PENDING": "Pendente"
+    }
+  },
+  "tables": {
+    "pageTitle": "Gestão de Mesas",
+    "seatsAcrossTables": "{seated} de {total} convidados confirmados sentados · {count} lugares totais em {tableCount} mesas",
+    "newTableForm": {
+      "title": "Nova Mesa",
+      "name": "Nome da mesa",
+      "capacity": "Capacidade",
+      "notes": "Notas",
+      "create": "Criar Mesa"
+    },
+    "editTableForm": {
+      "title": "Editar Mesa",
+      "saveChanges": "Guardar Alterações"
+    },
+    "assignGuest": "Atribuir convidado",
+    "unassignedGuests": "Convidados não atribuídos",
+    "exportTables": "Exportar para DOCX",
+    "exporting": "Exportando…",
+    "noTables": "Nenhuma mesa ainda.",
+    "createFirstTable": "Crie sua primeira mesa →",
+    "deleteTableConfirm": "Eliminar mesa {name}? Isto não pode ser desfeito.",
+    "occupancy": "{occupied} / {capacity}",
+    "noGuestsAssigned": "Nenhum convidado atribuído",
+    "deleteGuest": "Remover da mesa",
+    "deleteGuestConfirm": "Remover {name} desta mesa?",
+    "occupancyStatus": {
+      "full": "Mesa completa",
+      "almostFull": "Quase cheia",
+      "available": "Capacidade disponível"
+    },
+    "exportDocument": {
+      "title": "Distribuição de Mesas",
+      "seatsAvailable": "{count} {plural}",
+      "noGuestsAssigned": "Sem convidados atribuídos",
+      "tableFull": "Mesa completa",
+      "seats": "lugares",
+      "person": "pessoa",
+      "people": "pessoas"
+    }
+  },
+  "settings": {
+    "pageTitle": "Configurações do Evento",
+    "tabs": {
+      "details": "Detalhes",
+      "branding": "Marca",
+      "program": "Programa",
+      "gifts": "Presentes",
+      "rsvp": "RSVP"
+    },
+    "saveChanges": "Guardar Alterações",
+    "failedToSave": "Falha ao guardar.",
+    "details": {
+      "eventTitle": "Título do Evento",
+      "coupleNames": "Nomes do Casal",
+      "date": "Data",
+      "time": "Hora",
+      "timePlaceholder": "18:00",
+      "venue": "Local",
+      "address": "Morada",
+      "mapUrl": "URL do Google Maps",
+      "dressCode": "Código de Vestuário",
+      "welcomeMessage": "Mensagem de Boas-vindas",
+      "eventRules": "Regras do Evento",
+      "supportEmail": "E-mail de Suporte",
+      "supportPhone": "Telefone de Suporte"
+    },
+    "branding": {
+      "primaryColor": "Cor Primária",
+      "accentColor": "Cor de Destaque",
+      "backgroundStyle": "Estilo de Fundo",
+      "displayFont": "Fonte de Exibição",
+      "bodyFont": "Fonte de Corpo",
+      "dark": "Escuro",
+      "light": "Claro",
+      "image": "Imagem"
+    },
+    "program": {
+      "title": "Programa",
+      "noItems": "Nenhum item do programa ainda. Adicione seu primeiro momento abaixo.",
+      "addMoment": "Adicionar momento do programa",
+      "type": "Tipo de Evento",
+      "time": "Hora",
+      "timePlaceholder": "p.ex. 19:00",
+      "label": "Rótulo mostrado no convite (p.ex. Drinks de Boas-vindas)",
+      "notes": "Nota curta para convidados (opcional)",
+      "addLocation": "Adicionar localização (Google Maps)",
+      "removeLocation": "Remover localização",
+      "locationUrl": "URL do Google Maps (https://maps.google.com/…)",
+      "locationLabel": "Rótulo do link (p.ex. \"Igreja da Sé\")",
+      "eventTypes": {
+        "general": "Geral",
+        "wedding": "Casamento",
+        "anniversary": "Aniversário",
+        "party": "Festa",
+        "RECEPTION": "Recepção / Boas-vindas",
+        "COCKTAIL": "Hora do Coquetel",
+        "DINNER": "Jantar / Banquete",
+        "SPEECHES": "Discursos / Brindes",
+        "CAKE": "Corte do Bolo",
+        "MUSIC": "Música ao Vivo / DJ",
+        "PHOTO": "Sessão de Fotos",
+        "FIREWORKS": "Fogos de Artifício",
+        "TRANSPORT": "Transporte / Serviço de Transporte",
+        "GAMES": "Jogos / Atividades",
+        "CUSTOM": "Momento personalizado…",
+        "CEREMONY": "Cerimónia de Casamento",
+        "BLESSING": "Bênção / Rito Religioso",
+        "FIRST_DANCE": "Primeira Dança",
+        "BRUNCH": "Brunch / Manhã Seguinte"
+      }
+    },
+    "gifts": {
+      "title": "Presentes",
+      "noItems": "Nenhum presente ainda. Adicione seu primeiro item ou opção de pagamento abaixo.",
+      "addItem": "Adicionar presente ou opção de pagamento",
+      "typeItem": "🎁 Item de Presente",
+      "typeMonetary": "💳 Dinheiro / Transferência",
+      "giftName": "Nome do presente (p.ex. Jogo de toalhas portuguesas de linho)",
+      "storeBrand": "Loja / marca (opcional)",
+      "storeUrl": "URL da loja (opcional)",
+      "guestNote": "Nota para convidados (opcional, p.ex. tamanho M ou cor marfim)",
+      "monetaryLabel": "Rótulo (p.ex. Fundo de lua de mel, Contribuição para reforma da casa…)",
+      "currency": "Moeda (p.ex. EUR)",
+      "suggestedAmount": "Valor sugerido",
+      "bankTransfer": "Transferência bancária (opcional)",
+      "accountHolder": "Nome do titular da conta",
+      "bankName": "Nome do banco",
+      "iban": "IBAN / Número de conta",
+      "reference": "Referência de pagamento (opcional)",
+      "mobileWallet": "Carteira móvel / M-Pesa / PayPal (opcional)",
+      "provider": "Fornecedor (p.ex. M-Pesa, PayPal)",
+      "walletNumber": "Número / nome de utilizador / e-mail",
+      "walletHolderName": "Nome do titular da conta (opcional)",
+      "moveUp": "Mover acima",
+      "moveDown": "Mover abaixo",
+      "deleteItem": "Eliminar"
+    },
+    "rsvp": {
+      "title": "RSVP",
+      "description": "Escolha quais campos aparecem no formulário RSVP do convidado. Os campos ocultos não serão mostrados aos convidados e seus dados não serão coletados.",
+      "companions": {
+        "label": "Acompanhantes / Mais-um",
+        "description": "Permita que os convidados adicionem attendentes extras."
+      },
+      "dietary": {
+        "label": "Restrições dietéticas",
+        "description": "Colete informações sobre alérgenos e preferências alimentares."
+      },
+      "transport": {
+        "label": "Notas de transporte / logística",
+        "description": "Deixe os convidados indicar necessidades de estacionamento, viagem ou acessibilidade."
+      },
+      "message": {
+        "label": "Mensagem para o casal",
+        "description": "Mensagem pessoal opcional do convidado."
+      },
+      "formPreview": "Pré-visualização do formulário",
+      "attendingToggle": "Alternância Confirmado / Não Confirmado — sempre mostrada",
+      "companionsField": "Campo de acompanhantes",
+      "dietaryField": "Restrições dietéticas",
+      "transportField": "Notas de transporte",
+      "messageField": "Mensagem para o casal",
+      "onlyAttendingToggle": "Apenas a alternância de confirmação será mostrada"
+    }
+  },
+  "rsvp": {
+    "rsvpResponse": "Resposta RSVP",
+    "attending": "Confirmado",
+    "totalGuests": "Total de convidados",
+    "companions": "Acompanhantes",
+    "dietary": "Dietética",
+    "transport": "Transporte",
+    "message": "Mensagem",
+    "yes": "Sim",
+    "no": "Não"
+  },
+  "messageHistory": {
+    "title": "Histórico de Mensagens",
+    "via": "via"
+  },
+  "giftList": {
+    "typeLabel": "monetário",
+    "typeGift": "presente"
+  },
+  "errors": {
+    "somethingWentWrong": "Algo correu mal.",
+    "failedToLoad": "Falha ao carregar.",
+    "fieldRequired": "Este campo é obrigatório.",
+    "invalidEmail": "Por favor, insira um endereço de e-mail válido.",
+    "invalidPhone": "Por favor, insira um número de telefone válido."
+  },
+  "validation": {
+    "nameRequired": "O nome é obrigatório",
+    "emailInvalid": "Formato de e-mail inválido",
+    "phoneInvalid": "Formato de telefone inválido"
+  },
+  "landing": {
+    "nav": {
+      "features": "Funcionalidades",
+      "howItWorks": "Como funciona",
+      "contact": "Acesso",
+      "tagline": "Celebração"
+    },
+    "hero": {
+      "badge": "Nkhuvu • Celebração em Changana",
+      "title1": "Convites que",
+      "titleHighlight": "honram cada celebração",
+      "subtitle": "Crie convites digitais elegantes, gerencie confirmações em tempo real e ofereça uma experiência inesquecível aos seus convidados.",
+      "ctaPrimary": "Solicitar acesso",
+      "ctaSecondary": "Ver demonstração",
+      "familiesWord": "famílias",
+      "familiesText": "já escolheram a Nkhuvu",
+      "invite": {
+        "joy": "Com muita alegria",
+        "date": "15 de Outubro, 2026",
+        "venue": "Quinta das Oliveiras, Maputo",
+        "status": "Estado",
+        "open": "Aberto para RSVP",
+        "message": "\"A sua presença tornará este dia ainda mais especial. Confirme até 30 de Setembro.\"",
+        "confirmBtn": "Confirmar presença",
+        "detailsBtn": "Ver detalhes",
+        "footer": "Convite digital com RSVP em tempo real"
+      }
+    },
+    "access": {
+      "badge": "Acesso Restrito",
+      "title": "Administradores e Organizadores",
+      "description": "A plataforma Nkhuvu é gerida por administradores autorizados. Se é organizador de um evento e precisa de acesso, solicite a sua conta.",
+      "button": "Solicitar acesso",
+      "note": "Apenas administradores autorizados têm acesso ao dashboard. Solicite a sua conta através do email acima."
+    },
+    "stats": {
+      "responseRate": "taxa de confirmação",
+      "eventsDone": "eventos realizados",
+      "prioritySupport": "suporte prioritário",
+      "avgRating": "avaliação média"
+    },
+    "features": {
+      "badge": "Funcionalidades completas",
+      "title": "Tudo o que precisa para o seu evento",
+      "subtitle": "Uma plataforma completa que cuida de cada detalhe, do convite à confirmação final.",
+      "digitalInvites": {
+        "title": "Convites Digitais",
+        "desc": "Design totalmente personalizável com cores, fontes e estilo do seu evento. Link único para cada convidado."
+      },
+      "guestManagement": {
+        "title": "Gestão de Convidados",
+        "desc": "Adicione, edite e organize todos os convidados. Controle quem confirmou presença ou declinou."
+      },
+      "rsvpRealTime": {
+        "title": "RSVP em Tempo Real",
+        "desc": "Acompanhe confirmações instantaneamente, gerencie acompanhantes e preferências alimentares."
+      },
+      "giftList": {
+        "title": "Lista de Presentes",
+        "desc": "Crie lista de presentes físicos e contribuições monetárias com IBAN, M-Pesa e referências bancárias."
+      },
+      "eventProgram": {
+        "title": "Programa do Evento",
+        "desc": "Adicione horários e atividades da cerimónia, cocktail, jantar e festa."
+      },
+      "tableManagement": {
+        "title": "Gestão de Mesas",
+        "desc": "Crie mesas, defina capacidade e organize os convidados por lugar sentado."
+      },
+      "multiChannel": {
+        "title": "Envio Multicanal",
+        "desc": "Envie convites por SMS, WhatsApp ou email. Agendamento de lembretes automáticos."
+      },
+      "visualCustom": {
+        "title": "Personalização Visual",
+        "desc": "Cores primária e de destaque. Fundo escuro, claro ou imagem. Fontes personalizáveis."
+      },
+      "adminDashboard": {
+        "title": "Dashboard Administrativo",
+        "desc": "Painel completo com estatísticas em tempo real: total de convidados, confirmações e headcount."
+      },
+      "mapLocation": {
+        "title": "Mapa e Localização",
+        "desc": "Adicione URL do Google Maps para facilitar a chegada dos seus convidados."
+      },
+      "prioritySupport": {
+        "title": "Suporte Prioritário",
+        "desc": "Email e telefone de suporte disponíveis para todas as dúvidas dos convidados."
+      },
+      "securityControl": {
+        "title": "Segurança e Controlo",
+        "desc": "Tokens únicos por convidado. Múltiplos administradores por evento com níveis de acesso."
+      }
+    },
+    "founderStory": {
+      "badge": "A nossa história",
+      "title": "Nasceu de uma história familiar",
+      "p1": "Anderson Macuche criou a Nkhuvu após ver a sua família enfrentar dificuldades na organização do aniversário de 50 anos dos seus avós.",
+      "p2": "A tarefa de enviar convites, controlar confirmações e organizar os convidados tornou-se um desafio enorme. Foi ali que surgiu a ideia: uma plataforma digital que tornasse cada celebração mais simples, organizada e memorável.",
+      "p3": "Nkhuvu significa \"celebração\" em Changana, a língua que embala as tradições e une as famílias. É mais do que uma plataforma: é uma ferramenta para honrar momentos que ficam para sempre.",
+      "signature": "Anderson Macuche, Fundador",
+      "quote": "Celebrar é estar junto. Facilitar é o nosso propósito."
+    },
+    "howItWorks": {
+      "title": "Como funciona",
+      "subtitle": "Em três passos simples, o seu evento ganha vida digital",
+      "chooseTemplate": {
+        "title": "Escolha um modelo",
+        "desc": "Selecione entre designs elegantes e adapte ao seu estilo"
+      },
+      "personalize": {
+        "title": "Personalize os detalhes",
+        "desc": "Adicione informações do evento, local, data e lista de presentes"
+      },
+      "shareTrack": {
+        "title": "Partilhe e acompanhe",
+        "desc": "Envie o link e veja confirmações em tempo real"
+      }
+    },
+    "testimonial": {
+      "quote": "A Nkhuvu transformou completamente a gestão do nosso casamento. Os convites são lindos e o sistema de confirmações poupou horas de trabalho. Recomendo a todas as famílias.",
+      "author": "Mariana & Rafael",
+      "role": "Casamento, Novembro 2025"
+    },
+    "finalCTA": {
+      "title": "Pronto para celebrar de forma memorável?",
+      "subtitle": "Comece hoje. Crie o convite digital perfeito para o seu evento em poucos minutos.",
+      "buttonPrimary": "Solicitar acesso",
+      "buttonSecondary": "Ver demonstração ao vivo",
+      "footnote": "Acesso mediante solicitação • Suporte prioritário"
+    },
+    "footer": {
+      "tagline": "Celebração em Changana",
+      "description": "Plataforma elegante para casamentos e eventos especiais em Moçambique. Tecnologia e design para celebrar os melhores momentos.",
+      "quickLinks": "Links rápidos",
+      "access": "Solicitar acesso",
+      "demo": "Convite exemplo",
+      "support": "Suporte",
+      "contact": "Contacto",
+      "address": "Maputo, Moçambique",
+      "founder": "Anderson Macuche, Fundador",
+      "copyright": "Todos os direitos reservados."
+    }
+  },
+  "admin": {
+    "title": "Painel Administrativo",
+    "subtitle": "App de Aniversário · Acesso do Organizador",
+    "form": {
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "voce@exemplo.com",
+      "passwordLabel": "Senha",
+      "passwordPlaceholder": "••••••••"
+    },
+    "buttons": {
+      "signIn": "Entrar",
+      "signingIn": "Entrando..."
+    },
+    "errors": {
+      "unable": "Não foi possível entrar.",
+      "invalidCredentials": "E-mail ou senha inválidos.",
+      "somethingWentWrong": "Algo correu mal. Tente novamente."
+    }
+  }
+}
