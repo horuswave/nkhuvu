@@ -145,6 +145,60 @@ model MessageLog {
   errorDetail String?
 }
 
+model LandingLead {
+  id              String   @id @default(cuid())
+  
+  // Visitor identification / session
+  sessionId       String?  @unique  // e.g. a UUID you generate per visit
+  ipAddress       String?
+  userAgent       String?
+  
+  // Device info
+  deviceType      String?  // "mobile" | "desktop" | "tablet"
+  isMobile        Boolean  @default(false)
+  mobileBrand     String?  // e.g. "Samsung", "Apple", "Huawei", "Xiaomi"
+  deviceModel     String?  // e.g. "iPhone 15 Pro", "Galaxy S24"
+  phoneSpec       String?  // Additional specs if you want (screen size, OS version, etc.)
+  
+  // Browser & OS
+  browser         String?  // "Chrome", "Safari", "Firefox", etc.
+  browserVersion  String?
+  os              String?  // "Android", "iOS", "Windows", "macOS"
+  
+  // Location (from IP geolocation)
+  country         String?
+  countryCode     String?
+  city            String?
+  region          String?
+  latitude        Float?
+  longitude       Float?
+  
+  // Session / Engagement
+  sessionStart    DateTime @default(now())
+  sessionEnd      DateTime?
+  sessionDuration Int?     // in seconds
+  
+  // Landing page context
+  referrer        String?
+  landingPageUrl  String?  // e.g. "/event/abc123" or general marketing page
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  
+  // Interest signals
+  viewedEventId   String?  // If they visited a specific event landing page
+  timeOnPage      Int?     // seconds
+  scrolledPercent Int?     // 0-100
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([country])
+  @@index([deviceType])
+  @@index([mobileBrand])
+}
+
 enum ContactMethod {
   EMAIL
   WHATSAPP
