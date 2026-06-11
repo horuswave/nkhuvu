@@ -327,7 +327,25 @@
       "howItWorks": "How it works",
       "contact": "Access",
       "tagline": "Celebração"
-    },
+    },"contact": {
+  "title": "Contact us",
+  "subtitle": "Request access and we’ll send you a verification code by email.",
+  "name": "Name",
+  "email": "Email",
+  "message": "Message",
+  "namePlaceholder": "Your name",
+  "emailPlaceholder": "you@example.com",
+  "messagePlaceholder": "Write your message...",
+  "sendOtp": "Send OTP",
+  "sending": "Sending...",
+  "enterOtp": "Enter the OTP sent to your email",
+  "verifyOtp": "Verify OTP",
+  "verifying": "Verifying...",
+  "otpSent": "OTP sent successfully.",
+  "verified": "Email verified successfully.",
+  "success": "Thank you. Your message has been verified.",
+  "error": "Something went wrong."
+},
     "hero": {
       "badge": "Nkhuvu • Celebration in Changana",
       "title1": "Invitations that",
@@ -483,5 +501,22 @@
       "invalidCredentials": "Invalid email or password.",
       "somethingWentWrong": "Something went wrong. Try again."
     }
+  },
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "you@example.com",
+    "messagePlaceholder": "Write your message...",
+    "sendOtp": "Send OTP",
+    "sending": "Sending...",
+    "enterOtp": "Enter the OTP sent to your email",
+    "verifyOtp": "Verify OTP",
+    "verifying": "Verifying...",
+    "otpSent": "OTP sent successfully.",
+    "verified": "Email verified successfully.",
+    "success": "Thanks. Your message has been verified.",
+    "error": "Something went wrong."
   }
 }

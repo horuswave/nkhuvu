@@ -199,6 +199,35 @@ model LandingLead {
   @@index([mobileBrand])
 }
 
+model ContactLead {
+  id           String    @id @default(cuid())
+  email        String
+  name         String?
+  message      String?
+  locale       String?
+  isVerified   Boolean   @default(false)
+  verifiedAt   DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  otps         ContactOtp[]
+
+  @@index([email])
+}
+
+model ContactOtp {
+  id           String    @id @default(cuid())
+  contactLeadId String
+  code         String
+  expiresAt    DateTime
+  usedAt       DateTime?
+  createdAt    DateTime  @default(now())
+
+  contactLead  ContactLead @relation(fields: [contactLeadId], references: [id], onDelete: Cascade)
+
+  @@index([contactLeadId])
+  @@index([code])
+}
 enum ContactMethod {
   EMAIL
   WHATSAPP

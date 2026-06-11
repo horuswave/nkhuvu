@@ -328,6 +328,25 @@
       "contact": "Ku fikelela",
       "tagline": "Nkhuvu"
     },
+    "contact": {
+  "title": "Tihlanganeni na hina",
+  "subtitle": "Kombela mpfumelelo naswona hi ta ku rhumela khodi ya ku tiyisisa hi imeyili.",
+  "name": "Vito",
+  "email": "Imeyili",
+  "message": "Rungula",
+  "namePlaceholder": "Vito ra wena",
+  "emailPlaceholder": "wena@xikombiso.com",
+  "messagePlaceholder": "Tsala rungula ra wena...",
+  "sendOtp": "Rhuma OTP",
+  "sending": "Swa rhumeriwa...",
+  "enterOtp": "Nghenisa OTP leyi rhumeriweke eka imeyili ya wena",
+  "verifyOtp": "Tiyisisa OTP",
+  "verifying": "Swa tiyisisiwa...",
+  "otpSent": "OTP yi rhumeriwile hi ku humelela.",
+  "verified": "Imeyili yi tiyisisiwile hi ku humelela.",
+  "success": "Inkomu. Rungula ra wena ri tiyisisiwile.",
+  "error": "Ku ve ni xihoxo."
+},
     "hero": {
       "badge": "Nkhuvu • Nkhuvu eka Xichangana",
       "title1": "Swirhumiwa leswi",

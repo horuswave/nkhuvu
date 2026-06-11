@@ -328,6 +328,25 @@
       "contact": "Acesso",
       "tagline": "Celebração"
     },
+    "contact": {
+      "title": "Contacte-nos",
+      "subtitle": "Solicite acesso e enviaremos um código de verificação por e-mail.",
+      "name": "Nome",
+      "email": "E-mail",
+      "message": "Mensagem",
+      "namePlaceholder": "O seu nome",
+      "emailPlaceholder": "voce@exemplo.com",
+      "messagePlaceholder": "Escreva a sua mensagem...",
+      "sendOtp": "Enviar OTP",
+      "sending": "A enviar...",
+      "enterOtp": "Introduza o OTP enviado para o seu e-mail",
+      "verifyOtp": "Verificar OTP",
+      "verifying": "A verificar...",
+      "otpSent": "OTP enviado com sucesso.",
+      "verified": "E-mail verificado com sucesso.",
+      "success": "Obrigado. A sua mensagem foi verificada.",
+      "error": "Ocorreu um erro."
+    },
     "hero": {
       "badge": "Nkhuvu • Celebração em Changana",
       "title1": "Convites que",
