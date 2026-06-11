@@ -207,6 +207,9 @@ model ContactLead {
   locale       String?
   isVerified   Boolean   @default(false)
   verifiedAt   DateTime?
+  isAdminRequest Boolean @default(true)
+  adminInviteToken String? @unique
+  inviteSentAt DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
