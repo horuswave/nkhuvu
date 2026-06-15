@@ -66,14 +66,21 @@ export const proxy = auth((req) => {
 
   // Admin Routes
   if (pathnameWithoutLocale.startsWith("/admin")) {
+    const adminPublicRoutes = ["/admin/login", "/admin/onboarding"];
+
     if (pathnameWithoutLocale === "/admin/login" && user) {
       const dest = user.isSuperAdmin
         ? `/${currentLocale}/super/dashboard`
-        : `/${currentLocale}/admin/dashboard`;
+        : user.eventId
+          ? `/${currentLocale}/admin/dashboard`
+          : `/${currentLocale}/admin/onboarding`;
       return NextResponse.redirect(new URL(dest, req.url));
     }
 
-    if (pathnameWithoutLocale !== "/admin/login" && !user) {
+    if (
+      !adminPublicRoutes.includes(pathnameWithoutLocale) &&
+      !user
+    ) {
       return NextResponse.redirect(
         new URL(`/${currentLocale}/admin/login`, req.url),
       );
@@ -85,9 +92,13 @@ export const proxy = auth((req) => {
       );
     }
 
-    if (!user?.eventId && pathnameWithoutLocale !== "/admin/login") {
+    if (
+      user &&
+      !user.eventId &&
+      !adminPublicRoutes.includes(pathnameWithoutLocale)
+    ) {
       return NextResponse.redirect(
-        new URL(`/${currentLocale}/admin/login`, req.url),
+        new URL(`/${currentLocale}/admin/onboarding`, req.url),
       );
     }
 

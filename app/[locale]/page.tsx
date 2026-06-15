@@ -1,14 +1,14 @@
 import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
-import AccessRequest from "@/components/landing/AccessRequest";
 import Stats from "@/components/landing/Stats";
 import Features from "@/components/landing/Features";
-import FounderStory from "@/components/landing/FounderStory";
 import HowItWorks from "@/components/landing/HowItWorks";
+import FounderStory from "@/components/landing/FounderStory";
 import Testimonial from "@/components/landing/Testimonial";
+import Pricing from "@/components/landing/Pricing";
 import FinalCTA from "@/components/landing/FinalCTA";
 import Footer from "@/components/landing/Footer";
-import ContactForm from "@/components/landing/ContactForm";
+import LandingTracker from "@/components/landing/LandingTracker";
 
 import en from "@/messages/en.json";
 import pt from "@/messages/pt.json";
@@ -22,16 +22,17 @@ export default async function Home({
   const messages = locale === "pt" ? pt : en;
 
   return (
-    <main className="min-h-screen bg-white font-sans antialiased">
+    <main className="min-h-screen bg-surface-canvas font-sans antialiased selection:bg-amber-100 selection:text-amber-900">
+      <LandingTracker />
       <Navbar />
+      {/* Conversion funnel: Hero → proof → value → trust → convert */}
       <Hero />
-      <AccessRequest />
       <Stats />
       <Features />
-      <FounderStory />
       <HowItWorks />
+      <FounderStory />
       <Testimonial />
-      <ContactForm locale={locale} text={messages.landing.contact} />{" "}
+      <Pricing />
       <FinalCTA />
       <Footer />
     </main>

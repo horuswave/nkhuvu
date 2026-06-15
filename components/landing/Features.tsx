@@ -1,20 +1,24 @@
 "use client";
 
 import { useTranslations } from "@/i18n";
+import {
+  SectionShell,
+  SectionHeader,
+  SectionBadge,
+} from "@/components/ui/section-shell";
 
 // Icons
 const EnvelopeIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="m22 7-10 7L2 7" />
@@ -24,15 +28,14 @@ const EnvelopeIcon = () => (
 const UsersIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
     <circle cx="9" cy="7" r="4" />
@@ -44,15 +47,14 @@ const UsersIcon = () => (
 const ChecklistIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
     <polyline points="22 4 12 14.01 9 11.01" />
@@ -65,15 +67,14 @@ const ChecklistIcon = () => (
 const GiftIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <polyline points="20 12 20 22 4 22 4 12" />
     <rect x="2" y="7" width="20" height="5" />
@@ -86,15 +87,14 @@ const GiftIcon = () => (
 const CalendarIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
     <line x1="16" y1="2" x2="16" y2="6" />
@@ -112,15 +112,14 @@ const CalendarIcon = () => (
 const TableIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <path d="M3 6h18" />
     <path d="M3 12h18" />
@@ -133,15 +132,14 @@ const TableIcon = () => (
 const WhatsAppIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
     <path d="M8 12h.01" />
@@ -153,15 +151,14 @@ const WhatsAppIcon = () => (
 const PaintPaletteIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
     <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
@@ -174,15 +171,14 @@ const PaintPaletteIcon = () => (
 const DatabaseIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <ellipse cx="12" cy="5" rx="9" ry="3" />
     <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
@@ -194,15 +190,14 @@ const DatabaseIcon = () => (
 const MapPinIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
     <circle cx="12" cy="10" r="3" />
@@ -212,15 +207,14 @@ const MapPinIcon = () => (
 const PhoneIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
   </svg>
@@ -229,15 +223,14 @@ const PhoneIcon = () => (
 const LockIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
+    width="28"
+    height="28"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="1.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-stone-700"
   >
     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -263,37 +256,36 @@ export default function Features() {
   ];
 
   return (
-    <section id="features" className="py-24 px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-stone-100 px-4 py-1.5 rounded-full text-stone-600 text-sm tracking-wide mb-4">
-            <span className="w-1 h-1 bg-stone-400 rounded-full"></span>{" "}
+    <SectionShell id="features" variant="white">
+      <SectionHeader
+        badge={
+          <SectionBadge>
+            <span className="w-1.5 h-1.5 bg-amber-500 rounded-full" />
             {t("features.badge")}
-          </div>
-          <h2 className="text-4xl md:text-5xl font-light tracking-tight text-stone-900">
-            {t("features.title")}
-          </h2>
-          <p className="text-stone-500 max-w-2xl mx-auto mt-4 text-lg">
-            {t("features.subtitle")}
-          </p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feat, i) => (
-            <div
-              key={i}
-              className="group p-6 rounded-2xl bg-stone-50/40 hover:bg-stone-50 transition-all duration-300"
-            >
-              <div className="mb-5">{feat.icon}</div>
-              <h3 className="text-xl font-medium mb-2 text-stone-800">
-                {t(`features.${feat.key}.title`)}
-              </h3>
-              <p className="text-stone-500 leading-relaxed text-sm">
-                {t(`features.${feat.key}.desc`)}
-              </p>
+          </SectionBadge>
+        }
+        title={t("features.title")}
+        subtitle={t("features.subtitle")}
+      />
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5">
+        {features.map((feat, i) => (
+          <div
+            key={i}
+            className="card-interactive p-6 sm:p-7 group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-stone-50 border border-stone-100 flex items-center justify-center text-stone-700 mb-5 group-hover:scale-105 group-hover:bg-amber-50 group-hover:text-amber-600 group-hover:border-amber-100 transition-all duration-300">
+              {feat.icon}
             </div>
-          ))}
-        </div>
+            <h3 className="text-base font-bold text-stone-900 mb-2 tracking-tight">
+              {t(`features.${feat.key}.title`)}
+            </h3>
+            <p className="text-stone-500 font-medium leading-relaxed text-sm">
+              {t(`features.${feat.key}.desc`)}
+            </p>
+          </div>
+        ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }

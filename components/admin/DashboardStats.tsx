@@ -1,4 +1,5 @@
 import { Users, CheckCircle, XCircle, Clock, Heart } from "lucide-react";
+import { StatCard } from "@/components/ui/stat-card";
 
 interface Stats {
   total: number;
@@ -14,55 +15,44 @@ export default function DashboardStats({ stats }: { stats: Stats }) {
       label: "Total Households",
       value: stats.total,
       icon: <Users className="w-5 h-5" />,
-      color: "text-stone-600",
-      bg: "bg-stone-50",
-    },
-    {
-      label: "Attending",
-      value: stats.attending,
-      icon: <CheckCircle className="w-5 h-5" />,
-      color: "text-emerald-600",
-      bg: "bg-emerald-50",
-    },
-    {
-      label: "Declined",
-      value: stats.declined,
-      icon: <XCircle className="w-5 h-5" />,
-      color: "text-red-500",
-      bg: "bg-red-50",
-    },
-    {
-      label: "Awaiting Reply",
-      value: stats.pending,
-      icon: <Clock className="w-5 h-5" />,
-      color: "text-amber-600",
-      bg: "bg-amber-50",
+      accent: "default" as const,
     },
     {
       label: "Total Headcount",
       value: stats.totalHeadcount,
       icon: <Heart className="w-5 h-5" />,
-      color: "text-yellow-600",
-      bg: "bg-yellow-50",
+      accent: "amber" as const,
+    },
+    {
+      label: "Attending",
+      value: stats.attending,
+      icon: <CheckCircle className="w-5 h-5" />,
+      accent: "emerald" as const,
+    },
+    {
+      label: "Awaiting Reply",
+      value: stats.pending,
+      icon: <Clock className="w-5 h-5" />,
+      accent: "blue" as const,
+    },
+    {
+      label: "Declined",
+      value: stats.declined,
+      icon: <XCircle className="w-5 h-5" />,
+      accent: "rose" as const,
     },
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
       {cards.map((c) => (
-        <div
+        <StatCard
           key={c.label}
-          className={`${c.bg} border border-stone-100 rounded p-5`}
-        >
-          <div className={`${c.color} mb-3`}>{c.icon}</div>
-          <div
-            className="text-3xl text-stone-800"
-            style={{ fontFamily: "Georgia, serif" }}
-          >
-            {c.value}
-          </div>
-          <div className="text-stone-500 text-xs mt-1">{c.label}</div>
-        </div>
+          label={c.label}
+          value={c.value}
+          icon={c.icon}
+          accent={c.accent}
+        />
       ))}
     </div>
   );

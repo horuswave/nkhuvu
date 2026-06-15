@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireSuperAdmin, requireEventAccess } from "@/lib/guards";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import { auth } from "@/auth";
 import type { RsvpFields } from "@/components/invitation/RsvpForm";
 import type { ProgramItem } from "@/components/invitation/ProgramSection";
 import type { GiftItem } from "@/app/[locale]/admin/(protected)/settings/GiftListEditor"; // adjust path to match your project
@@ -274,5 +275,61 @@ export async function superUpdateEvent(
   });
   revalidatePath("/super/dashboard");
   revalidatePath(`/super/events/${id}`);
+  return event;
+}
+
+export async function createEventFromSubscription(data: {
+  title: string;
+  coupleNames: string;
+  date: string;
+  time: string;
+  venue: string;
+  address: string;
+}) {
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthenticated");
+
+  const adminUserId = session.user.id;
+
+  const subscription = await prisma.subscription.findUnique({
+    where: { adminUserId },
+    include: { package: true },
+  });
+
+  if (!subscription || subscription.status !== "ACTIVE") {
+    throw new Error("No active subscription found");
+  }
+
+  const currentEventsCount = await prisma.eventAdmin.count({
+    where: { adminUserId },
+  });
+
+  if (currentEventsCount >= subscription.package.maxEvents) {
+    throw new Error(`You have reached the maximum number of events (${subscription.package.maxEvents}) allowed by your package.`);
+  }
+
+  const event = await prisma.event.create({
+    data: {
+      ...data,
+      date: new Date(data.date),
+      primaryColor: "#c8890e",
+      accentColor: "#0e0b07",
+      backgroundStyle: "DARK",
+      fontDisplay: "Cormorant Garamond",
+      fontBody: "Jost",
+    },
+  });
+
+  await prisma.eventAdmin.create({
+    data: {
+      adminUserId,
+      eventId: event.id,
+    },
+  });
+
+  // Revalidate so the layout picks up the new event (though they'll need to re-login to get eventId in session, or we can handle it)
+  // Actually, next-auth session is only updated if we call update() on client or sign in again. 
+  // We'll tell the client to redirect.
+  revalidatePath("/admin/dashboard");
   return event;
 }

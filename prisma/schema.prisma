@@ -23,6 +23,7 @@ model AdminUser {
   isSuperAdmin Boolean      @default(false)
   createdAt    DateTime     @default(now())
   eventAdmins  EventAdmin[]
+  subscription Subscription?
 }
 
 model EventAdmin {
@@ -230,6 +231,45 @@ model ContactOtp {
 
   @@index([contactLeadId])
   @@index([code])
+}
+
+model Package {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  price       Float
+  currency    String   @default("MZN")
+  maxEvents   Int
+  maxGuests   Int
+  features    Json     @default("[]")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id           String    @id @default(cuid())
+  adminUserId  String    @unique
+  adminUser    AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  packageId    String
+  package      Package   @relation(fields: [packageId], references: [id])
+  status       SubscriptionStatus @default(ACTIVE)
+  startDate    DateTime  @default(now())
+  endDate      DateTime?
+  mpesaTransactionId String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([adminUserId])
+  @@index([packageId])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PENDING
 }
 enum ContactMethod {
   EMAIL

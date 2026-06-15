@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { geolocation } from "@vercel/functions";
+import { auth } from "@/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -88,6 +89,11 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
+  const session = await auth();
+  if (!session?.user?.isSuperAdmin) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const leads = await prisma.landingLead.findMany({
     orderBy: { createdAt: "desc" },
     take: 20,

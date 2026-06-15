@@ -37,27 +37,51 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           };
         }
 
-        // Event admin: must belong to at least one event
+        // Event admin: might not have an event assigned yet (new subscription users)
         const firstAssignment = user.eventAdmins[0];
-        if (!firstAssignment) return null;
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
           isSuperAdmin: false,
-          eventId: firstAssignment.eventId,
+          eventId: firstAssignment?.eventId || null,
         };
       },
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async signIn({ user }) {
+      // Refresh event assignment on every sign-in to handle newly created events
+      if (user && !user.isSuperAdmin) {
+        const adminUser = await prisma.adminUser.findUnique({
+          where: { id: user.id },
+          include: { eventAdmins: { include: { event: true } } },
+        });
+        if (adminUser) {
+          const firstAssignment = adminUser.eventAdmins[0];
+          (user as any).eventId = firstAssignment?.eventId || null;
+        }
+      }
+      return true;
+    },
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
         token.isSuperAdmin = (user as any).isSuperAdmin;
         token.eventId = (user as any).eventId ?? null;
       }
+
+      if (trigger === "update" && token.id && !token.isSuperAdmin) {
+        const adminUser = await prisma.adminUser.findUnique({
+          where: { id: token.id as string },
+          include: { eventAdmins: true },
+        });
+        if (adminUser) {
+          token.eventId = adminUser.eventAdmins[0]?.eventId ?? null;
+        }
+      }
+
       return token;
     },
     session({ session, token }) {

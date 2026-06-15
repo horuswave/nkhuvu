@@ -62,46 +62,46 @@ export default function AdminSidebar({
 
   return (
     <>
-      {/* Mobile top bar — sits outside the sidebar, inside SidebarInset's sibling */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center gap-3 px-4 py-4 bg-white border-b border-stone-200">
+      {/* Mobile top bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center gap-3 px-4 py-4 bg-white/80 backdrop-blur-md border-b border-stone-100 shadow-sm">
         <SidebarTrigger className="text-stone-500" />
         <span
-          className="text-base text-stone-800"
-          style={{ fontFamily: fontDisplay, fontWeight: 400 }}
+          className="text-base font-medium tracking-tight text-stone-800"
+          style={{ fontFamily: fontDisplay }}
         >
           {event?.title ?? "Dashboard"}
         </span>
       </div>
 
-      <Sidebar className="border-r border-stone-200 bg-white">
-        <SidebarHeader className="px-5 py-6">
+      <Sidebar className="border-r border-stone-100 bg-[#fafaf9]">
+        <SidebarHeader className="px-6 py-8">
           <div>
             <p
-              className="text-[10px] uppercase tracking-widest text-stone-400 mb-1"
+              className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-2"
               style={{ fontFamily: fontBody }}
             >
               {event?.coupleNames ?? "Wedding"}
             </p>
             <h1
-              className="text-xl text-stone-800 leading-tight"
-              style={{ fontFamily: fontDisplay, fontWeight: 400 }}
+              className="text-2xl text-stone-900 leading-tight tracking-tight font-semibold"
+              style={{ fontFamily: fontDisplay }}
             >
               {event?.title ?? "Dashboard"}
             </h1>
           </div>
         </SidebarHeader>
 
-        <SidebarSeparator className="bg-stone-100" />
+        <SidebarSeparator className="bg-stone-200/50 mx-4" />
 
-        <SidebarContent className="px-3 py-4">
+        <SidebarContent className="px-4 py-6">
           <SidebarGroup>
             <SidebarGroupLabel
-              className="text-[10px] uppercase tracking-widest text-stone-300 px-2 mb-1"
+              className="text-[10px] font-bold uppercase tracking-widest text-stone-400 px-3 mb-3"
               style={{ fontFamily: fontBody }}
             >
               Manage
             </SidebarGroupLabel>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {NAV_LINKS.map(({ href, label, icon: Icon }) => {
                 const isActive =
                   pathname === href || pathname.startsWith(href + "/");
@@ -110,7 +110,7 @@ export default function AdminSidebar({
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
-                      className="rounded-sm transition-colors"
+                      className="rounded-xl transition-all duration-200 h-10 px-3 hover:bg-stone-100"
                       style={
                         isActive
                           ? {
@@ -122,16 +122,16 @@ export default function AdminSidebar({
                     >
                       <Link
                         href={href}
-                        className="flex items-center gap-3 px-2 py-2"
+                        className="flex items-center gap-3"
                         style={{ fontFamily: fontBody }}
                       >
                         <Icon
-                          size={15}
+                          size={18}
                           style={{ color: isActive ? primaryColor : undefined }}
-                          className={isActive ? "" : "text-stone-400"}
+                          className={isActive ? "" : "text-stone-500"}
                         />
                         <span
-                          className={`text-sm ${isActive ? "font-medium" : "text-stone-600"}`}
+                          className={`text-sm tracking-wide ${isActive ? "font-bold" : "text-stone-600 font-medium"}`}
                         >
                           {label}
                         </span>
@@ -144,30 +144,34 @@ export default function AdminSidebar({
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter className="px-5 py-5 border-t border-stone-100">
-          <div className="flex items-center justify-between">
-            <div>
-              <p
-                className="text-xs text-stone-500"
-                style={{ fontFamily: fontBody }}
-              >
-                {userName}
-              </p>
-              <p
-                className="text-[10px] text-stone-300 mt-0.5"
-                style={{ fontFamily: fontBody }}
-              >
-                Administrator
-              </p>
+        <SidebarFooter className="px-6 py-6 border-t border-stone-200/50 mt-auto">
+          <div className="flex items-center justify-between bg-white p-3 rounded-2xl shadow-sm border border-stone-100">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 font-bold text-xs uppercase border border-stone-200">
+                {userName.charAt(0)}
+              </div>
+              <div className="flex flex-col">
+                <p
+                  className="text-xs font-bold text-stone-800 tracking-tight"
+                  style={{ fontFamily: fontBody }}
+                >
+                  {userName.split(" ")[0]}
+                </p>
+                <p
+                  className="text-[10px] font-medium text-stone-400"
+                  style={{ fontFamily: fontBody }}
+                >
+                  Admin
+                </p>
+              </div>
             </div>
             <form action={signOutAction}>
               <button
                 type="submit"
-                className="flex items-center gap-1.5 text-[11px] text-stone-400 hover:text-red-500 transition-colors"
-                style={{ fontFamily: fontBody }}
+                className="flex items-center justify-center p-2 rounded-xl text-stone-400 hover:text-rose-500 hover:bg-rose-50 transition-colors"
+                title="Sign out"
               >
-                <LogOut size={12} />
-                Sign out
+                <LogOut size={16} />
               </button>
             </form>
           </div>

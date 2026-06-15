@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { useRouter, useParams } from "next/navigation";
+import { signIn, getSession } from "next-auth/react";
 import { useTranslations } from "@/i18n";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const params = useParams();
+  const locale = (params?.locale as string) || "en";
   const t = useTranslations("admin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +25,7 @@ export default function AdminLoginPage() {
         email,
         password,
         redirect: false,
-        redirectTo: "/admin/dashboard",
+        redirectTo: `/${locale}/admin/dashboard`,
       });
 
       if (!result) {
@@ -36,7 +38,12 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push(result.url || "/admin/dashboard");
+      const session = await getSession();
+      const destination = session?.user?.eventId
+        ? `/${locale}/admin/dashboard`
+        : `/${locale}/admin/onboarding`;
+
+      router.push(result.url ?? destination);
       router.refresh();
     } catch {
       setError(t("errors.somethingWentWrong"));

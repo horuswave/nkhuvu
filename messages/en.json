@@ -325,7 +325,8 @@
     "nav": {
       "features": "Features",
       "howItWorks": "How it works",
-      "contact": "Access",
+      "pricing": "Pricing",
+      "login": "Sign In",
       "tagline": "Celebração"
     },
     "contact": {
@@ -353,7 +354,7 @@
       "title1": "Invitations that",
       "titleHighlight": "honour every celebration",
       "subtitle": "Create elegant digital invitations, manage real-time RSVPs and give your guests an unforgettable experience.",
-      "ctaPrimary": "Request access",
+      "ctaPrimary": "View Pricing",
       "ctaSecondary": "Live demo",
       "familiesWord": "families",
       "familiesText": "have already chosen Nkhuvu",
@@ -468,15 +469,15 @@
     "finalCTA": {
       "title": "Ready to celebrate memorably?",
       "subtitle": "Start today. Create the perfect digital invitation for your event in minutes.",
-      "buttonPrimary": "Request access",
+      "buttonPrimary": "Get Started",
       "buttonSecondary": "See live demo",
-      "footnote": "Access upon request • Priority support"
+      "footnote": "Start today • Priority support"
     },
     "footer": {
       "tagline": "Celebração em Changana",
       "description": "Elegant platform for weddings and special events in Mozambique. Technology and design to celebrate the best moments.",
       "quickLinks": "Quick links",
-      "access": "Request access",
+      "access": "Pricing",
       "demo": "Example invitation",
       "support": "Support",
       "contact": "Contact",

@@ -20,19 +20,14 @@ export default function AdminNavLink({
   return (
     <Link
       href={href}
-      className="relative px-3 py-3 text-xs uppercase tracking-widest transition-colors"
+      className={`relative px-4 py-3 text-xs uppercase tracking-widest transition-all duration-200 rounded-xl ${isActive ? 'font-bold' : 'font-medium hover:bg-stone-50'}`}
       style={{
         fontFamily: font,
-        color: isActive ? color : "#a8a29e", // stone-400
+        color: isActive ? color : "#78716c", // stone-500
+        backgroundColor: isActive ? `${color}15` : undefined,
       }}
     >
       {label}
-      {isActive && (
-        <span
-          className="absolute bottom-0 left-0 right-0 h-0.5"
-          style={{ backgroundColor: color }}
-        />
-      )}
     </Link>
   );
 }

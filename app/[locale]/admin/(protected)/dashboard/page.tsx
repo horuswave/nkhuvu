@@ -1,6 +1,11 @@
 import { getDashboardStats, getGuests } from "@/actions/guests";
 import { getMyEvent } from "@/actions/events";
 import DashboardStats from "@/components/admin/DashboardStats";
+import AdminPageShell, {
+  AdminSection,
+} from "@/components/admin/AdminPageShell";
+import Link from "next/link";
+import { UserPlus, Send, Settings, ArrowRight } from "lucide-react";
 
 export default async function DashboardPage() {
   const [stats, guests, event] = await Promise.all([
@@ -19,209 +24,187 @@ export default async function DashboardPage() {
     .slice(0, 8);
 
   const statusColor: Record<string, string> = {
-    ATTENDING: "bg-emerald-100 text-emerald-700",
-    DECLINED: "bg-red-100 text-red-600",
-    PENDING: "bg-amber-100 text-amber-700",
-    MAYBE: "bg-blue-100 text-blue-700",
+    ATTENDING: "bg-emerald-100/80 text-emerald-700 border border-emerald-200",
+    DECLINED: "bg-rose-100/80 text-rose-700 border border-rose-200",
+    PENDING: "bg-amber-100/80 text-amber-700 border border-amber-200",
+    MAYBE: "bg-blue-100/80 text-blue-700 border border-blue-200",
   };
 
+  const responseRate =
+    stats.total > 0
+      ? Math.round(((stats.total - stats.pending) / stats.total) * 100)
+      : 0;
+
+  const primaryColor = event?.primaryColor ?? "#c8890e";
+
   return (
-    <main className="px-4 sm:px-8 py-6 sm:py-10 w-full max-w-7xl mx-auto space-y-8 sm:space-y-10">
-      {/* Page title */}
-      <div>
-        <h1
-          className="text-2xl text-stone-800"
-          style={{
-            fontFamily: event?.fontDisplay ?? "Georgia",
-            fontWeight: 400,
-          }}
-        >
-          Dashboard
-        </h1>
-        <p
-          className="text-xs text-stone-400 mt-0.5"
-          style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-        >
-          {event?.coupleNames} · {event?.title}
-        </p>
+    <AdminPageShell
+      title="Dashboard"
+      description={[event?.coupleNames, event?.title].filter(Boolean).join(" · ")}
+    >
+      {/* Quick actions */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {[
+          {
+            href: "/admin/guests/new",
+            label: "Add Guest",
+            icon: UserPlus,
+            desc: "Invite a new household",
+          },
+          {
+            href: "/admin/communications",
+            label: "Send Invites",
+            icon: Send,
+            desc: `${stats.pending} awaiting reply`,
+          },
+          {
+            href: "/admin/settings",
+            label: "Event Settings",
+            icon: Settings,
+            desc: "Customize your event",
+          },
+        ].map((action) => (
+          <Link
+            key={action.href}
+            href={action.href}
+            className="card-interactive p-4 flex items-center gap-4 group"
+          >
+            <div
+              className="p-2.5 rounded-xl shrink-0"
+              style={{ backgroundColor: `${primaryColor}15`, color: primaryColor }}
+            >
+              <action.icon size={20} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold text-stone-900 text-sm">
+                {action.label}
+              </p>
+              <p className="text-xs text-stone-500 truncate">{action.desc}</p>
+            </div>
+            <ArrowRight
+              size={16}
+              className="text-stone-300 group-hover:text-stone-600 shrink-0 transition-colors"
+            />
+          </Link>
+        ))}
       </div>
 
-      {/* Stats */}
-      <section>
-        <h2
-          className="text-xs text-stone-400 uppercase tracking-widest mb-4"
-          style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-        >
-          Overview
-        </h2>
-        <DashboardStats stats={stats} />
-      </section>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div className="xl:col-span-2 space-y-6">
+          <AdminSection title="Overview">
+            <DashboardStats stats={stats} />
+          </AdminSection>
 
-      {/* Response rate */}
-      {stats.total > 0 && (
-        <section>
-          <h2
-            className="text-xs text-stone-400 uppercase tracking-widest mb-3"
-            style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-          >
-            Response Rate
-          </h2>
-          <div className="bg-white border border-stone-200 rounded-sm p-4 sm:p-6">
-            <div className="flex items-center justify-between mb-3">
-              <span
-                className="text-stone-600 text-sm"
-                style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-              >
-                {stats.total - stats.pending} of {stats.total} households
-                responded
-              </span>
-              <span
-                className="text-stone-800 text-sm font-medium"
-                style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-              >
-                {Math.round(
-                  ((stats.total - stats.pending) / stats.total) * 100,
-                )}
-                %
-              </span>
-            </div>
-            <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all"
-                style={{
-                  width: `${((stats.total - stats.pending) / stats.total) * 100}%`,
-                  backgroundColor: event?.primaryColor ?? "#c8890e",
-                }}
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Recent RSVPs */}
-      {recentRsvps.length > 0 && (
-        <section>
-          <h2
-            className="text-xs text-stone-400 uppercase tracking-widest mb-4"
-            style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-          >
-            Recent RSVPs
-          </h2>
-
-          {/* Mobile: card list */}
-          <div className="sm:hidden space-y-2">
-            {recentRsvps.map((g) => (
-              <div
-                key={g.id}
-                className="bg-white border border-stone-200 rounded-sm px-4 py-3 flex items-center justify-between"
-              >
-                <div>
-                  <p
-                    className="text-stone-800 text-sm"
-                    style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-                  >
-                    {g.primaryName}
-                  </p>
-                  <p
-                    className="text-stone-400 text-xs mt-0.5"
-                    style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-                  >
-                    {g.rsvpSubmittedAt
-                      ? new Date(g.rsvpSubmittedAt).toLocaleDateString(
-                          "en-GB",
-                          {
-                            day: "numeric",
-                            month: "short",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          },
-                        )
-                      : "—"}
-                  </p>
+          {stats.total > 0 && (
+            <AdminSection title="Response Rate">
+              <div className="card-elevated p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-stone-500 text-sm font-medium">
+                    <strong className="text-stone-900">
+                      {stats.total - stats.pending}
+                    </strong>{" "}
+                    of {stats.total} households responded
+                  </span>
+                  <span className="text-2xl font-bold text-stone-800 tabular-nums">
+                    {responseRate}%
+                  </span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span
-                    className="text-stone-400 text-xs"
-                    style={{ fontFamily: event?.fontBody ?? "system-ui" }}
+                <div className="h-3 bg-stone-100/80 rounded-full overflow-hidden shadow-inner relative">
+                  <div
+                    className="h-full rounded-full transition-all duration-1000 ease-out relative overflow-hidden"
+                    style={{
+                      width: `${responseRate}%`,
+                      backgroundColor: primaryColor,
+                    }}
                   >
-                    {g.rsvp?.totalAttending ?? "—"} guests
-                  </span>
-                  <span
-                    className={`inline-block px-2 py-0.5 rounded-full text-xs ${statusColor[g.rsvpStatus]}`}
-                    style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-                  >
-                    {g.rsvpStatus}
-                  </span>
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </AdminSection>
+          )}
+        </div>
 
-          {/* Desktop: full table */}
-          <div className="hidden sm:block bg-white border border-stone-200 rounded-sm overflow-hidden">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-stone-100">
-                  {["Guest", "Status", "Guests", "Responded"].map((h) => (
-                    <th
-                      key={h}
-                      className="text-left text-xs text-stone-400 uppercase tracking-widest px-6 py-4"
-                      style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {recentRsvps.map((g) => (
-                  <tr
-                    key={g.id}
-                    className="border-b border-stone-50 hover:bg-stone-50 transition-colors"
+        <div className="xl:col-span-1">
+          <AdminSection
+            title="Recent RSVPs"
+            action={
+              recentRsvps.length > 0 ? (
+                <Link
+                  href="/admin/guests"
+                  className="text-xs font-semibold text-stone-500 hover:text-stone-900"
+                >
+                  View all
+                </Link>
+              ) : undefined
+            }
+          >
+            <div className="card-elevated overflow-hidden flex flex-col min-h-[280px]">
+              {recentRsvps.length === 0 ? (
+                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+                  <p className="text-sm text-stone-400 mb-3">No RSVPs yet</p>
+                  <Link
+                    href="/admin/guests/new"
+                    className="text-xs font-semibold text-amber-700 hover:text-amber-800"
                   >
-                    <td
-                      className="px-6 py-4 text-stone-800 text-sm"
-                      style={{ fontFamily: event?.fontBody ?? "system-ui" }}
+                    Add your first guest →
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <div className="flex-1 overflow-y-auto p-2 max-h-[400px]">
+                    <div className="space-y-0.5">
+                      {recentRsvps.map((g) => (
+                        <div
+                          key={g.id}
+                          className="group flex items-center justify-between p-3 rounded-xl hover:bg-stone-50 transition-colors"
+                        >
+                          <div className="min-w-0">
+                            <span className="text-stone-800 text-sm font-semibold block truncate">
+                              {g.primaryName}
+                            </span>
+                            <span className="text-stone-400 text-xs font-medium">
+                              {g.rsvpSubmittedAt
+                                ? new Date(g.rsvpSubmittedAt).toLocaleDateString(
+                                    "en-GB",
+                                    {
+                                      day: "numeric",
+                                      month: "short",
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    },
+                                  )
+                                : "—"}
+                            </span>
+                          </div>
+                          <div className="flex flex-col items-end gap-1 shrink-0 ml-3">
+                            <span
+                              className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase ${statusColor[g.rsvpStatus]}`}
+                            >
+                              {g.rsvpStatus}
+                            </span>
+                            <span className="text-stone-400 text-xs font-medium">
+                              {g.rsvp?.totalAttending ?? 0} guests
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="p-4 border-t border-stone-100 bg-stone-50/50 text-center">
+                    <Link
+                      href="/admin/guests"
+                      className="text-xs font-semibold text-stone-500 hover:text-stone-900 transition-colors"
                     >
-                      {g.primaryName}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-block px-2 py-0.5 rounded-full text-xs ${statusColor[g.rsvpStatus]}`}
-                        style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-                      >
-                        {g.rsvpStatus}
-                      </span>
-                    </td>
-                    <td
-                      className="px-6 py-4 text-stone-500 text-sm"
-                      style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-                    >
-                      {g.rsvp?.totalAttending ?? "—"}
-                    </td>
-                    <td
-                      className="px-6 py-4 text-stone-400 text-xs"
-                      style={{ fontFamily: event?.fontBody ?? "system-ui" }}
-                    >
-                      {g.rsvpSubmittedAt
-                        ? new Date(g.rsvpSubmittedAt).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "numeric",
-                              month: "short",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            },
-                          )
-                        : "—"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
-    </main>
+                      View all guests →
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
+          </AdminSection>
+        </div>
+      </div>
+    </AdminPageShell>
   );
 }
