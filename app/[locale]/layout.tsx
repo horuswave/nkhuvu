@@ -4,6 +4,7 @@ import { locales } from "@/i18n/routing";
 import "./globals.css";
 import en from "@/messages/en.json";
 import pt from "@/messages/pt.json";
+import SessionProvider from "@/components/SessionProvider";
 
 const messages: Record<string, any> = { en, pt };
 
@@ -28,8 +29,9 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body>
-        {/* Pass messages as a prop to children via context or props */}
-        {children}
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
