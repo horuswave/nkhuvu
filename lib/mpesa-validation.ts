@@ -66,7 +66,7 @@ export function validateC2BRequest(
     errors.push({
       field: "customerMsisdn",
       message:
-        "Phone number must be a valid M-Pesa number in format 25884XXXXXXX or 25887XXXXXXX.",
+        "Phone number must be a valid M-Pesa number in format 25884XXXXXXX or 25885XXXXXXX.",
     });
   }
 
