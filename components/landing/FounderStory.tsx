@@ -1,7 +1,5 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
-
 const HeartIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -37,8 +35,6 @@ const QuoteIcon = () => (
 );
 
 export default function FounderStory() {
-  const t = useTranslations("landing");
-
   return (
     <section className="py-24 lg:py-32 px-6 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -46,17 +42,17 @@ export default function FounderStory() {
           
           <div className="flex-1 w-full max-w-2xl lg:max-w-none">
             <div className="inline-flex items-center gap-2 bg-rose-50 border border-rose-100 px-4 py-1.5 rounded-full text-rose-600 text-xs font-bold tracking-widest uppercase mb-8 shadow-sm">
-              <HeartIcon /> {t("founderStory.badge")}
+              <HeartIcon /> Our Story
             </div>
             
             <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 mb-8 leading-tight">
-              {t("founderStory.title")}
+              Built with Love for Your Special Day
             </h2>
             
             <div className="space-y-6 text-lg text-stone-500 font-medium leading-relaxed">
-              <p>{t("founderStory.p1")}</p>
-              <p>{t("founderStory.p2")}</p>
-              <p>{t("founderStory.p3")}</p>
+              <p>I started Nkhuvu after planning my own wedding and realizing how difficult it was to manage guest lists and RSVPs.</p>
+              <p>I wanted to create something beautiful that would make the entire process easier for couples like us.</p>
+              <p>Every feature we build is designed with love and care to help you celebrate your perfect day.</p>
             </div>
             
             <div className="mt-10 pt-6 border-t border-stone-100 flex items-center gap-4">
@@ -65,7 +61,7 @@ export default function FounderStory() {
               </div>
               <div>
                 <p className="text-stone-900 font-bold tracking-tight">
-                  {t("founderStory.signature")}
+                  Ana Martins
                 </p>
                 <p className="text-xs font-semibold tracking-widest uppercase text-stone-400">Founder</p>
               </div>
@@ -90,7 +86,7 @@ export default function FounderStory() {
                   <QuoteIcon />
                 </div>
                 <p className="text-stone-700 text-sm font-medium leading-relaxed italic mt-2">
-                  "{t("founderStory.quote")}"
+                  "Making wedding dreams come true, one invitation at a time."
                 </p>
               </div>
             </div>

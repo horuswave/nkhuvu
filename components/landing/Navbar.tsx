@@ -1,6 +1,5 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -25,11 +24,8 @@ const ArrowRightIcon = () => (
 );
 
 export default function Navbar() {
-  const t = useTranslations("landing");
   const router = useRouter();
-  const pathname = usePathname();
-  const currentLocale = pathname.split("/")[1] || "pt";
-  const loginUrl = `/${currentLocale}/admin/login`;
+  const loginUrl = "/admin/login";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -39,13 +35,6 @@ export default function Navbar() {
       el.scrollIntoView({ behavior: "smooth" });
       setIsMobileMenuOpen(false);
     }
-  };
-
-  const switchLocale = (locale: string) => {
-    const segments = pathname.split("/");
-    segments[1] = locale;
-    router.push(segments.join("/"));
-    setIsMobileMenuOpen(false);
   };
 
   // Close mobile menu on Escape key
@@ -65,10 +54,10 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? "py-3 bg-white/80 backdrop-blur-xl border-b border-stone-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]" 
+        scrolled
+          ? "py-3 bg-white/80 backdrop-blur-xl border-b border-stone-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]"
           : "py-5 bg-transparent"
       }`}
     >
@@ -87,7 +76,7 @@ export default function Navbar() {
             Nkhuvu
           </span>
           <span className="hidden sm:inline text-[10px] font-bold tracking-[0.2em] text-amber-600 uppercase px-2 py-0.5 bg-amber-50 rounded-full border border-amber-100">
-            {t("nav.tagline")}
+            Wedding Invitations
           </span>
         </a>
 
@@ -103,6 +92,12 @@ export default function Navbar() {
                 : item === "pricing"
                   ? "pricing"
                   : item;
+            const label =
+              item === "features"
+                ? "Features"
+                : item === "howItWorks"
+                  ? "How It Works"
+                  : "Pricing";
             return (
               <a
                 key={item}
@@ -113,7 +108,7 @@ export default function Navbar() {
                 }}
                 className="text-stone-500 hover:text-stone-900 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded px-2 py-1"
               >
-                {t(`nav.${item}`)}
+                {label}
               </a>
             );
           })}
@@ -121,35 +116,12 @@ export default function Navbar() {
             href={loginUrl}
             className="text-stone-500 hover:text-stone-900 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded px-2 py-1"
           >
-            {t("nav.login")}
+            Login
           </Link>
         </nav>
 
         {/* Right Section */}
         <div className="flex items-center gap-3 sm:gap-4">
-          {/* Language Switcher */}
-          <div
-            className="hidden sm:flex bg-stone-100/80 backdrop-blur-md rounded-full p-1 text-xs font-medium border border-stone-200/50"
-            role="group"
-            aria-label="Language selector"
-          >
-            {["en", "pt", "ch"].map((locale) => (
-              <button
-                key={locale}
-                onClick={() => switchLocale(locale)}
-                className={`px-3 py-1.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${
-                  currentLocale === locale
-                    ? "bg-white shadow-sm text-stone-900 font-semibold"
-                    : "text-stone-500 hover:text-stone-700 hover:bg-stone-200/50"
-                }`}
-                aria-pressed={currentLocale === locale}
-                aria-label={`Switch to ${locale.toUpperCase()} language`}
-              >
-                {locale.toUpperCase()}
-              </button>
-            ))}
-          </div>
-
           {/* CTA Button */}
           <a
             href="#pricing"
@@ -160,7 +132,7 @@ export default function Navbar() {
             className="group hidden sm:inline-flex bg-stone-900 hover:bg-stone-800 text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all shadow-[0_4px_14px_0_rgba(28,28,28,0.2)] hover:shadow-[0_6px_20px_rgba(28,28,28,0.23)] hover:-translate-y-0.5 items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-stone-900"
             aria-label="Request access to Nkhuvu"
           >
-            <span>{t("hero.ctaPrimary")}</span>
+            <span>Get Started</span>
             <ArrowRightIcon />
           </a>
 
@@ -192,6 +164,12 @@ export default function Navbar() {
                   : item === "pricing"
                     ? "pricing"
                     : item;
+              const label =
+                item === "features"
+                  ? "Features"
+                  : item === "howItWorks"
+                    ? "How It Works"
+                    : "Pricing";
               return (
               <a
                 key={item}
@@ -202,7 +180,7 @@ export default function Navbar() {
                 }}
                 className="text-stone-600 hover:text-amber-600 transition-colors"
               >
-                {t(`nav.${item}`)}
+                {label}
               </a>
               );
             })}
@@ -211,25 +189,9 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-stone-600 hover:text-amber-600 transition-colors"
             >
-              {t("nav.login")}
+              Login
             </Link>
           </nav>
-          
-          <div className="flex items-center gap-2 pt-4 border-t border-stone-100">
-            {["en", "pt", "ch"].map((locale) => (
-              <button
-                key={locale}
-                onClick={() => switchLocale(locale)}
-                className={`flex-1 py-2 text-sm font-semibold rounded-lg border transition-colors ${
-                  currentLocale === locale
-                    ? "bg-stone-900 text-white border-stone-900"
-                    : "bg-white text-stone-600 border-stone-200 hover:bg-stone-50"
-                }`}
-              >
-                {locale.toUpperCase()}
-              </button>
-            ))}
-          </div>
         </div>
       )}
     </header>

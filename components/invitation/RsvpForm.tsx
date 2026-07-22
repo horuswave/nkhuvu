@@ -129,52 +129,54 @@ export default function RsvpForm({
     <section className="bg-[#fbf7f1] py-24 px-6 border-t border-stone-200/60">
       <div className="max-w-2xl mx-auto">
         <div className="rounded-[32px] border border-stone-200/80 bg-white/80 p-8 md:p-10 shadow-[0_24px_60px_rgba(120,98,72,0.08)] backdrop-blur-sm">
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-4 mb-5">
-              <div
-                className="h-px w-14"
-                style={{ backgroundColor: event.primaryColor, opacity: 0.28 }}
-              />
-              <span
-                className="text-[11px] tracking-[0.34em] uppercase"
-                style={{
-                  color: event.primaryColor,
-                  fontFamily: event.fontBody,
-                }}
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center gap-4 mb-5">
+                <div
+                  className="h-px w-14"
+                  style={{ backgroundColor: event.primaryColor, opacity: 0.28 }}
+                />
+                <span
+                  className="text-[11px] tracking-[0.34em] uppercase"
+                  style={{
+                    color: event.primaryColor,
+                    fontFamily: event.fontBody,
+                  }}
+                >
+                  {isUpdate 
+                    ? (event.rsvpUpdateButton || "Atualizar Confirmação") 
+                    : (event.rsvpTitle || "Confirmação de Presença")}
+                </span>
+                <div
+                  className="h-px w-14"
+                  style={{ backgroundColor: event.primaryColor, opacity: 0.28 }}
+                />
+              </div>
+
+              <h2
+                className="text-4xl md:text-5xl text-stone-800"
+                style={{ fontFamily: event.fontDisplay }}
               >
-                {isUpdate ? "Atualizar Confirmação" : "Confirmação de Presença"}
-              </span>
-              <div
-                className="h-px w-14"
-                style={{ backgroundColor: event.primaryColor, opacity: 0.28 }}
-              />
+                {event.rsvpSubtitle || "Vai Estar Presente?"}
+              </h2>
+
+              {event.rsvpDescription && (
+                <p
+                  className="text-stone-500 text-sm mt-4 max-w-lg mx-auto leading-7"
+                  style={{ fontFamily: event.fontBody }}
+                >
+                  {event.rsvpDescription}
+                </p>
+              )}
+
+              {isUpdate && event.rsvpAlreadyResponded && (
+                <p
+                  className="text-stone-400 text-sm mt-3"
+                  style={{ fontFamily: event.fontBody }}
+                >
+                  {event.rsvpAlreadyResponded}
+                </p>
+              )}
             </div>
-
-            <h2
-              className="text-4xl md:text-5xl text-stone-800"
-              style={{ fontFamily: event.fontDisplay }}
-            >
-              Vai Estar Presente?
-            </h2>
-
-            <p
-              className="text-stone-500 text-sm mt-4 max-w-lg mx-auto leading-7"
-              style={{ fontFamily: event.fontBody }}
-            >
-              Pedimos a gentileza da sua resposta para prepararmos cada detalhe
-              com o cuidado que a ocasião merece.
-            </p>
-
-            {isUpdate && (
-              <p
-                className="text-stone-400 text-sm mt-3"
-                style={{ fontFamily: event.fontBody }}
-              >
-                Já respondeu anteriormente. Pode atualizar a sua resposta
-                abaixo.
-              </p>
-            )}
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
             <div>
@@ -187,10 +189,10 @@ export default function RsvpForm({
 
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { value: true, label: "Sim, estarei presente" },
+                  { value: true, label: event.rsvpAttendingLabel || "Sim, estarei presente" },
                   {
                     value: false,
-                    label: "Infelizmente não poderei comparecer",
+                    label: event.rsvpNotAttendingLabel || "Infelizmente não poderei comparecer",
                   },
                 ].map((opt) => (
                   <button
@@ -232,7 +234,7 @@ export default function RsvpForm({
                       className="block text-stone-700 text-sm font-medium mb-3"
                       style={{ fontFamily: event.fontBody }}
                     >
-                      Acompanhantes
+                      {event.rsvpCompanionsLabel || "Acompanhantes"}
                       <span className="text-stone-400 font-normal ml-1">
                         (até {maxAllowed - 1} acompanhante
                         {maxAllowed - 1 !== 1 ? "s" : ""})
@@ -296,27 +298,27 @@ export default function RsvpForm({
                       ))}
                     </div>
 
-                    {companions.length < maxAllowed - 1 && (
-                      <button
-                        type="button"
-                        onClick={addCompanion}
-                        className="mt-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm"
-                        style={{
-                          color: event.primaryColor,
-                          fontFamily: event.fontBody,
-                          borderColor: `${event.primaryColor}30`,
-                          backgroundColor: `${event.primaryColor}08`,
-                        }}
-                      >
-                        <Plus className="w-4 h-4" />
-                        Adicionar acompanhante
-                      </button>
-                    )}
+                      {companions.length < maxAllowed - 1 && (
+                        <button
+                          type="button"
+                          onClick={addCompanion}
+                          className="mt-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm"
+                          style={{
+                            color: event.primaryColor,
+                            fontFamily: event.fontBody,
+                            borderColor: `${event.primaryColor}30`,
+                            backgroundColor: `${event.primaryColor}08`,
+                          }}
+                        >
+                          <Plus className="w-4 h-4" />
+                          {event.rsvpAddCompanionLabel || "Adicionar acompanhante"}
+                        </button>
+                      )}
                   </div>
                 )}
                 {fields.dietary && (
                   <Field
-                    label="Restrições alimentares"
+                    label={event.rsvpDietaryLabel || "Restrições alimentares"}
                     fontBody={event.fontBody}
                   >
                     <input
@@ -334,7 +336,7 @@ export default function RsvpForm({
                 )}
                 {fields.transport && (
                   <Field
-                    label="Notas de transporte ou logística"
+                    label={event.rsvpTransportLabel || "Notas de transporte ou logística"}
                     fontBody={event.fontBody}
                   >
                     <input
@@ -355,7 +357,7 @@ export default function RsvpForm({
 
             {fields.message && (
               <Field
-                label="Uma mensagem para os noivos"
+                label={event.rsvpMessageLabel || "Uma mensagem para os noivos"}
                 optional
                 fontBody={event.fontBody}
               >
@@ -396,8 +398,10 @@ export default function RsvpForm({
               {submitting
                 ? "A enviar…"
                 : isUpdate
-                  ? "Atualizar Confirmação"
-                  : "Confirmar Presença"}
+                  ? (event.rsvpUpdateButton || "Atualizar Confirmação")
+                  : (attending 
+                      ? (event.rsvpSubmitAttending || "Confirmar Presença") 
+                      : (event.rsvpSubmitNotAttending || "Confirmar Presença"))}
             </button>
           </form>
         </div>

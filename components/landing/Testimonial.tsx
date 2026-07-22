@@ -1,7 +1,5 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
-
 const StarIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -16,8 +14,6 @@ const StarIcon = () => (
 );
 
 export default function Testimonial() {
-  const t = useTranslations("landing");
-
   return (
     <section className="py-24 lg:py-32 px-6 bg-white overflow-hidden relative">
       <div className="absolute -left-32 -top-32 w-96 h-96 bg-amber-50 rounded-full blur-[100px] pointer-events-none"></div>
@@ -33,16 +29,16 @@ export default function Testimonial() {
         </div>
         
         <blockquote className="text-2xl md:text-3xl lg:text-4xl text-stone-800 leading-snug font-medium tracking-tight mb-12">
-          "{t("testimonial.quote")}"
+          "Nkhuvu made our wedding invitations absolutely magical. Our guests loved the digital format and we got RSVPs within hours!"
         </blockquote>
         
         <div className="flex flex-col items-center justify-center">
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-stone-200 to-stone-300 mb-4 border-4 border-white shadow-md"></div>
           <p className="font-bold text-stone-900 tracking-tight text-lg">
-            {t("testimonial.author")}
+            Maria Silva
           </p>
           <p className="text-sm font-semibold uppercase tracking-widest text-stone-400 mt-1">
-            {t("testimonial.role")}
+            Bride, Lisbon
           </p>
         </div>
       </div>

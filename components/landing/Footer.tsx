@@ -1,9 +1,6 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
-
 export default function Footer() {
-  const t = useTranslations("landing");
   const currentYear = new Date().getFullYear();
 
   return (
@@ -15,15 +12,15 @@ export default function Footer() {
               Nkhuvu
             </div>
             <div className="text-amber-500 text-xs font-bold tracking-[0.2em] uppercase mb-5">
-              {t("footer.tagline")}
+              Wedding Invitations
             </div>
             <p className="text-sm font-medium text-stone-500 max-w-md mx-auto md:mx-0 leading-relaxed">
-              {t("footer.description")}
+              Create beautiful digital wedding invitations for your special day. Easy to use, elegant designs.
             </p>
           </div>
           <div>
             <h4 className="text-white text-sm font-bold tracking-widest uppercase mb-6">
-              {t("footer.quickLinks")}
+              Quick Links
             </h4>
             <ul className="space-y-4 text-sm font-medium">
               <li>
@@ -31,12 +28,12 @@ export default function Footer() {
                   href="#pricing"
                   className="text-stone-400 hover:text-white transition-colors duration-200"
                 >
-                  {t("footer.access")}
+                  Get Access
                 </a>
               </li>
               <li>
                 <a href="/convite" className="text-stone-400 hover:text-white transition-colors duration-200">
-                  {t("footer.demo")}
+                  View Demo
                 </a>
               </li>
               <li>
@@ -44,29 +41,29 @@ export default function Footer() {
                   href="mailto:ola@nkhuvu.co.mz"
                   className="text-stone-400 hover:text-white transition-colors duration-200"
                 >
-                  {t("footer.support")}
+                  Support
                 </a>
               </li>
             </ul>
           </div>
           <div>
             <h4 className="text-white text-sm font-bold tracking-widest uppercase mb-6">
-              {t("footer.contact")}
+              Contact
             </h4>
             <ul className="space-y-4 text-sm font-medium">
-              <li className="text-stone-400">{t("footer.address")}</li>
+              <li className="text-stone-400">Maputo, Mozambique</li>
               <li>
                 <a href="mailto:ola@nkhuvu.co.mz" className="text-stone-400 hover:text-white transition-colors duration-200">
                   ola@nkhuvu.co.mz
                 </a>
               </li>
-              <li className="text-stone-400">{t("footer.founder")}</li>
+              <li className="text-stone-400">Founded in 2024</li>
             </ul>
           </div>
         </div>
         <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-xs font-medium text-stone-500">
-            © {currentYear} Nkhuvu. {t("footer.copyright")}
+            © {currentYear} Nkhuvu. All rights reserved.
           </div>
           <div className="flex gap-4 text-xs font-medium text-stone-500">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>

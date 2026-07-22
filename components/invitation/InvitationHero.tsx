@@ -29,13 +29,19 @@ export default function InvitationHero({
   event,
   guestName,
 }: {
-  event: EventData;
+  event: EventData & { themeConfig?: any };
   guestName: string;
 }) {
   const isDark = event.backgroundStyle !== "LIGHT";
   const textPrimary = isDark ? "#f7f1e8" : "#201a17";
   const textSecondary = isDark ? "#d8cfc3" : "#6c6259";
   const textMuted = isDark ? "#e6dccd" : "#8a7d72";
+  
+  // Use theme config if available
+  const theme = event.themeConfig;
+  const showDecorative = theme?.layout?.showDecorativeElements ?? true;
+  const animationStyle = theme?.animations?.style ?? "subtle";
+  const isOutono = theme?.id === "outono";
 
   return (
     <>
@@ -106,81 +112,135 @@ export default function InvitationHero({
             : `linear-gradient(180deg, #fbf6ef 0%, ${event.accentColor} 100%)`,
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            opacity: isDark ? 0.22 : 0.16,
-            background: `
-              radial-gradient(circle at 20% 20%, ${event.primaryColor}55 0%, transparent 32%),
-              radial-gradient(circle at 80% 15%, ${event.primaryColor}30 0%, transparent 28%),
-              radial-gradient(circle at 50% 100%, ${event.primaryColor}22 0%, transparent 34%)
-            `,
-          }}
-        />
+        {showDecorative && (
+          <>
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+                opacity: isDark ? 0.22 : 0.16,
+                background: `
+                  radial-gradient(circle at 20% 20%, ${event.primaryColor}55 0%, transparent 32%),
+                  radial-gradient(circle at 80% 15%, ${event.primaryColor}30 0%, transparent 28%),
+                  radial-gradient(circle at 50% 100%, ${event.primaryColor}22 0%, transparent 34%)
+                `,
+              }}
+            />
 
-        <div
-          className="hero-fade-in"
-          style={{
-            position: "absolute",
-            inset: "1.5rem",
-            border: `1px solid ${event.primaryColor}33`,
-            borderRadius: "28px",
-            pointerEvents: "none",
-          }}
-        />
+            <div
+              className="hero-fade-in"
+              style={{
+                position: "absolute",
+                inset: "1.5rem",
+                border: `1px solid ${event.primaryColor}33`,
+                borderRadius: "28px",
+                pointerEvents: "none",
+              }}
+            />
 
-        <div
-          className="hero-fade-in"
-          style={{
-            position: "absolute",
-            top: "2.2rem",
-            left: "50%",
-            transform: "translateX(-50%)",
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-            whiteSpace: "nowrap",
-            animationDelay: "0.15s",
-          }}
-        >
-          <div
-            style={{
-              height: "1px",
-              width: "5.5rem",
-              background: `linear-gradient(to right, transparent, ${event.primaryColor})`,
-            }}
-          />
-          <div
-            style={{
-              width: "0.6rem",
-              height: "0.6rem",
-              borderRadius: "999px",
-              border: `1px solid ${event.primaryColor}`,
-              backgroundColor: `${event.primaryColor}22`,
-            }}
-          />
-          <div
-            style={{
-              height: "1px",
-              width: "5.5rem",
-              background: `linear-gradient(to left, transparent, ${event.primaryColor})`,
-            }}
-          />
-        </div>
+            <div
+              className="hero-fade-in"
+              style={{
+                position: "absolute",
+                top: "2.2rem",
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                whiteSpace: "nowrap",
+                animationDelay: "0.15s",
+              }}
+            >
+              <div
+                style={{
+                  height: "1px",
+                  width: "5.5rem",
+                  background: `linear-gradient(to right, transparent, ${event.primaryColor})`,
+                }}
+              />
+              <div
+                style={{
+                  width: "0.6rem",
+                  height: "0.6rem",
+                  borderRadius: "999px",
+                  border: `1px solid ${event.primaryColor}`,
+                  backgroundColor: `${event.primaryColor}22`,
+                }}
+              />
+              <div
+                style={{
+                  height: "1px",
+                  width: "5.5rem",
+                  background: `linear-gradient(to left, transparent, ${event.primaryColor})`,
+                }}
+              />
+            </div>
+          </>
+        )}
 
         <div
           style={{
             position: "relative",
             zIndex: 2,
             width: "100%",
-            maxWidth: "46rem",
+            maxWidth: isOutono ? "56rem" : "46rem",
             margin: "0 auto",
             textAlign: "center",
-            padding: "2.5rem 1.75rem",
+            padding: isOutono ? "3rem 1.75rem" : "2.5rem 1.75rem",
           }}
         >
+          {isOutono && (
+            <div
+              className="hero-fade-up"
+              style={{
+                marginBottom: "2rem",
+                animationDelay: "0.2s",
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  maxWidth: "400px",
+                  height: "300px",
+                  margin: "0 auto",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
+                  border: `3px solid ${event.primaryColor}`,
+                  background: "#f5f5f5",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {/* Placeholder for couple image - can be replaced with actual image */}
+                <div
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    background: `linear-gradient(135deg, ${event.primaryColor}22 0%, ${event.accentColor}22 100%)`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: event.fontDisplay,
+                      fontSize: "1.2rem",
+                      color: event.primaryColor,
+                      opacity: 0.6,
+                    }}
+                  >
+                    Foto do Casal
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
           <p
             className="hero-fade-up"
             style={{
@@ -190,7 +250,7 @@ export default function InvitationHero({
               textTransform: "uppercase",
               color: event.primaryColor,
               marginBottom: "1.5rem",
-              animationDelay: "0.2s",
+              animationDelay: isOutono ? "0.3s" : "0.2s",
             }}
           >
             Com muita honra e alegria
@@ -203,10 +263,10 @@ export default function InvitationHero({
               color: textMuted,
               fontSize: "0.95rem",
               marginBottom: "1rem",
-              animationDelay: "0.3s",
+              animationDelay: isOutono ? "0.4s" : "0.3s",
             }}
           >
-            Celebramos cinco décadas de amor, cumplicidade e elegância
+            {event.heroSubtitle || "Celebramos cinco décadas de amor, cumplicidade e elegância"}
           </p>
 
           <h1 className="glitter-text">{event.coupleNames}</h1>
@@ -232,8 +292,8 @@ export default function InvitationHero({
               alignItems: "center",
               justifyContent: "center",
               gap: "0.9rem",
-              marginBottom: "2.2rem",
-              animationDelay: "0.65s",
+              marginBottom: isOutono ? "3rem" : "2.2rem",
+              animationDelay: isOutono ? "0.5s" : "0.65s",
             }}
           >
             <div
@@ -244,17 +304,17 @@ export default function InvitationHero({
                 opacity: 0.4,
               }}
             />
-            <span
-              style={{
-                fontFamily: event.fontBody,
-                fontSize: "0.68rem",
-                letterSpacing: "0.26em",
-                textTransform: "uppercase",
-                color: event.primaryColor,
-              }}
-            >
-              Bodas de Ouro
-            </span>
+              <span
+                style={{
+                  fontFamily: event.fontBody,
+                  fontSize: "0.68rem",
+                  letterSpacing: "0.26em",
+                  textTransform: "uppercase",
+                  color: event.primaryColor,
+                }}
+              >
+                {event.anniversaryLabel || "Bodas de Ouro"}
+              </span>
             <div
               style={{
                 height: "1px",

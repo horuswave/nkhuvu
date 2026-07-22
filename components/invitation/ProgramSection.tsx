@@ -283,7 +283,7 @@ export default function ProgramSection({
               className="text-[11px] tracking-[0.34em] uppercase"
               style={{ color: event.primaryColor, fontFamily: event.fontBody }}
             >
-              Programa
+              {event.programTitle || "Programa"}
             </span>
             <div
               className="h-px w-14"
@@ -295,15 +295,17 @@ export default function ProgramSection({
             className="text-4xl md:text-5xl text-stone-800"
             style={{ fontFamily: event.fontDisplay }}
           >
-            O Nosso Dia
+            {event.programSubtitle || "O Nosso Dia"}
           </h2>
 
-          <p
-            className="mt-4 text-stone-500 text-sm md:text-base max-w-xl mx-auto leading-7"
-            style={{ fontFamily: event.fontBody }}
-          >
-            Um percurso desenhado com momentos especiais
-          </p>
+          {event.programDescription && (
+            <p
+              className="mt-4 text-stone-500 text-sm md:text-base max-w-xl mx-auto leading-7"
+              style={{ fontFamily: event.fontBody }}
+            >
+              {event.programDescription}
+            </p>
+          )}
         </div>
 
         <div className="relative pl-2 md:pl-4">

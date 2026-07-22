@@ -5,7 +5,7 @@ import { transporter } from "@/lib/mailer";
 
 export async function POST(req: Request) {
   try {
-    const { name, email, message, locale } = await req.json();
+    const { name, email, message } = await req.json();
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -19,7 +19,6 @@ export async function POST(req: Request) {
         name: name || null,
         email,
         message: message || null,
-        locale: locale || null,
         isVerified: true,
         verifiedAt: new Date(),
         isAdminRequest: true,

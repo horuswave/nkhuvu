@@ -1,5 +1,8 @@
+"use client";
+
+import { useEffect } from "react";
 import { EventData } from "@/types";
-import type { GiftItem } from "@/app/[locale]/admin/(protected)/settings/GiftListEditor";
+import type { GiftItem } from "@/app/admin/(protected)/settings/GiftListEditor";
 
 function GiftIcon() {
   return (
@@ -333,37 +336,36 @@ export default function GiftListSection({
 
   const totalItems = physicalGifts.length + monetaryOptions.length;
 
-  return (
-    <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            document.addEventListener('click', function(e) {
-              var btn = e.target.closest('.copy-btn');
-              if (!btn) return;
-              var text = btn.dataset.copy;
-              if (!text) return;
-              navigator.clipboard.writeText(text).then(function() {
-                var orig = btn.textContent;
-                btn.textContent = 'Copiado!';
-                setTimeout(function() { btn.textContent = orig; }, 1800);
-              });
-            });
-          `,
-        }}
-      />
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      const btn = (e.target as HTMLElement).closest(".copy-btn");
+      if (!btn) return;
+      const text = btn.getAttribute("data-copy");
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = "Copiado!";
+        setTimeout(() => {
+          if (btn.textContent === "Copiado!") {
+            btn.textContent = orig ?? "Copiar";
+          }
+        }, 1800);
+      });
+    }
 
-      <section className="bg-[#fbf7f1] py-28 px-6 border-t border-stone-200/40">
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
+  return (
+    <section className="bg-[#fbf7f1] py-28 px-6 border-t border-stone-200/40">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
             <p
               className="text-stone-600 text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
               style={{ fontFamily: event.fontBody }}
             >
-              A vossa presença honra-nos profundamente. Caso deseje oferecer um
-              presente, pedimos gentilmente que seja em numerário, através das
-              contas abaixo indicadas. Estará igualmente disponível, no salão,
-              uma caixa para o efeito.
+              {event.giftListIntro || "A vossa presença honra-nos profundamente. Caso deseje oferecer um presente, pedimos gentilmente que seja em numerário, através das contas abaixo indicadas. Estará igualmente disponível, no salão, uma caixa para o efeito."}
             </p>
           </div>
 
@@ -375,7 +377,7 @@ export default function GiftListSection({
                   className="text-xs uppercase tracking-[0.125em] text-stone-400 mb-6 text-center"
                   style={{ fontFamily: event.fontBody }}
                 >
-                  Ideias de presentes
+                  {event.giftListPhysicalTitle || "Ideias de presentes"}
                 </h3>
               )}
               <div
@@ -402,7 +404,7 @@ export default function GiftListSection({
                   className="text-xs uppercase tracking-[0.125em] text-stone-400 mb-6 text-center"
                   style={{ fontFamily: event.fontBody }}
                 >
-                  Contribuições monetárias
+                  {event.giftListMonetaryTitle || "Contribuições monetárias"}
                 </h3>
               )}
               <div
@@ -422,6 +424,5 @@ export default function GiftListSection({
           )}
         </div>
       </section>
-    </>
-  );
+    );
 }

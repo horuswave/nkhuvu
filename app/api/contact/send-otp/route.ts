@@ -9,7 +9,7 @@ function getOtp() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, message, locale } = await request.json();
+    const { name, email, message } = await request.json();
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
         name,
         email,
         message,
-        locale,
         isVerified: false,
       },
     });
@@ -36,12 +35,9 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const subject = locale === "pt" ? "Seu código OTP" : "Your OTP code";
+    const subject = "Your OTP code";
 
-    const html =
-      locale === "pt"
-        ? `<p>Seu código de verificação é <strong>${otp}</strong>. Ele expira em 10 minutos.</p>`
-        : `<p>Your verification code is <strong>${otp}</strong>. It expires in 10 minutes.</p>`;
+    const html = `<p>Your verification code is <strong>${otp}</strong>. It expires in 10 minutes.</p>`;
 
     await transporter.sendMail({
       from: process.env.CONTACT_FROM,

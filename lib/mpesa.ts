@@ -110,16 +110,28 @@ export async function initiateC2BPayment(
   const { host, port } = ENDPOINTS[config.environment];
   const url = `https://${host}:${port}/ipg/v1x/c2bPayment/singleStage/`;
 
+  const normalizedMsisdn = normalizeMsisdn(request.customerMsisdn);
   const body = {
     input_TransactionReference: request.transactionReference,
-    input_CustomerMSISDN: normalizeMsisdn(request.customerMsisdn),
+    input_CustomerMSISDN: normalizedMsisdn,
     input_Amount: String(Math.round(request.amount)),
     input_ThirdPartyReference: request.thirdPartyReference,
     input_ServiceProviderCode: config.serviceProviderCode,
   };
 
+  console.log(`[MPESA] Sending C2B request:`, {
+    environment: config.environment,
+    serviceProviderCode: config.serviceProviderCode,
+    amount: body.input_Amount,
+    msisdn: normalizedMsisdn,
+    transactionRef: request.transactionReference,
+    thirdPartyRef: request.thirdPartyReference,
+    url,
+  });
+
   let response: Response;
   try {
+    const start = Date.now();
     response = await fetch(url, {
       method: "POST",
       headers: {
@@ -131,8 +143,13 @@ export async function initiateC2BPayment(
       },
       body: JSON.stringify(body),
     });
+    console.log(`[MPESA] Response received in ${Date.now() - start}ms`, {
+      status: response.status,
+      statusText: response.statusText,
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Network error";
+    console.error(`[MPESA] Network error:`, message);
     return { success: false, error: `M-Pesa request failed: ${message}` };
   }
 
@@ -141,20 +158,35 @@ export async function initiateC2BPayment(
     string | undefined
   > | null;
 
+  console.log(`[MPESA] Response body:`, JSON.stringify(data, null, 2));
+
   const responseCode = data?.output_ResponseCode;
   const responseDescription =
     data?.output_ResponseDescription ?? data?.output_ResponseDesc;
-  const success = response.ok && responseCode === SUCCESS_RESPONSE_CODE;
+  const conversationId = data?.output_ConversationID;
+  const transactionId = data?.output_TransactionID;
+  const thirdPartyRef = data?.output_ThirdPartyReference;
+
+  const success = responseCode === SUCCESS_RESPONSE_CODE;
+
+  console.log(`[MPESA] Result:`, {
+    success,
+    responseCode,
+    responseDescription,
+    conversationId,
+    transactionId,
+    thirdPartyRef,
+  });
 
   return {
     success,
-    transactionId: data?.output_TransactionID,
-    conversationId: data?.output_ConversationID,
-    thirdPartyReference: data?.output_ThirdPartyReference,
+    transactionId,
+    conversationId,
+    thirdPartyReference: thirdPartyRef,
     responseCode,
     responseDescription,
     error: success
       ? undefined
-      : responseDescription || `Payment failed (HTTP ${response.status})`,
+      : responseDescription || `Payment failed (responseCode: ${responseCode}, HTTP: ${response.status})`,
   };
 }

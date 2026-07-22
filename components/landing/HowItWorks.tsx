@@ -1,14 +1,10 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
-
 export default function HowItWorks() {
-  const t = useTranslations("landing");
-
   const steps = [
-    { step: "1", key: "chooseTemplate" },
-    { step: "2", key: "personalize" },
-    { step: "3", key: "shareTrack" },
+    { step: "1", title: "Choose a Template", desc: "Select from our beautiful collection of wedding invitation templates" },
+    { step: "2", title: "Personalize", desc: "Customize colors, fonts, and add your personal details" },
+    { step: "3", title: "Share & Track", desc: "Send invitations and track RSVPs in real-time" },
   ];
 
   return (
@@ -17,10 +13,10 @@ export default function HowItWorks() {
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-stone-900 mb-6">
-            {t("howItWorks.title")}
+            How It Works
           </h2>
           <p className="text-stone-500 max-w-2xl mx-auto text-lg font-medium">
-            {t("howItWorks.subtitle")}
+            Create your perfect wedding invitation in three simple steps
           </p>
         </div>
         
@@ -36,10 +32,10 @@ export default function HowItWorks() {
                   <span className="relative z-10">{step.step}</span>
                 </div>
                 <h3 className="text-xl font-bold text-stone-900 mb-3 tracking-tight">
-                  {t(`howItWorks.${step.key}.title`)}
+                  {step.title}
                 </h3>
                 <p className="text-stone-500 font-medium leading-relaxed">
-                  {t(`howItWorks.${step.key}.desc`)}
+                  {step.desc}
                 </p>
               </div>
             ))}

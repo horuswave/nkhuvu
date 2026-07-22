@@ -47,21 +47,21 @@ export default function SuperAdminSidebar({
 
   return (
     <>
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-3 px-4 py-3.5 bg-white/90 backdrop-blur-xl border-b border-stone-200/60 shadow-sm">
-        <div className="flex items-center gap-3 min-w-0">
-          <SidebarTrigger className="text-stone-500 shrink-0" />
-          <span className="text-sm font-semibold text-stone-800 truncate">
-            Super Admin
-          </span>
+        <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-3 px-4 py-3.5 bg-white/90 backdrop-blur-xl border-b border-stone-200/60 shadow-sm">
+          <div className="flex items-center gap-3 min-w-0">
+            <SidebarTrigger className="text-stone-500 shrink-0" />
+            <span className="text-sm font-semibold text-stone-800 truncate">
+              Super Admin
+            </span>
+          </div>
+          <Link
+            href="/super/events/new"
+            className="btn-primary !px-3 !py-2 !text-xs shrink-0"
+          >
+            <Plus size={14} />
+            New
+          </Link>
         </div>
-        <Link
-          href="/super/events/new"
-          className="btn-primary !px-3 !py-2 !text-xs shrink-0"
-        >
-          <Plus size={14} />
-          New
-        </Link>
-      </div>
 
       <Sidebar className="border-r border-stone-200/60 bg-[#fafaf9]">
         <SidebarHeader className="px-5 py-6">
@@ -184,12 +184,14 @@ export function SuperAdminTopBar() {
 
   let title = "Super Admin";
   for (const [path, label] of Object.entries(titles)) {
-    if (pathname.includes(path)) {
+    if (pathname === path || pathname.startsWith(path + "/")) {
       title = label;
       break;
     }
   }
-  if (pathname.match(/\/super\/events\/[^/]+$/)) title = "Manage Event";
+  if (pathname.match(/^\/super\/events\/[^/]+$/)) {
+    title = "Manage Event";
+  }
 
   return (
     <header className="hidden md:flex sticky top-0 z-30 h-14 items-center gap-3 border-b border-stone-200/60 bg-white/80 backdrop-blur-xl px-6 shrink-0">

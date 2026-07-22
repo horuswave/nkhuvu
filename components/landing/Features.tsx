@@ -1,6 +1,5 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
 import {
   SectionShell,
   SectionHeader,
@@ -238,21 +237,19 @@ const LockIcon = () => (
 );
 
 export default function Features() {
-  const t = useTranslations("landing");
-
   const features = [
-    { icon: <EnvelopeIcon />, key: "digitalInvites" },
-    { icon: <UsersIcon />, key: "guestManagement" },
-    { icon: <ChecklistIcon />, key: "rsvpRealTime" },
-    { icon: <GiftIcon />, key: "giftList" },
-    { icon: <CalendarIcon />, key: "eventProgram" },
-    { icon: <TableIcon />, key: "tableManagement" },
-    { icon: <WhatsAppIcon />, key: "multiChannel" },
-    { icon: <PaintPaletteIcon />, key: "visualCustom" },
-    { icon: <DatabaseIcon />, key: "adminDashboard" },
-    { icon: <MapPinIcon />, key: "mapLocation" },
-    { icon: <PhoneIcon />, key: "prioritySupport" },
-    { icon: <LockIcon />, key: "securityControl" },
+    { icon: <EnvelopeIcon />, title: "Digital Invitations", desc: "Send beautiful digital invitations instantly" },
+    { icon: <UsersIcon />, title: "Guest Management", desc: "Organize and manage your guest list easily" },
+    { icon: <ChecklistIcon />, title: "Real-time RSVP", desc: "Track responses in real-time" },
+    { icon: <GiftIcon />, title: "Gift List", desc: "Create and share your gift registry" },
+    { icon: <CalendarIcon />, title: "Event Program", desc: "Share your wedding schedule with guests" },
+    { icon: <TableIcon />, title: "Table Management", desc: "Assign guests to tables effortlessly" },
+    { icon: <WhatsAppIcon />, title: "Multi-channel", desc: "Share via WhatsApp, email, and more" },
+    { icon: <PaintPaletteIcon />, title: "Visual Customization", desc: "Customize colors, fonts, and themes" },
+    { icon: <DatabaseIcon />, title: "Admin Dashboard", desc: "Powerful dashboard for event management" },
+    { icon: <MapPinIcon />, title: "Map & Location", desc: "Include venue maps and directions" },
+    { icon: <PhoneIcon />, title: "Priority Support", desc: "Get help when you need it" },
+    { icon: <LockIcon />, title: "Security & Control", desc: "Keep your data safe and secure" },
   ];
 
   return (
@@ -261,11 +258,11 @@ export default function Features() {
         badge={
           <SectionBadge>
             <span className="w-1.5 h-1.5 bg-amber-500 rounded-full" />
-            {t("features.badge")}
+            Everything You Need
           </SectionBadge>
         }
-        title={t("features.title")}
-        subtitle={t("features.subtitle")}
+        title="Powerful Features"
+        subtitle="Everything you need to create and manage perfect wedding invitations"
       />
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5">
@@ -278,10 +275,10 @@ export default function Features() {
               {feat.icon}
             </div>
             <h3 className="text-base font-bold text-stone-900 mb-2 tracking-tight">
-              {t(`features.${feat.key}.title`)}
+              {feat.title}
             </h3>
             <p className="text-stone-500 font-medium leading-relaxed text-sm">
-              {t(`features.${feat.key}.desc`)}
+              {feat.desc}
             </p>
           </div>
         ))}

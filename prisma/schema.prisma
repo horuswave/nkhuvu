@@ -60,6 +60,7 @@ model Event {
   fontDisplay     String          @default("Cormorant Garamond")
   fontBody        String          @default("Jost")
   backgroundStyle BackgroundStyle @default(DARK)
+  themeId         String          @default("classic")
 
   // Program timeline — ordered array of { id, type, label, time, notes? }
   programItems Json @default("[]")
@@ -69,6 +70,37 @@ model Event {
 
   // RSVP form field visibility — { companions, dietary, transport, message }
   rsvpFields Json @default("{\"companions\":true,\"dietary\":true,\"transport\":true,\"message\":true}")
+
+  // Invitation text customizations
+  heroSubtitle       String?  @db.Text
+  anniversaryLabel   String?
+  heroFooterText     String?  @db.Text
+
+  // Section titles and descriptions
+  programTitle       String?
+  programSubtitle    String?  @db.Text
+  giftListIntro      String?  @db.Text
+  giftListPhysicalTitle   String?
+  giftListMonetaryTitle   String?
+
+  // RSVP form text
+  rsvpTitle          String?
+  rsvpSubtitle       String?  @db.Text
+  rsvpAttendingLabel     String?
+  rsvpNotAttendingLabel  String?
+  rsvpCompanionsLabel    String?
+  rsvpAddCompanionLabel  String?
+  rsvpDietaryLabel       String?
+  rsvpTransportLabel     String?
+  rsvpMessageLabel       String?
+  rsvpSubmitAttending    String?
+  rsvpSubmitNotAttending String?
+  rsvpUpdateButton       String?
+  rsvpAlreadyResponded   String?  @db.Text
+
+  // Event details section
+  detailsSectionTitle    String?
+  detailsContactText     String?  @db.Text
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -205,7 +237,6 @@ model ContactLead {
   email        String
   name         String?
   message      String?
-  locale       String?
   isVerified   Boolean   @default(false)
   verifiedAt   DateTime?
   isAdminRequest Boolean @default(true)

@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import { auth } from "@/auth";
 import type { RsvpFields } from "@/components/invitation/RsvpForm";
 import type { ProgramItem } from "@/components/invitation/ProgramSection";
-import type { GiftItem } from "@/app/[locale]/admin/(protected)/settings/GiftListEditor"; // adjust path to match your project
+import type { GiftItem } from "@/app/admin/(protected)/settings/GiftListEditor";
 
 export async function getAllEvents() {
   await requireSuperAdmin();
@@ -212,6 +212,7 @@ export async function updateMyEvent(
     backgroundStyle: "DARK" | "LIGHT" | "IMAGE";
     fontDisplay: string;
     fontBody: string;
+    themeId: string;
     programItems: ProgramItem[];
     rsvpFields: RsvpFields;
     giftList: GiftItem[]; // ← NEW

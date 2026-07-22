@@ -1,50 +1,40 @@
 import { EventData } from "@/types";
 import { Info, Phone, Mail } from "lucide-react";
 
-export default function EventDetails({ event }: { event: EventData }) {
+export default function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
   const rules = event.rules?.split("\n").filter(Boolean) ?? [];
+  
+  // Use theme config if available
+  const theme = event.themeConfig;
+  const sectionSpacing = (theme?.layout?.sectionSpacing ?? "normal") as "compact" | "normal" | "spacious";
+  const cardStyle = (theme?.layout?.cardStyle ?? "rounded") as "rounded" | "sharp" | "organic";
+  
+  const spacingClasses = {
+    compact: "py-16 px-6",
+    normal: "py-24 px-6",
+    spacious: "py-32 px-6"
+  };
+  
+  const cardRadiusClasses = {
+    rounded: "rounded-[28px]",
+    sharp: "rounded-lg",
+    organic: "rounded-[32px]"
+  };
 
   return (
-    <section className="bg-[#fbf7f1] py-24 px-6">
+    <section className={`bg-[#fbf7f1] ${spacingClasses[sectionSpacing as keyof typeof spacingClasses] || spacingClasses.normal}`}>
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div
-              className="h-px w-12"
-              style={{ backgroundColor: event.primaryColor, opacity: 0.3 }}
-            />
-            <h2
-              className="text-[11px] tracking-[0.34em] uppercase"
-              style={{ color: event.primaryColor, fontFamily: event.fontBody }}
-            >
-              Detalhes do Evento
-            </h2>
-            <div
-              className="h-px w-12"
-              style={{ backgroundColor: event.primaryColor, opacity: 0.3 }}
-            />
-          </div>
-
-          <p
-            className="text-stone-500 text-[15px] max-w-lg mx-auto leading-relaxed"
-            style={{ fontFamily: event.fontBody }}
-          >
-            Reunimos abaixo as informações essenciais para que a sua presença
-            seja vivida com tranquilidade e elegância.
-          </p>
-        </div>
-
         {/* Information Cards - Centered */}
         <div className="flex justify-center">
           <div className="w-full max-w-2xl">
             {rules.length > 0 && (
               <Card
                 icon={<Info className="w-5 h-5" />}
-                title="Informações Úteis"
+                title={event.detailsSectionTitle || "Informações Úteis"}
                 primaryColor={event.primaryColor}
                 fontDisplay={event.fontDisplay}
                 fontBody={event.fontBody}
+                cardStyle={cardStyle}
               >
                 <ul className="space-y-3">
                   {rules.map((rule, i) => (
@@ -69,13 +59,12 @@ export default function EventDetails({ event }: { event: EventData }) {
         {(event.supportEmail || event.supportPhone) && (
           <div className="mt-16 flex justify-center">
             <div className="w-full max-w-2xl">
-              <div className="rounded-[28px] border border-stone-200/80 bg-white/80 backdrop-blur-sm px-8 py-10 text-center shadow-[0_18px_50px_rgba(120,98,72,0.08)]">
+              <div className={`${cardRadiusClasses[cardStyle]} border border-stone-200/80 bg-white/80 backdrop-blur-sm px-8 py-10 text-center shadow-[0_18px_50px_rgba(120,98,72,0.08)]`}>
                 <p
                   className="text-stone-500 text-[15px] mb-7 leading-relaxed"
                   style={{ fontFamily: event.fontBody }}
                 >
-                  Para qualquer questão adicional, teremos todo o gosto em
-                  ajudar.
+                  {event.detailsContactText || "Para qualquer questão adicional, teremos todo o gosto em ajudar."}
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-4">
@@ -129,6 +118,7 @@ function Card({
   fontDisplay,
   fontBody,
   children,
+  cardStyle = "rounded",
 }: {
   icon: React.ReactNode;
   title: string;
@@ -136,9 +126,18 @@ function Card({
   fontDisplay: string;
   fontBody: string;
   children: React.ReactNode;
+  cardStyle?: "rounded" | "sharp" | "organic";
 }) {
+  const cardRadiusClasses: Record<string, string> = {
+    rounded: "rounded-[28px]",
+    sharp: "rounded-lg",
+    organic: "rounded-[32px]"
+  };
+
+  const radiusClass = cardRadiusClasses[cardStyle] || cardRadiusClasses.rounded;
+
   return (
-    <div className="relative overflow-hidden rounded-[28px] border border-stone-200/70 bg-white/80 p-8 shadow-[0_18px_45px_rgba(120,98,72,0.08)] backdrop-blur-sm">
+    <div className={`relative overflow-hidden ${radiusClass} border border-stone-200/70 bg-white/80 p-8 shadow-[0_18px_45px_rgba(120,98,72,0.08)] backdrop-blur-sm`}>
       {/* Top accent line */}
       <div
         className="absolute inset-x-0 top-0 h-px"

@@ -2,9 +2,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-const supportedLocales = ["en", "pt", "ch"];
-const defaultLocale = "en";
-
 export const proxy = auth((req) => {
   let { pathname } = req.nextUrl;
   const user = req.auth?.user;
@@ -20,85 +17,59 @@ export const proxy = auth((req) => {
   }
 
   // ========================
-  // LOCALE DETECTION
-  // ========================
-  let currentLocale = defaultLocale;
-
-  const pathnameHasLocale = supportedLocales.some((locale) => {
-    if (pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`) {
-      currentLocale = locale;
-      return true;
-    }
-    return false;
-  });
-
-  const pathnameWithoutLocale = pathnameHasLocale
-    ? pathname.replace(/^\/(en|pt|ch)(\/|$)/, "/")
-    : pathname;
-
-  // ========================
-  // LOCALE REDIRECTION
-  // ========================
-  if (!pathnameHasLocale) {
-    const url = req.nextUrl.clone();
-    url.pathname = `/${defaultLocale}${pathname === "/" ? "" : pathname}`;
-    return NextResponse.redirect(url);
-  }
-
-  // ========================
   // AUTH PROTECTION
   // ========================
 
   // Super Admin Routes
-  if (pathnameWithoutLocale.startsWith("/super")) {
+  if (pathname.startsWith("/super")) {
     if (!user) {
       return NextResponse.redirect(
-        new URL(`/${currentLocale}/admin/login`, req.url),
+        new URL("/admin/login", req.url),
       );
     }
     if (!user.isSuperAdmin) {
       return NextResponse.redirect(
-        new URL(`/${currentLocale}/admin/dashboard`, req.url),
+        new URL("/admin/dashboard", req.url),
       );
     }
     return NextResponse.next();
   }
 
   // Admin Routes
-  if (pathnameWithoutLocale.startsWith("/admin")) {
+  if (pathname.startsWith("/admin")) {
     const adminPublicRoutes = ["/admin/login", "/admin/onboarding"];
 
-    if (pathnameWithoutLocale === "/admin/login" && user) {
+    if (pathname === "/admin/login" && user) {
       const dest = user.isSuperAdmin
-        ? `/${currentLocale}/super/dashboard`
+        ? "/super/dashboard"
         : user.eventId
-          ? `/${currentLocale}/admin/dashboard`
-          : `/${currentLocale}/admin/onboarding`;
+          ? "/admin/dashboard"
+          : "/admin/onboarding";
       return NextResponse.redirect(new URL(dest, req.url));
     }
 
     if (
-      !adminPublicRoutes.includes(pathnameWithoutLocale) &&
+      !adminPublicRoutes.includes(pathname) &&
       !user
     ) {
       return NextResponse.redirect(
-        new URL(`/${currentLocale}/admin/login`, req.url),
+        new URL("/admin/login", req.url),
       );
     }
 
-    if (user?.isSuperAdmin && pathnameWithoutLocale.startsWith("/admin")) {
+    if (user?.isSuperAdmin && pathname.startsWith("/admin")) {
       return NextResponse.redirect(
-        new URL(`/${currentLocale}/super/dashboard`, req.url),
+        new URL("/super/dashboard", req.url),
       );
     }
 
     if (
       user &&
       !user.eventId &&
-      !adminPublicRoutes.includes(pathnameWithoutLocale)
+      !adminPublicRoutes.includes(pathname)
     ) {
       return NextResponse.redirect(
-        new URL(`/${currentLocale}/admin/onboarding`, req.url),
+        new URL("/admin/onboarding", req.url),
       );
     }
 

@@ -1,16 +1,13 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
 import { SectionShell } from "@/components/ui/section-shell";
 
 export default function Stats() {
-  const t = useTranslations("landing");
-
   const stats = [
-    { value: "98%", key: "responseRate" },
-    { value: "+280", key: "eventsDone" },
-    { value: "24h", key: "prioritySupport" },
-    { value: "5★", key: "avgRating" },
+    { value: "98%", label: "Response Rate" },
+    { value: "+280", label: "Events Done" },
+    { value: "24h", label: "Support Response" },
+    { value: "5★", label: "Average Rating" },
   ];
 
   return (
@@ -25,7 +22,7 @@ export default function Stats() {
               {stat.value}
             </div>
             <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-stone-500">
-              {t(`stats.${stat.key}`)}
+              {stat.label}
             </div>
           </div>
         ))}

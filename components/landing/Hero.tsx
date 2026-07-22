@@ -1,7 +1,5 @@
 "use client";
 
-import { useTranslations } from "@/i18n";
-
 const ArrowRightIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -39,8 +37,6 @@ const CheckCircleIcon = () => (
 );
 
 export default function Hero() {
-  const t = useTranslations("landing");
-
   return (
     <section
       id="hero"
@@ -63,26 +59,26 @@ export default function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
               </span>
-              {t("hero.badge")}
+New Feature Available
             </div>
             
             <h1 className="text-display-xl text-stone-900 mb-6">
-              {t("hero.title1")}
+Create Beautiful Wedding Invitations
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-500 mt-1 pb-2">
-                {t("hero.titleHighlight")}
+Effortlessly
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-stone-500 leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0 font-medium">
-              {t("hero.subtitle")}
+Design stunning digital invitations for your special day with our easy-to-use platform. Perfect for weddings, anniversaries, and celebrations.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               <a href="#pricing" className="group btn-primary w-full sm:w-auto !px-8 !py-4 !text-base">
-                {t("hero.ctaPrimary")} <ArrowRightIcon />
+Get Started <ArrowRightIcon />
               </a>
               <a href="/convite" className="btn-secondary w-full sm:w-auto !px-8 !py-4 !text-base">
-                {t("hero.ctaSecondary")}
+View Demo
               </a>
             </div>
             
@@ -99,9 +95,9 @@ export default function Hero() {
               </div>
               <div className="text-sm font-medium text-stone-500">
                 <span className="text-stone-900 font-bold">
-                  +250 {t("hero.familiesWord")}
++250 families
                 </span>{" "}
-                {t("hero.familiesText")}
+already trust us
               </div>
             </div>
           </div>
@@ -118,7 +114,7 @@ export default function Hero() {
                   <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
                   <div className="relative z-10 text-center text-white space-y-1">
                     <div className="text-[10px] tracking-[0.3em] font-semibold text-amber-400 uppercase">
-                      {t("hero.invite.joy")}
+With Joy
                     </div>
                     <div className="text-3xl font-serif italic opacity-90">
                       Helena & Alberto
@@ -129,34 +125,34 @@ export default function Hero() {
                 <div className="p-8 pb-10 space-y-6">
                   <div className="text-center space-y-1">
                     <div className="text-stone-500 font-medium text-sm">
-                      {t("hero.invite.date")}
+December 25, 2024
                     </div>
                     <div className="text-stone-400 text-xs">
-                      {t("hero.invite.venue")}
+Grand Palace Hotel
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between py-3 border-y border-stone-100">
                     <span className="text-stone-500 font-medium text-sm">
-                      {t("hero.invite.status")}
+Status
                     </span>
                     <span className="inline-flex items-center gap-1.5 text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full text-xs font-bold">
-                      <CheckCircleIcon /> {t("hero.invite.open")}
+<CheckCircleIcon /> Open
                     </span>
                   </div>
                   
                   <div className="bg-[#fafaf9] border border-stone-100 rounded-2xl p-5 text-center shadow-inner">
                     <p className="text-stone-600 text-sm leading-relaxed font-medium">
-                      {t("hero.invite.message")}
+We cordially invite you to celebrate our wedding ceremony and reception.
                     </p>
                   </div>
                   
                   <div className="flex gap-3 pt-2">
                     <div className="flex-1 bg-amber-600 text-white text-center py-3 rounded-xl text-sm font-semibold shadow-[0_4px_14px_0_rgba(217,119,6,0.39)] cursor-pointer">
-                      {t("hero.invite.confirmBtn")}
+Confirm
                     </div>
                     <div className="flex-1 bg-white border-2 border-stone-100 text-stone-600 text-center py-3 rounded-xl text-sm font-semibold cursor-pointer">
-                      {t("hero.invite.detailsBtn")}
+Details
                     </div>
                   </div>
                 </div>
