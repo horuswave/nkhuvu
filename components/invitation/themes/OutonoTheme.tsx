@@ -19,10 +19,10 @@ interface ThemeProps {
     giftList?: GiftItem[];
     primaryColor?: string;
     fontDisplay?: string;
-    detailsSectionTitle?: string;
-    detailsContactText?: string;
-    programSubtitle?: string;
-    giftListIntro?: string;
+    detailsSectionTitle?: string | null;
+    detailsContactText?: string | null;
+    programSubtitle?: string | null;
+    giftListIntro?: string | null;
   };
   guestName: string;
   token: string;
