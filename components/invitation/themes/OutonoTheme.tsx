@@ -10,7 +10,20 @@ import type { EventData } from "@/types";
    SHARED TYPES
    ===================================================================== */
 interface ThemeProps {
-  event: EventData & { themeConfig?: any };
+  event: EventData & {
+    themeConfig?: any;
+    heroImageUrl?: string | null;
+    backgroundImage?: string | null;
+    couplePhotos?: any[] | null;
+    programItems?: ProgramItem[];
+    giftList?: GiftItem[];
+    primaryColor?: string;
+    fontDisplay?: string;
+    detailsSectionTitle?: string;
+    detailsContactText?: string;
+    programSubtitle?: string;
+    giftListIntro?: string;
+  };
   guestName: string;
   token: string;
   maxAllowed: number;
@@ -63,15 +76,8 @@ export interface ProgramItem {
   locationUrl?: string;
 }
 
-export interface RsvpFields {
-  companions: boolean;
-  dietary: boolean;
-  transport: boolean;
-  message: boolean;
-}
-
 /* =====================================================================
-   BRIDGERTON ORNAMENTS & ICONS
+   ORNAMENTS & ICONS
    ===================================================================== */
 function FloralDivider({ color = "#6B5344" }: { color?: string }) {
   return (
@@ -179,19 +185,20 @@ const PROGRAM_ICONS: Record<ProgramItemType, React.ReactNode> = {
 };
 
 /* =====================================================================
-   BRIDGERTON HERO
+   HERO
    ===================================================================== */
 function BridgertonHero({
   event,
   guestName,
 }: {
-  event: EventData & { themeConfig?: any };
+  event: ThemeProps["event"];
   guestName?: string;
 }) {
   const bgImg =
     event.heroImageUrl ||
     event.backgroundImage ||
     "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=2000";
+
   const goldColor = event.primaryColor || "#6B5344";
 
   return (
@@ -211,7 +218,6 @@ function BridgertonHero({
         className="relative min-h-screen w-full flex items-center justify-center p-6 md:p-14 bg-cover bg-center"
         style={{ backgroundImage: `url('${bgImg}')` }}
       >
-        {/* Strong solid overlay for contrast */}
         <div className="absolute inset-0 bg-black/65" />
 
         <div className="bridgerton-glass relative z-10 w-full max-w-3xl rounded-2xl p-10 md:p-16 text-center my-12 border-[4px] border-double border-[#6B5344]/70">
@@ -270,9 +276,9 @@ function BridgertonHero({
 }
 
 /* =====================================================================
-   DETALHES DO EVENTO
+   EVENT DETAILS
    ===================================================================== */
-function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
+function EventDetails({ event }: { event: ThemeProps["event"] }) {
   const rules = event.rules?.split("\n").filter(Boolean) ?? [];
   const goldColor = event.primaryColor || "#6B5344";
 
@@ -351,15 +357,10 @@ function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
 }
 
 /* =====================================================================
-   PROGRAMA
+   PROGRAM
    ===================================================================== */
-function ProgramSection({
-  event,
-}: {
-  event: EventData & { programItems?: ProgramItem[] };
-}) {
-  const items: ProgramItem[] =
-    (event.programItems as ProgramItem[] | undefined) ?? [];
+function ProgramSection({ event }: { event: ThemeProps["event"] }) {
+  const items: ProgramItem[] = event.programItems ?? [];
   if (items.length === 0) return null;
 
   const goldColor = event.primaryColor || "#6B5344";
@@ -387,7 +388,7 @@ function ProgramSection({
           {items.map((item) => (
             <div key={item.id} className="relative pl-10 md:pl-12">
               <div className="absolute -left-[19px] top-1 flex h-9 w-9 items-center justify-center rounded-full bg-white border-[3px] border-[#6B5344] text-[#6B5344] shadow-md">
-                {PROGRAM_ICONS[item.type]}
+                {PROGRAM_ICONS[item.type] ?? PROGRAM_ICONS.CUSTOM}
               </div>
 
               <div className="bg-white p-7 rounded-2xl border-2 border-[#6B5344]/20 shadow-md">
@@ -433,14 +434,10 @@ function ProgramSection({
 }
 
 /* =====================================================================
-   LISTA DE PRESENTES
+   GIFT LIST
    ===================================================================== */
-function GiftListSection({
-  event,
-}: {
-  event: EventData & { giftList?: GiftItem[] };
-}) {
-  const items: GiftItem[] = (event.giftList as GiftItem[] | undefined) ?? [];
+function GiftListSection({ event }: { event: ThemeProps["event"] }) {
+  const items: GiftItem[] = event.giftList ?? [];
   if (items.length === 0) return null;
 
   const goldColor = event.primaryColor || "#6B5344";
@@ -517,15 +514,18 @@ function GiftListSection({
 }
 
 /* =====================================================================
-   FORMULÁRIO RSVP
+   RSVP FORM
    ===================================================================== */
 function RsvpForm({
   token,
-  maxAllowed,
-  event,
   existingRsvp,
-  existingCompanions,
-}: any) {
+}: {
+  token: string;
+  maxAllowed: number;
+  event: ThemeProps["event"];
+  existingRsvp: any;
+  existingCompanions: any;
+}) {
   const router = useRouter();
   const [attending, setAttending] = useState<boolean | null>(
     existingRsvp?.attending ?? null,
@@ -535,20 +535,25 @@ function RsvpForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (attending === null) return;
+
     setSubmitting(true);
-    const res = await fetch("/api/rsvp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        token,
-        attending,
-        totalAttending: attending ? 1 : 0,
-      }),
-    });
-    if (res.ok) {
-      router.push(attending ? `/confirmed/${token}` : `/declined/${token}`);
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          token,
+          attending,
+          totalAttending: attending ? 1 : 0,
+        }),
+      });
+
+      if (res.ok) {
+        router.push(attending ? `/confirmed/${token}` : `/declined/${token}`);
+      }
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
   }
 
   return (
@@ -622,11 +627,11 @@ function RsvpForm({
 }
 
 /* =====================================================================
-   ENVELOPE REALISTA QUE ABRE (ABAS & SELO DE CERA)
+   ENVELOPE OPENING
    ===================================================================== */
 function EnvelopeOpening({
   coupleNames = "E & V",
-  weddingDate = "10.05.2025",
+  weddingDate = "",
   onOpen = () => {},
 }: {
   coupleNames?: string;
@@ -641,7 +646,7 @@ function EnvelopeOpening({
       .split(/\s*(?:&|\+|\be\b|\bE\b)\s*/i)
       .filter(Boolean);
     if (parts.length >= 2) return `${parts[0][0]} & ${parts[1][0]}`;
-    return "M";
+    return parts[0]?.[0] || "M";
   }, [coupleNames]);
 
   const handleOpen = () => {
@@ -710,12 +715,14 @@ function EnvelopeOpening({
             >
               {coupleNames}
             </h1>
-            <p
-              className="text-sm text-[#6B5344] tracking-widest italic"
-              style={{ fontFamily: "'Cormorant Garamond', serif" }}
-            >
-              {weddingDate}
-            </p>
+            {weddingDate && (
+              <p
+                className="text-sm text-[#6B5344] tracking-widest italic"
+                style={{ fontFamily: "'Cormorant Garamond', serif" }}
+              >
+                {weddingDate}
+              </p>
+            )}
           </div>
 
           {/* Wax seal */}
@@ -754,7 +761,7 @@ function EnvelopeOpening({
 }
 
 /* =====================================================================
-   EXPORTAÇÃO DO TEMA
+   MAIN THEME EXPORT
    ===================================================================== */
 export default function BridgertonTheme({
   event,
@@ -768,17 +775,21 @@ export default function BridgertonTheme({
 
   const weddingDate = useMemo(() => {
     if (!event.date) return "";
-    return new Intl.DateTimeFormat("pt-PT", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    }).format(new Date(event.date));
+    try {
+      return new Intl.DateTimeFormat("pt-PT", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(event.date));
+    } catch {
+      return "";
+    }
   }, [event.date]);
 
   if (!envelopeOpened) {
     return (
       <EnvelopeOpening
-        coupleNames={event.coupleNames}
+        coupleNames={event.coupleNames || "Os Noivos"}
         weddingDate={weddingDate}
         onOpen={() => setEnvelopeOpened(true)}
       />
