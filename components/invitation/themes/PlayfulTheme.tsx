@@ -4,6 +4,7 @@ import InvitationHero from "../heroes/PlayfulHero";
 import EventDetails from "../EventDetails";
 import ProgramSection from "../ProgramSection";
 import GiftListSection from "../Giftlistsection";
+import CouplePhotosSection from "../CouplePhotosSection";
 import RsvpForm from "../RsvpForm";
 import type { EventData } from "@/types";
 
@@ -28,6 +29,7 @@ export default function PlayfulTheme({
     <main className="playful-theme">
       <InvitationHero event={event} guestName={guestName} />
       <EventDetails event={event} />
+      <CouplePhotosSection event={event} />
       <ProgramSection event={event} />
       <GiftListSection event={event} />
       <RsvpForm

@@ -59,11 +59,24 @@ export default function PlayfulHero({
           position: "relative",
           overflow: "hidden",
           padding: "5rem 2rem",
-          background: isDark
+          background: event.backgroundStyle === "IMAGE" && event.heroImageUrl
+            ? `url(${event.heroImageUrl}) center/cover no-repeat`
+            : isDark
             ? `linear-gradient(135deg, ${event.accentColor} 0%, #4c1d95 100%)`
             : `linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%)`,
         }}
       >
+        {/* Dark overlay for image background */}
+        {event.backgroundStyle === "IMAGE" && event.heroImageUrl && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              pointerEvents: "none",
+            }}
+          />
+        )}
         {/* Playful background shapes */}
         <div
           className="wiggle"

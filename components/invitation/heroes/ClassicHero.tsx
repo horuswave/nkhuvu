@@ -101,11 +101,24 @@ export default function ClassicHero({
           overflow: "hidden",
           padding: "7rem 1.5rem 6rem",
           boxSizing: "border-box",
-          background: isDark
+          background: event.backgroundStyle === "IMAGE" && event.heroImageUrl
+            ? `url(${event.heroImageUrl}) center/cover no-repeat`
+            : isDark
             ? `linear-gradient(180deg, ${event.accentColor} 0%, #161210 100%)`
             : `linear-gradient(180deg, #fbf6ef 0%, ${event.accentColor} 100%)`,
         }}
       >
+        {/* Dark overlay for image background */}
+        {event.backgroundStyle === "IMAGE" && event.heroImageUrl && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              pointerEvents: "none",
+            }}
+          />
+        )}
         {/* Decorative elements */}
         <div
           style={{

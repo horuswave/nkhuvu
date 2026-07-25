@@ -52,11 +52,25 @@ export default function ModernHero({
             flexDirection: "column",
             justifyContent: "center",
             padding: "4rem 3rem",
-            background: isDark
+            background: event.backgroundStyle === "IMAGE" && event.heroImageUrl
+              ? `url(${event.heroImageUrl}) center/cover no-repeat`
+              : isDark
               ? `linear-gradient(135deg, ${event.accentColor} 0%, #1e293b 100%)`
               : "#ffffff",
+            position: "relative",
           }}
         >
+          {/* Dark overlay for image background */}
+          {event.backgroundStyle === "IMAGE" && event.heroImageUrl && (
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                pointerEvents: "none",
+              }}
+            />
+          )}
           <div className="slide-left" style={{ animationDelay: "0.2s" }}>
             <p
               style={{

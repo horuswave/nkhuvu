@@ -215,14 +215,16 @@ export async function updateMyEvent(
     themeId: string;
     programItems: ProgramItem[];
     rsvpFields: RsvpFields;
-    giftList: GiftItem[]; // ← NEW
+    giftList: GiftItem[];
+    heroImageUrl: string;
+    couplePhotos: string[];
   }>,
 ) {
   const { eventId } = await requireEventAccess();
 
   // Extract and serialize Json fields separately to avoid Prisma's conflicting
   // generated types between node_modules/.prisma and generated/prisma paths.
-  const { programItems, rsvpFields, giftList, date, ...rest } = data;
+  const { programItems, rsvpFields, giftList, couplePhotos, heroImageUrl, date, ...rest } = data;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const event = await (prisma.event.update as any)({
@@ -230,6 +232,7 @@ export async function updateMyEvent(
     data: {
       ...rest,
       ...(date ? { date: new Date(date) } : {}),
+      ...(heroImageUrl !== undefined ? { heroImageUrl } : {}),
       ...(programItems !== undefined
         ? { programItems: JSON.parse(JSON.stringify(programItems)) }
         : {}),
@@ -238,6 +241,9 @@ export async function updateMyEvent(
         : {}),
       ...(giftList !== undefined
         ? { giftList: JSON.parse(JSON.stringify(giftList)) }
+        : {}),
+      ...(couplePhotos !== undefined
+        ? { couplePhotos: JSON.parse(JSON.stringify(couplePhotos)) }
         : {}),
     },
   });

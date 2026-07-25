@@ -37,10 +37,12 @@ interface EventSnapshot {
   themeId: string;
   programItems?: unknown; // JSON from Prisma
   rsvpFields?: unknown; // JSON from Prisma
-  giftList?: unknown; // JSON from Prisma ← NEW
+  giftList?: unknown; // JSON from Prisma
+  heroImageUrl?: string | null;
+  couplePhotos?: unknown; // JSON from Prisma
 }
 
-type Tab = "details" | "branding" | "program" | "gifts" | "rsvp";
+type Tab = "details" | "branding" | "program" | "gifts" | "photos" | "rsvp";
 
 export default function SettingsForm({ event }: { event: EventSnapshot }) {
   const router = useRouter();
@@ -76,6 +78,8 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
   const [selectedTheme, setSelectedTheme] = useState<ThemeId>(
     (event.themeId as ThemeId) || "classic",
   );
+  const [heroImageUrl, setHeroImageUrl] = useState(event.heroImageUrl ?? "");
+  const [heroImageUploading, setHeroImageUploading] = useState(false);
 
   // ── Program ──────────────────────────────────────────────────────────────────
   const [programItems, setProgramItems] = useState<ProgramItem[]>(
@@ -84,10 +88,16 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
       : [],
   );
 
-  // ── Gift list ─────────────────────────────────────────────────────────────── ← NEW
+  // ── Gift list ───────────────────────────────────────────────────────────────
   const [giftList, setGiftList] = useState<GiftItem[]>(
     Array.isArray(event.giftList) ? (event.giftList as GiftItem[]) : [],
   );
+
+  // ── Couple photos ─────────────────────────────────────────────────────────────
+  const [couplePhotos, setCouplePhotos] = useState<string[]>(
+    Array.isArray(event.couplePhotos) ? (event.couplePhotos as string[]) : [],
+  );
+  const [photoUploading, setPhotoUploading] = useState(false);
 
   // ── RSVP fields ──────────────────────────────────────────────────────────────
   const defaultRsvp: RsvpFields = {
@@ -112,7 +122,7 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
   }
 
   // ── Save ──────────────────────────────────────────────────────────────────────
-  function handleSave() {
+  async function handleSave() {
     setError(null);
     setSaved(false);
     startTransition(async () => {
@@ -138,7 +148,9 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
           themeId: selectedTheme,
           programItems: programItems as any,
           rsvpFields: rsvpFields as any,
-          giftList: giftList as any, // ← NEW
+          giftList: giftList as any,
+          heroImageUrl,
+          couplePhotos,
         });
         setSaved(true);
         router.refresh();
@@ -149,6 +161,49 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
     });
   }
 
+  async function handleHeroImageUpload(file: File) {
+    setHeroImageUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) throw new Error("Upload failed");
+      const data = await response.json();
+      setHeroImageUrl(data.url);
+      setBgStyle("IMAGE");
+    } catch (err: any) {
+      setError(err.message ?? "Failed to upload image");
+    } finally {
+      setHeroImageUploading(false);
+    }
+  }
+
+  async function handleCouplePhotoUpload(file: File) {
+    setPhotoUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) throw new Error("Upload failed");
+      const data = await response.json();
+      setCouplePhotos((prev) => [...prev, data.url]);
+    } catch (err: any) {
+      setError(err.message ?? "Failed to upload image");
+    } finally {
+      setPhotoUploading(false);
+    }
+  }
+
+  function removeCouplePhoto(url: string) {
+    setCouplePhotos((prev) => prev.filter((u) => u !== url));
+  }
+
   const inputCls =
     "w-full px-4 py-2.5 border border-stone-200 rounded text-sm focus:outline-none focus:border-stone-400 focus:ring-1 focus:ring-stone-200 bg-white";
 
@@ -156,7 +211,8 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
     { id: "details", label: "Details" },
     { id: "branding", label: "Branding" },
     { id: "program", label: "Program" },
-    { id: "gifts", label: "Gifts" }, // ← NEW
+    { id: "gifts", label: "Gifts" },
+    { id: "photos", label: "Photos" },
     { id: "rsvp", label: "RSVP" },
   ];
 
@@ -429,6 +485,45 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
                 </select>
               </Field>
             </Row>
+
+            <Field label="Hero Background Image">
+              <div className="space-y-3">
+                {heroImageUrl && (
+                  <div className="relative w-full h-40 rounded-lg overflow-hidden border border-stone-200">
+                    <img
+                      src={heroImageUrl}
+                      alt="Hero preview"
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setHeroImageUrl("")}
+                      className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
+                <div className="flex items-center gap-3">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) handleHeroImageUpload(file);
+                    }}
+                    disabled={heroImageUploading}
+                    className="flex-1 text-sm text-stone-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-stone-100 file:text-stone-700 hover:file:bg-stone-200"
+                  />
+                  {heroImageUploading && (
+                    <span className="text-xs text-stone-500">Uploading...</span>
+                  )}
+                </div>
+                <p className="text-xs text-stone-400">
+                  Upload a background image for the hero section. Used when background style is set to Image.
+                </p>
+              </div>
+            </Field>
           </div>
 
           {/* Live preview */}
@@ -692,6 +787,95 @@ export default function SettingsForm({ event }: { event: EventSnapshot }) {
                     </span>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── PHOTOS TAB ───────────────────────────────────────────────────────── */}
+      {tab === "photos" && (
+        <div className="space-y-4">
+          <div className="bg-amber-50 border border-amber-100 rounded px-4 py-3">
+            <p
+              className="text-amber-700 text-xs leading-relaxed"
+              style={{ fontFamily: fontBody }}
+            >
+              Upload photos of the couple to display on the invitation. These will appear in a beautiful gallery section.
+            </p>
+          </div>
+
+          <div className="bg-white border border-stone-200 rounded p-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleCouplePhotoUpload(file);
+                }}
+                disabled={photoUploading}
+                className="flex-1 text-sm text-stone-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-stone-100 file:text-stone-700 hover:file:bg-stone-200"
+              />
+              {photoUploading && (
+                <span className="text-xs text-stone-500">Uploading...</span>
+              )}
+            </div>
+
+            {couplePhotos.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {couplePhotos.map((url, index) => (
+                  <div key={index} className="relative group">
+                    <div className="aspect-square rounded-lg overflow-hidden border border-stone-200">
+                      <img
+                        src={url}
+                        alt={`Couple photo ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeCouplePhoto(url)}
+                      className="absolute top-2 right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {couplePhotos.length === 0 && (
+              <div className="text-center py-8 text-stone-400 text-sm">
+                No photos uploaded yet. Add your first photo above.
+              </div>
+            )}
+          </div>
+
+          {/* Mini preview */}
+          {couplePhotos.length > 0 && (
+            <div className="bg-white border border-stone-200 rounded p-6">
+              <p
+                className="text-stone-400 text-xs uppercase tracking-widest mb-4"
+                style={{ fontFamily: fontBody }}
+              >
+                Gallery Preview
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {couplePhotos.slice(0, 6).map((url, index) => (
+                  <div key={index} className="aspect-square rounded overflow-hidden">
+                    <img
+                      src={url}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+                {couplePhotos.length > 6 && (
+                  <div className="aspect-square rounded bg-stone-100 flex items-center justify-center text-stone-400 text-sm">
+                    +{couplePhotos.length - 6}
+                  </div>
+                )}
               </div>
             </div>
           )}

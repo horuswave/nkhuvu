@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Info, Mail, Phone, Plus, Trash2 } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
+import CouplePhotosSection from "../CouplePhotosSection";
 import type { EventData } from "@/types";
 
 /* =====================================================================
    SHARED TYPES
    ===================================================================== */
-
 interface ThemeProps {
   event: EventData & { themeConfig?: any };
   guestName: string;
@@ -73,51 +73,50 @@ export interface RsvpFields {
 /* =====================================================================
    BRIDGERTON ORNAMENTS & ICONS
    ===================================================================== */
-
-function FloralDivider({ color = "#D4AF37" }: { color?: string }) {
+function FloralDivider({ color = "#6B5344" }: { color?: string }) {
   return (
-    <div className="flex items-center justify-center my-4 opacity-80">
+    <div className="flex items-center justify-center my-6">
       <svg
-        width="180"
-        height="24"
-        viewBox="0 0 180 24"
+        width="220"
+        height="30"
+        viewBox="0 0 220 30"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M90 12C70 12 60 2 40 2C20 2 10 12 0 12"
+          d="M110 15C86 15 72 3 48 3C24 3 12 15 0 15"
           stroke={color}
-          strokeWidth="1"
+          strokeWidth="1.4"
           strokeLinecap="round"
         />
         <path
-          d="M90 12C110 12 120 2 140 2C160 2 170 12 180 12"
+          d="M110 15C134 15 148 3 172 3C196 3 208 15 220 15"
           stroke={color}
-          strokeWidth="1"
+          strokeWidth="1.4"
           strokeLinecap="round"
         />
         <path
-          d="M90 12C70 12 60 22 40 22C20 22 10 12 0 12"
+          d="M110 15C86 15 72 27 48 27C24 27 12 15 0 15"
           stroke={color}
-          strokeWidth="1"
+          strokeWidth="1.4"
           strokeLinecap="round"
         />
         <path
-          d="M90 12C110 12 120 22 140 22C160 22 170 12 180 12"
+          d="M110 15C134 15 148 27 172 27C196 27 208 15 220 15"
           stroke={color}
-          strokeWidth="1"
+          strokeWidth="1.4"
           strokeLinecap="round"
         />
-        <circle cx="90" cy="12" r="4" fill={color} />
-        <circle cx="40" cy="12" r="2" fill={color} />
-        <circle cx="140" cy="12" r="2" fill={color} />
+        <circle cx="110" cy="15" r="5" fill={color} />
+        <circle cx="48" cy="15" r="2.8" fill={color} />
+        <circle cx="172" cy="15" r="2.8" fill={color} />
       </svg>
     </div>
   );
 }
 
 function CornerFlourish({
-  color = "#D4AF37",
+  color = "#6B5344",
   className = "",
 }: {
   color?: string;
@@ -125,23 +124,23 @@ function CornerFlourish({
 }) {
   return (
     <svg
-      className={`w-8 h-8 absolute pointer-events-none ${className}`}
+      className={`w-10 h-10 absolute pointer-events-none ${className}`}
       viewBox="0 0 40 40"
       fill="none"
     >
       <path
         d="M2 38V12C2 6.47715 6.47715 2 12 2H38"
         stroke={color}
-        strokeWidth="1.5"
+        strokeWidth="1.8"
         strokeLinecap="round"
       />
       <path
         d="M6 38V16C6 10.4772 10.4772 6 16 6H38"
         stroke={color}
-        strokeWidth="0.75"
-        strokeDasharray="2 2"
+        strokeWidth="0.9"
+        strokeDasharray="2.5 2"
       />
-      <circle cx="12" cy="12" r="3" fill={color} />
+      <circle cx="12" cy="12" r="3.5" fill={color} />
     </svg>
   );
 }
@@ -152,7 +151,7 @@ function PinIcon({ color }: { color: string }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke={color}
-      strokeWidth={1.8}
+      strokeWidth={2}
       className="w-3.5 h-3.5 flex-shrink-0"
     >
       <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" />
@@ -162,27 +161,26 @@ function PinIcon({ color }: { color: string }) {
 }
 
 const PROGRAM_ICONS: Record<ProgramItemType, React.ReactNode> = {
-  COCKTAIL: <span className="text-xl">🍸</span>,
-  CEREMONY: <span className="text-xl">👑</span>,
-  RECEPTION: <span className="text-xl">🏛️</span>,
-  DINNER: <span className="text-xl">🍽️</span>,
-  SPEECHES: <span className="text-xl">📜</span>,
-  FIRST_DANCE: <span className="text-xl">💃</span>,
-  CAKE: <span className="text-xl">🎂</span>,
-  MUSIC: <span className="text-xl">🎻</span>,
-  PHOTO: <span className="text-xl">🖼️</span>,
-  FIREWORKS: <span className="text-xl">✨</span>,
-  BLESSING: <span className="text-xl">🕊️</span>,
-  BRUNCH: <span className="text-xl">🫖</span>,
-  GAMES: <span className="text-xl">♟️</span>,
-  TRANSPORT: <span className="text-xl">🎠</span>,
-  CUSTOM: <span className="text-xl">⚜️</span>,
+  COCKTAIL: <span className="text-lg">🍸</span>,
+  CEREMONY: <span className="text-lg">👑</span>,
+  RECEPTION: <span className="text-lg">🏛️</span>,
+  DINNER: <span className="text-lg">🍽️</span>,
+  SPEECHES: <span className="text-lg">📜</span>,
+  FIRST_DANCE: <span className="text-lg">💃</span>,
+  CAKE: <span className="text-lg">🎂</span>,
+  MUSIC: <span className="text-lg">🎻</span>,
+  PHOTO: <span className="text-lg">🖼️</span>,
+  FIREWORKS: <span className="text-lg">✨</span>,
+  BLESSING: <span className="text-lg">🕊️</span>,
+  BRUNCH: <span className="text-lg">🫖</span>,
+  GAMES: <span className="text-lg">♟️</span>,
+  TRANSPORT: <span className="text-lg">🎠</span>,
+  CUSTOM: <span className="text-lg">⚜️</span>,
 };
 
 /* =====================================================================
    BRIDGERTON HERO
    ===================================================================== */
-
 function BridgertonHero({
   event,
   guestName,
@@ -191,56 +189,55 @@ function BridgertonHero({
   guestName?: string;
 }) {
   const bgImg =
+    event.heroImageUrl ||
     event.backgroundImage ||
     "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=2000";
-  const goldColor = event.primaryColor || "#D4AF37";
+  const goldColor = event.primaryColor || "#6B5344";
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap');
         .bridgerton-glass {
-          background: rgba(253, 251, 247, 0.88);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          box-shadow: 0 20px 50px rgba(27, 43, 75, 0.15), inset 0 0 30px rgba(212, 175, 55, 0.08);
+          background: #FFFbf5;
+          border: 1px solid rgba(107, 83, 68, 0.45);
+          box-shadow:
+            0 30px 70px rgba(0, 0, 0, 0.35),
+            0 0 0 1px rgba(255, 255, 255, 0.6) inset;
         }
       `}</style>
 
       <section
-        className="relative min-h-screen w-full flex items-center justify-center p-4 md:p-10 bg-cover bg-center"
+        className="relative min-h-screen w-full flex items-center justify-center p-6 md:p-14 bg-cover bg-center"
         style={{ backgroundImage: `url('${bgImg}')` }}
       >
-        {/* Camada de tom azul regência */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1b2b4b]/60 via-[#1e3a5f]/40 to-[#0f172a]/80" />
+        {/* Strong solid overlay for contrast */}
+        <div className="absolute inset-0 bg-black/65" />
 
-        {/* Cartão Principal */}
-        <div className="bridgerton-glass relative z-10 w-full max-w-3xl rounded-xl p-8 md:p-16 text-center my-12 border-4 border-double border-[#d4af37]/60">
-          <CornerFlourish color={goldColor} className="top-3 left-3" />
+        <div className="bridgerton-glass relative z-10 w-full max-w-3xl rounded-2xl p-10 md:p-16 text-center my-12 border-[4px] border-double border-[#6B5344]/70">
+          <CornerFlourish color={goldColor} className="top-4 left-4" />
           <CornerFlourish
             color={goldColor}
-            className="top-3 right-3 rotate-90"
+            className="top-4 right-4 rotate-90"
           />
           <CornerFlourish
             color={goldColor}
-            className="bottom-3 right-3 rotate-180"
+            className="bottom-4 right-4 rotate-180"
           />
           <CornerFlourish
             color={goldColor}
-            className="bottom-3 left-3 -rotate-90"
+            className="bottom-4 left-4 -rotate-90"
           />
 
           <p
-            className="text-xs md:text-sm uppercase tracking-[0.4em] text-[#1e3a5f] font-semibold mb-3"
+            className="text-[11px] md:text-xs uppercase tracking-[0.45em] text-[#3D2E24] font-semibold mb-5"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             Caríssimo Leitor, é Cordialmente Convidado Para
           </p>
 
           <h1
-            className="text-4xl md:text-7xl font-normal text-[#1b2b4b] tracking-wide my-4"
+            className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#1A1410] tracking-wide leading-[1.1]"
             style={{ fontFamily: event.fontDisplay || "'Cinzel', serif" }}
           >
             {event.title}
@@ -249,20 +246,20 @@ function BridgertonHero({
           <FloralDivider color={goldColor} />
 
           <p
-            className="text-3xl md:text-5xl text-[#8c6d23] my-4 italic"
+            className="text-3xl md:text-5xl text-[#6B5344] mt-1 mb-1 italic leading-none"
             style={{ fontFamily: "'Alex Brush', cursive" }}
           >
             {event.coupleNames}
           </p>
 
           {guestName && (
-            <div className="mt-8 inline-block px-6 py-2 rounded-full border border-[#d4af37]/40 bg-[#e8f0f8]/60 shadow-inner">
+            <div className="mt-10 inline-block px-8 py-3 rounded-full border-2 border-[#6B5344]/50 bg-[#F8F1E3]">
               <span
-                className="text-xs md:text-sm text-[#1e3a5f] tracking-widest uppercase font-medium"
+                className="text-[11px] md:text-xs text-[#1A1410] tracking-[0.2em] uppercase font-semibold"
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
                 Convidado Ilustre:{" "}
-                <strong className="text-[#8c6d23]">{guestName}</strong>
+                <strong className="text-[#6B5344]">{guestName}</strong>
               </span>
             </div>
           )}
@@ -275,22 +272,21 @@ function BridgertonHero({
 /* =====================================================================
    DETALHES DO EVENTO
    ===================================================================== */
-
 function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
   const rules = event.rules?.split("\n").filter(Boolean) ?? [];
-  const goldColor = event.primaryColor || "#D4AF37";
+  const goldColor = event.primaryColor || "#6B5344";
 
   return (
-    <section className="bg-[#f9f6f0] py-20 px-6 relative border-t-2 border-b-2 border-[#d4af37]/30">
+    <section className="bg-[#F8F1E3] py-24 px-6 relative border-y-2 border-[#6B5344]/30">
       <div className="max-w-3xl mx-auto text-center">
         <span
-          className="text-xs uppercase tracking-[0.3em] text-[#8c6d23]"
+          className="text-[11px] uppercase tracking-[0.35em] text-[#6B5344] font-semibold"
           style={{ fontFamily: "'Cinzel', serif" }}
         >
           Informações Relevantes
         </span>
         <h2
-          className="text-3xl md:text-4xl text-[#1b2b4b] mt-2 mb-4"
+          className="text-3xl md:text-4xl text-[#1A1410] mt-3 mb-2"
           style={{ fontFamily: "'Cinzel', serif" }}
         >
           {event.detailsSectionTitle || "Detalhes do Evento"}
@@ -298,15 +294,17 @@ function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
         <FloralDivider color={goldColor} />
 
         {rules.length > 0 && (
-          <div className="mt-8 bg-[#fdfbf7] p-8 md:p-12 rounded-lg border border-[#d4af37]/40 shadow-sm relative">
-            <ul className="space-y-4 text-left">
+          <div className="mt-12 bg-white p-9 md:p-12 rounded-2xl border-2 border-[#6B5344]/25 shadow-md">
+            <ul className="space-y-5 text-left">
               {rules.map((rule, i) => (
                 <li
                   key={i}
-                  className="text-[#2c3e50] text-base md:text-lg flex items-start gap-4"
+                  className="text-[#1A1410] text-base md:text-lg flex items-start gap-4"
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
-                  <span className="text-[#d4af37] text-xl leading-none">⚜</span>
+                  <span className="text-[#6B5344] text-xl leading-none mt-0.5 shrink-0">
+                    ⚜
+                  </span>
                   <span className="leading-relaxed">{rule}</span>
                 </li>
               ))}
@@ -315,19 +313,19 @@ function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
         )}
 
         {(event.supportEmail || event.supportPhone) && (
-          <div className="mt-12 p-6 bg-[#e8f0f8]/50 rounded-lg border border-[#1e3a5f]/20">
+          <div className="mt-14 p-8 bg-white rounded-2xl border-2 border-[#6B5344]/20 shadow-sm">
             <p
-              className="text-[#1e3a5f] text-sm md:text-base mb-4"
+              className="text-[#1A1410] text-base md:text-lg mb-6 leading-relaxed"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               {event.detailsContactText ||
                 "Para qualquer esclarecimento adicional, por favor contacte os nossos correspondentes:"}
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-3">
               {event.supportEmail && (
                 <a
                   href={`mailto:${event.supportEmail}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d4af37] bg-white px-5 py-2 text-xs uppercase tracking-widest text-[#1b2b4b] hover:bg-[#d4af37] hover:text-white transition-all shadow-sm"
+                  className="inline-flex items-center gap-2.5 rounded-full border-2 border-[#6B5344] bg-[#F8F1E3] px-6 py-3 text-[11px] uppercase tracking-widest text-[#1A1410] font-semibold hover:bg-[#6B5344] hover:text-white transition-colors"
                   style={{ fontFamily: "'Cinzel', serif" }}
                 >
                   <Mail className="w-3.5 h-3.5" />
@@ -337,7 +335,7 @@ function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
               {event.supportPhone && (
                 <a
                   href={`tel:${event.supportPhone}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d4af37] bg-white px-5 py-2 text-xs uppercase tracking-widest text-[#1b2b4b] hover:bg-[#d4af37] hover:text-white transition-all shadow-sm"
+                  className="inline-flex items-center gap-2.5 rounded-full border-2 border-[#6B5344] bg-[#F8F1E3] px-6 py-3 text-[11px] uppercase tracking-widest text-[#1A1410] font-semibold hover:bg-[#6B5344] hover:text-white transition-colors"
                   style={{ fontFamily: "'Cinzel', serif" }}
                 >
                   <Phone className="w-3.5 h-3.5" />
@@ -355,7 +353,6 @@ function EventDetails({ event }: { event: EventData & { themeConfig?: any } }) {
 /* =====================================================================
    PROGRAMA
    ===================================================================== */
-
 function ProgramSection({
   event,
 }: {
@@ -365,48 +362,50 @@ function ProgramSection({
     (event.programItems as ProgramItem[] | undefined) ?? [];
   if (items.length === 0) return null;
 
+  const goldColor = event.primaryColor || "#6B5344";
+
   return (
-    <section className="bg-[#eef4fa] py-24 px-6 border-b border-[#d4af37]/30">
+    <section className="bg-[#F8F1E3] py-24 px-6 border-b-2 border-[#6B5344]/25">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-16">
           <span
-            className="text-xs uppercase tracking-[0.3em] text-[#8c6d23]"
+            className="text-[11px] uppercase tracking-[0.35em] text-[#6B5344] font-semibold"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             Ordem dos Acontecimentos
           </span>
           <h2
-            className="text-4xl md:text-5xl text-[#1b2b4b] mt-2"
+            className="text-3xl md:text-4xl text-[#1A1410] mt-3"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             {event.programSubtitle || "O Nosso Dia"}
           </h2>
-          <FloralDivider color={event.primaryColor || "#D4AF37"} />
+          <FloralDivider color={goldColor} />
         </div>
 
-        <div className="relative border-l-2 border-[#d4af37]/50 ml-4 md:ml-32 space-y-12">
+        <div className="relative border-l-[3px] border-[#6B5344]/50 ml-4 md:ml-24 space-y-12">
           {items.map((item) => (
-            <div key={item.id} className="relative pl-8 md:pl-12">
-              <div className="absolute -left-[17px] top-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#fdfbf7] border-2 border-[#d4af37] text-[#8c6d23] shadow">
+            <div key={item.id} className="relative pl-10 md:pl-12">
+              <div className="absolute -left-[19px] top-1 flex h-9 w-9 items-center justify-center rounded-full bg-white border-[3px] border-[#6B5344] text-[#6B5344] shadow-md">
                 {PROGRAM_ICONS[item.type]}
               </div>
 
-              <div className="bg-[#fdfbf7] p-6 rounded-lg border border-[#d4af37]/40 shadow-sm relative">
+              <div className="bg-white p-7 rounded-2xl border-2 border-[#6B5344]/20 shadow-md">
                 <span
-                  className="inline-block px-3 py-1 bg-[#1e3a5f] text-[#d4af37] text-xs font-semibold rounded tracking-widest mb-2"
+                  className="inline-block px-3.5 py-1.5 bg-[#1A1410] text-white text-[11px] font-semibold rounded tracking-widest mb-3"
                   style={{ fontFamily: "'Cinzel', serif" }}
                 >
                   {item.time}
                 </span>
                 <h3
-                  className="text-2xl text-[#1b2b4b]"
+                  className="text-xl md:text-2xl text-[#1A1410] font-medium"
                   style={{ fontFamily: "'Cinzel', serif" }}
                 >
                   {item.label}
                 </h3>
                 {item.notes && (
                   <p
-                    className="text-[#4a5568] text-base mt-2"
+                    className="text-[#3D2E24] text-base mt-2.5 leading-relaxed"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}
                   >
                     {item.notes}
@@ -417,10 +416,10 @@ function ProgramSection({
                     href={item.locationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 mt-4 text-xs tracking-wider uppercase text-[#8c6d23] hover:underline"
+                    className="inline-flex items-center gap-2 mt-4 text-[11px] tracking-wider uppercase text-[#6B5344] font-semibold hover:underline"
                     style={{ fontFamily: "'Cinzel', serif" }}
                   >
-                    <PinIcon color="#8c6d23" />
+                    <PinIcon color="#6B5344" />
                     {item.locationLabel?.trim() || "Ver Localização"}
                   </a>
                 )}
@@ -436,7 +435,6 @@ function ProgramSection({
 /* =====================================================================
    LISTA DE PRESENTES
    ===================================================================== */
-
 function GiftListSection({
   event,
 }: {
@@ -445,59 +443,67 @@ function GiftListSection({
   const items: GiftItem[] = (event.giftList as GiftItem[] | undefined) ?? [];
   if (items.length === 0) return null;
 
+  const goldColor = event.primaryColor || "#6B5344";
+
   return (
-    <section className="bg-[#f9f6f0] py-24 px-6 border-b border-[#d4af37]/30">
+    <section className="bg-[#F8F1E3] py-24 px-6 border-b-2 border-[#6B5344]/25">
       <div className="max-w-4xl mx-auto text-center">
         <span
-          className="text-xs uppercase tracking-[0.3em] text-[#8c6d23]"
+          className="text-[11px] uppercase tracking-[0.35em] text-[#6B5344] font-semibold"
           style={{ fontFamily: "'Cinzel', serif" }}
         >
           Lembranças e Gestos
         </span>
         <h2
-          className="text-4xl text-[#1b2b4b] mt-2 mb-4"
+          className="text-3xl md:text-4xl text-[#1A1410] mt-3 mb-2"
           style={{ fontFamily: "'Cinzel', serif" }}
         >
           Demonstrações de Afeto
         </h2>
-        <FloralDivider color={event.primaryColor || "#D4AF37"} />
+        <FloralDivider color={goldColor} />
 
         <p
-          className="text-[#4a5568] text-lg max-w-2xl mx-auto italic mb-12"
+          className="text-[#3D2E24] text-lg max-w-2xl mx-auto italic mb-14 leading-relaxed"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           {event.giftListIntro ||
             "A vossa presença é a nossa maior honra. Caso desejem conceder-nos uma lembrança, contribuições monetárias para o nosso novo capítulo serão recebidas com profunda gratidão."}
         </p>
 
-        <div className="grid gap-6 md:grid-cols-2 text-left">
+        <div className="grid gap-7 md:grid-cols-2 text-left">
           {items.map((item) => (
             <div
               key={item.id}
-              className="bg-[#fdfbf7] p-8 rounded-lg border border-[#d4af37]/40 shadow-sm relative"
+              className="bg-white p-8 rounded-2xl border-2 border-[#6B5344]/20 shadow-md"
             >
               <h3
-                className="text-xl text-[#1b2b4b] font-bold mb-2"
+                className="text-xl text-[#1A1410] font-semibold mb-2.5"
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
                 {item.name}
               </h3>
               {item.note && (
                 <p
-                  className="text-sm text-[#5a6a85] mb-4"
+                  className="text-sm text-[#3D2E24] mb-5 leading-relaxed"
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   {item.note}
                 </p>
               )}
               {item.type === "MONETARY" && item.bankIban && (
-                <div className="p-4 bg-[#e8f0f8]/50 rounded border border-[#1e3a5f]/20 text-xs font-mono text-[#1e3a5f] space-y-1">
+                <div className="p-4 bg-[#F8F1E3] rounded-xl border border-[#6B5344]/25 text-xs font-mono text-[#1A1410] space-y-1.5">
                   <div>
-                    <strong>NIB/IBAN:</strong> {item.bankIban}
+                    <strong className="font-sans tracking-wide">
+                      NIB/IBAN:
+                    </strong>{" "}
+                    {item.bankIban}
                   </div>
                   {item.bankAccountHolder && (
                     <div>
-                      <strong>Titular:</strong> {item.bankAccountHolder}
+                      <strong className="font-sans tracking-wide">
+                        Titular:
+                      </strong>{" "}
+                      {item.bankAccountHolder}
                     </div>
                   )}
                 </div>
@@ -513,7 +519,6 @@ function GiftListSection({
 /* =====================================================================
    FORMULÁRIO RSVP
    ===================================================================== */
-
 function RsvpForm({
   token,
   maxAllowed,
@@ -547,42 +552,42 @@ function RsvpForm({
   }
 
   return (
-    <section className="bg-[#eef4fa] py-24 px-6">
-      <div className="max-w-2xl mx-auto bg-[#fdfbf7] p-8 md:p-12 rounded-xl border-4 border-double border-[#d4af37]/60 shadow-xl text-center relative">
-        <CornerFlourish color="#D4AF37" className="top-2 left-2" />
-        <CornerFlourish color="#D4AF37" className="top-2 right-2 rotate-90" />
+    <section className="bg-[#F8F1E3] py-24 px-6">
+      <div className="max-w-2xl mx-auto bg-white p-10 md:p-14 rounded-2xl border-[4px] border-double border-[#6B5344]/60 shadow-xl text-center relative">
+        <CornerFlourish color="#6B5344" className="top-4 left-4" />
+        <CornerFlourish color="#6B5344" className="top-4 right-4 rotate-90" />
         <CornerFlourish
-          color="#D4AF37"
-          className="bottom-2 right-2 rotate-180"
+          color="#6B5344"
+          className="bottom-4 right-4 rotate-180"
         />
         <CornerFlourish
-          color="#D4AF37"
-          className="bottom-2 left-2 -rotate-90"
+          color="#6B5344"
+          className="bottom-4 left-4 -rotate-90"
         />
 
         <span
-          className="text-xs uppercase tracking-[0.3em] text-[#8c6d23]"
+          className="text-[11px] uppercase tracking-[0.35em] text-[#6B5344] font-semibold"
           style={{ fontFamily: "'Cinzel', serif" }}
         >
           Confirmação Solicitada
         </span>
         <h2
-          className="text-3xl md:text-4xl text-[#1b2b4b] my-2"
+          className="text-2xl md:text-3xl text-[#1A1410] mt-3 mb-1"
           style={{ fontFamily: "'Cinzel', serif" }}
         >
           Honrar-nos-á Com a Sua Presença?
         </h2>
-        <FloralDivider color="#D4AF37" />
+        <FloralDivider color="#6B5344" />
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        <form onSubmit={handleSubmit} className="mt-9 space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               type="button"
               onClick={() => setAttending(true)}
-              className={`p-4 rounded border text-sm tracking-wider uppercase transition-all ${
+              className={`p-4.5 rounded-xl border-2 text-[12px] tracking-wider uppercase font-semibold transition-colors ${
                 attending === true
-                  ? "bg-[#1e3a5f] text-[#d4af37] border-[#1e3a5f]"
-                  : "bg-white text-[#1b2b4b] border-[#d4af37]/50"
+                  ? "bg-[#1A1410] text-white border-[#1A1410]"
+                  : "bg-[#F8F1E3] text-[#1A1410] border-[#6B5344]/40 hover:border-[#6B5344]"
               }`}
               style={{ fontFamily: "'Cinzel', serif" }}
             >
@@ -591,10 +596,10 @@ function RsvpForm({
             <button
               type="button"
               onClick={() => setAttending(false)}
-              className={`p-4 rounded border text-sm tracking-wider uppercase transition-all ${
+              className={`p-4.5 rounded-xl border-2 text-[12px] tracking-wider uppercase font-semibold transition-colors ${
                 attending === false
-                  ? "bg-[#1e3a5f] text-[#d4af37] border-[#1e3a5f]"
-                  : "bg-white text-[#1b2b4b] border-[#d4af37]/50"
+                  ? "bg-[#1A1410] text-white border-[#1A1410]"
+                  : "bg-[#F8F1E3] text-[#1A1410] border-[#6B5344]/40 hover:border-[#6B5344]"
               }`}
               style={{ fontFamily: "'Cinzel', serif" }}
             >
@@ -605,7 +610,7 @@ function RsvpForm({
           <button
             type="submit"
             disabled={submitting || attending === null}
-            className="w-full py-4 bg-gradient-to-r from-[#d4af37] via-[#f3e5ab] to-[#d4af37] text-[#1b2b4b] font-bold uppercase tracking-[0.2em] rounded border border-[#8c6d23] shadow-md hover:brightness-105 transition-all disabled:opacity-50"
+            className="w-full py-4.5 bg-[#6B5344] text-white font-semibold uppercase tracking-[0.2em] rounded-xl border-2 border-[#4A3A2F] shadow-lg hover:bg-[#5A4638] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             {submitting ? "A Enviar Resposta..." : "Enviar Confirmação"}
@@ -619,7 +624,6 @@ function RsvpForm({
 /* =====================================================================
    ENVELOPE REALISTA QUE ABRE (ABAS & SELO DE CERA)
    ===================================================================== */
-
 function EnvelopeOpening({
   coupleNames = "E & V",
   weddingDate = "10.05.2025",
@@ -646,7 +650,7 @@ function EnvelopeOpening({
     setTimeout(() => {
       setDestroyed(true);
       onOpen();
-    }, 1200);
+    }, 1100);
   };
 
   if (destroyed) return null;
@@ -655,77 +659,79 @@ function EnvelopeOpening({
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital@1&display=swap');
-
         .envelope-container {
           perspective: 1200px;
         }
-
         .flap-top {
           transform-origin: top center;
-          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .flap-open {
           transform: rotateX(-180deg);
         }
-
         .seal-break {
-          transition: opacity 0.4s ease, transform 0.6s ease;
+          transition: opacity 0.35s ease, transform 0.55s ease;
           opacity: 0;
-          transform: scale(1.3) translateY(-20px);
+          transform: scale(1.25) translateY(-18px);
         }
       `}</style>
 
       <div
-        className={`fixed inset-0 z-50 flex items-center justify-center bg-[#0e1726] p-4 transition-opacity duration-700 ${opening ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+        className={`fixed inset-0 z-50 flex items-center justify-center bg-[#12100E] p-6 transition-opacity duration-700 ${
+          opening ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
       >
-        <div className="envelope-container relative w-full max-w-lg aspect-[4/3] bg-[#f4eee0] rounded-lg shadow-2xl border border-[#d4af37]/40 flex flex-col justify-between overflow-hidden">
-          {/* Aba Superior do Envelope */}
+        <div className="envelope-container relative w-full max-w-md aspect-[4/3] bg-[#F8F1E3] rounded-2xl shadow-2xl border-2 border-[#6B5344]/40 flex flex-col justify-between overflow-hidden">
+          {/* Top flap */}
           <div
-            className={`flap-top absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-[#fdfbf7] to-[#eae0cd] border-b-2 border-[#d4af37]/60 z-30 flex items-end justify-center ${opening ? "flap-open" : ""}`}
+            className={`flap-top absolute top-0 left-0 right-0 h-1/2 bg-[#EDE6D4] border-b-2 border-[#6B5344]/35 z-30 ${
+              opening ? "flap-open" : ""
+            }`}
             style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
           />
 
-          {/* Aba Inferior do Envelope */}
+          {/* Bottom flap */}
           <div
-            className="absolute bottom-0 left-0 right-0 h-3/5 bg-gradient-to-t from-[#f5ede0] to-[#e6d8c0] border-t border-[#d4af37]/40 z-20"
+            className="absolute bottom-0 left-0 right-0 h-3/5 bg-[#E4DCC8] border-t border-[#6B5344]/30 z-20"
             style={{ clipPath: "polygon(0 100%, 100% 100%, 50% 0)" }}
           />
 
-          {/* Conteúdo Interno / Carta Visível ao Abrir */}
-          <div className="relative z-10 p-8 text-center my-auto">
+          {/* Letter content */}
+          <div className="relative z-10 p-9 text-center my-auto">
             <span
-              className="text-[10px] uppercase tracking-[0.4em] text-[#8c6d23] font-semibold"
+              className="text-[10px] uppercase tracking-[0.4em] text-[#6B5344] font-semibold"
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               Mensagem do Reino
             </span>
             <h1
-              className="text-3xl text-[#1b2b4b] mt-3 mb-1"
+              className="text-2xl md:text-3xl text-[#1A1410] mt-4 mb-1.5"
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               {coupleNames}
             </h1>
             <p
-              className="text-xs text-[#8c6d23] tracking-widest italic"
+              className="text-sm text-[#6B5344] tracking-widest italic"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               {weddingDate}
             </p>
           </div>
 
-          {/* Selo de Cera 3D Interativo */}
+          {/* Wax seal */}
           <button
             type="button"
             onClick={handleOpen}
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 w-24 h-24 rounded-full bg-gradient-to-br from-[#8b0000] via-[#a71d2a] to-[#5c0000] flex items-center justify-center shadow-2xl border-4 border-[#d4af37] transition-all hover:scale-110 active:scale-95 cursor-pointer ${opening ? "seal-break" : ""}`}
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 w-28 h-28 rounded-full bg-[#6B5344] flex items-center justify-center shadow-2xl border-[4px] border-[#4A3A2F] transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
+              opening ? "seal-break" : ""
+            }`}
           >
-            <div className="w-20 h-20 rounded-full border border-[#f3e5ab]/40 flex flex-col items-center justify-center">
-              <span className="text-2xl text-[#f3e5ab] font-serif tracking-widest">
+            <div className="w-22 h-22 rounded-full border-2 border-white/25 flex flex-col items-center justify-center">
+              <span className="text-2xl text-white font-serif tracking-widest">
                 {initials}
               </span>
               <span
-                className="text-[8px] uppercase tracking-widest text-[#f3e5ab]/80 mt-0.5"
+                className="text-[9px] uppercase tracking-widest text-white/90 mt-1"
                 style={{ fontFamily: "'Cinzel', serif" }}
               >
                 Abrir
@@ -733,10 +739,9 @@ function EnvelopeOpening({
             </div>
           </button>
 
-          {/* Marca d'água de texto inferior */}
-          <div className="absolute bottom-3 left-0 right-0 text-center z-30 pointer-events-none">
+          <div className="absolute bottom-4 left-0 right-0 text-center z-30 pointer-events-none">
             <p
-              className="text-[9px] uppercase tracking-[0.3em] text-[#1e3a5f]/50"
+              className="text-[10px] uppercase tracking-[0.3em] text-[#1A1410]/50 font-medium"
               style={{ fontFamily: "'Cinzel', serif" }}
             >
               Clique no Selo de Cera
@@ -751,7 +756,6 @@ function EnvelopeOpening({
 /* =====================================================================
    EXPORTAÇÃO DO TEMA
    ===================================================================== */
-
 export default function BridgertonTheme({
   event,
   guestName,
@@ -782,9 +786,10 @@ export default function BridgertonTheme({
   }
 
   return (
-    <main className="bridgerton-theme bg-[#faf7f2] min-h-screen text-[#1b2b4b]">
+    <main className="bridgerton-theme bg-[#F8F1E3] min-h-screen text-[#1A1410]">
       <BridgertonHero event={event} guestName={guestName} />
       <EventDetails event={event} />
+      <CouplePhotosSection event={event} />
       <ProgramSection event={event} />
       <GiftListSection event={event} />
       <RsvpForm

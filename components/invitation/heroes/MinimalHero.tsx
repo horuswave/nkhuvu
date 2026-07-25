@@ -30,9 +30,22 @@ export default function MinimalHero({
           alignItems: "center",
           justifyContent: "center",
           padding: "6rem 2rem",
-          background: "#ffffff",
+          background: event.backgroundStyle === "IMAGE" && event.heroImageUrl
+            ? `url(${event.heroImageUrl}) center/cover no-repeat`
+            : "#ffffff",
         }}
       >
+        {/* Dark overlay for image background */}
+        {event.backgroundStyle === "IMAGE" && event.heroImageUrl && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              pointerEvents: "none",
+            }}
+          />
+        )}
         <div
           style={{
             maxWidth: "600px",

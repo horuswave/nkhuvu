@@ -51,11 +51,24 @@ export default function ElegantHero({
           position: "relative",
           overflow: "hidden",
           padding: "6rem 2rem",
-          background: isDark
+          background: event.backgroundStyle === "IMAGE" && event.heroImageUrl
+            ? `url(${event.heroImageUrl}) center/cover no-repeat`
+            : isDark
             ? `linear-gradient(180deg, ${event.accentColor} 0%, #581c87 100%)`
             : `linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%)`,
         }}
       >
+        {/* Dark overlay for image background */}
+        {event.backgroundStyle === "IMAGE" && event.heroImageUrl && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              pointerEvents: "none",
+            }}
+          />
+        )}
         {/* Floating decorative petals */}
         {[...Array(6)].map((_, i) => (
           <div

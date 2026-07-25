@@ -24,6 +24,8 @@ export interface EventData {
   backgroundStyle: "DARK" | "LIGHT" | "IMAGE";
   themeId: string;
   backgroundImage: string | null;
+  heroImageUrl: string | null;
+  couplePhotos: string[];
   
   // Invitation text customizations
   heroSubtitle: string | null;

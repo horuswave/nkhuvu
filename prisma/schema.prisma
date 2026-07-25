@@ -68,6 +68,9 @@ model Event {
   // Gift list — ordered array of GiftItem objects (see GiftListEditor.tsx for shape)
   giftList Json @default("[]")
 
+  // Couple photos — ordered array of image URLs
+  couplePhotos Json @default("[]")
+
   // RSVP form field visibility — { companions, dietary, transport, message }
   rsvpFields Json @default("{\"companions\":true,\"dietary\":true,\"transport\":true,\"message\":true}")
 

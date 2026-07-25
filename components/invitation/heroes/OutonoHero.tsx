@@ -8,7 +8,9 @@ export default function OutonoHero({
   guestName?: string;
 }) {
   const bgImg =
-    event.backgroundImage || "https://picsum.photos/id/1015/2000/1200";
+    event.backgroundStyle === "IMAGE" && event.heroImageUrl
+      ? event.heroImageUrl
+      : event.backgroundImage || "https://picsum.photos/id/1015/2000/1200";
 
   return (
     <>
