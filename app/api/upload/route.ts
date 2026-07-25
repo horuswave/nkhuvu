@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { existsSync } from "fs";
 import path from "path";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+// Initialize S3 client
+const s3Client = new S3Client({
+  region: process.env.NEXT_PUBLIC_AWS_BUCKET_REGION,
+  credentials: {
+    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY!,
+    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
+  },
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,20 +45,20 @@ export async function POST(request: NextRequest) {
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 10);
     const extension = path.extname(file.name) || ".jpg";
-    const filename = `${timestamp}-${randomString}${extension}`;
+    const filename = `uploads/${timestamp}-${randomString}${extension}`;
 
-    // Ensure upload directory exists
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
+    // Upload to S3
+    const command = new PutObjectCommand({
+      Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
+      Key: filename,
+      Body: buffer,
+      ContentType: file.type,
+    });
 
-    // Write file
-    const filepath = path.join(uploadDir, filename);
-    await writeFile(filepath, buffer);
+    await s3Client.send(command);
 
-    // Return the URL
-    const url = `/uploads/${filename}`;
+    // Return the S3 URL
+    const url = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_BUCKET_REGION}.amazonaws.com/${filename}`;
     return NextResponse.json({ url, filename });
   } catch (error) {
     console.error("Upload error:", error);
