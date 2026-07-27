@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Mail, Phone } from "lucide-react";
-import CouplePhotosSection from "../CouplePhotosSection";
 import type { EventData } from "@/types";
 
 /* =====================================================================
@@ -185,6 +184,54 @@ const PROGRAM_ICONS: Record<ProgramItemType, React.ReactNode> = {
 };
 
 /* =====================================================================
+   POLAROID PHOTO
+   ===================================================================== */
+function PolaroidPhoto({
+  imageUrl,
+  rotation,
+  top,
+  left,
+  right,
+  bottom,
+  size = "medium",
+}: {
+  imageUrl: string;
+  rotation: number;
+  top?: string;
+  left?: string;
+  right?: string;
+  bottom?: string;
+  size?: "small" | "medium" | "large";
+}) {
+  const sizeClasses = {
+    small: "w-32 h-40",
+    medium: "w-48 h-56",
+    large: "w-64 h-72",
+  };
+
+  return (
+    <div
+      className={`absolute ${sizeClasses[size]} bg-white p-3 shadow-2xl transform hover:scale-105 hover:z-50 transition-all duration-300`}
+      style={{
+        transform: `rotate(${rotation}deg)`,
+        top,
+        left,
+        right,
+        bottom,
+      }}
+    >
+      <div className="w-full h-full bg-gray-100 overflow-hidden">
+        <img
+          src={imageUrl}
+          alt="Couple photo"
+          className="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+  );
+}
+
+/* =====================================================================
    HERO
    ===================================================================== */
 function BridgertonHero({
@@ -282,6 +329,14 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
   const rules = event.rules?.split("\n").filter(Boolean) ?? [];
   const goldColor = event.primaryColor || "#6B5344";
 
+  const formattedDate = event.date
+    ? new Intl.DateTimeFormat("pt-PT", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }).format(new Date(event.date))
+    : "";
+
   return (
     <section className="bg-[#F8F1E3] py-24 px-6 relative border-y-2 border-[#6B5344]/30">
       <div className="max-w-3xl mx-auto text-center">
@@ -299,8 +354,112 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
         </h2>
         <FloralDivider color={goldColor} />
 
+        {/* Date, Time, Venue */}
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          <div className="bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
+            <div className="text-[#6B5344] text-2xl mb-2">📅</div>
+            <p
+              className="text-[#1A1410] text-lg font-semibold"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
+              Data
+            </p>
+            <p
+              className="text-[#3D2E24] text-base mt-1"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              {formattedDate}
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
+            <div className="text-[#6B5344] text-2xl mb-2">🕐</div>
+            <p
+              className="text-[#1A1410] text-lg font-semibold"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
+              Hora
+            </p>
+            <p
+              className="text-[#3D2E24] text-base mt-1"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              {event.time}
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
+            <div className="text-[#6B5344] text-2xl mb-2">📍</div>
+            <p
+              className="text-[#1A1410] text-lg font-semibold"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
+              Local
+            </p>
+            <p
+              className="text-[#3D2E24] text-base mt-1"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              {event.venue}
+            </p>
+          </div>
+        </div>
+
+        {/* Address */}
+        {event.address && (
+          <div className="mt-8 bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
+            <p
+              className="text-[#1A1410] text-base md:text-lg leading-relaxed"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              {event.address}
+            </p>
+            {event.mapUrl && (
+              <a
+                href={event.mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-4 text-[#6B5344] text-sm font-semibold hover:underline"
+                style={{ fontFamily: "'Cinzel', serif" }}
+              >
+                <PinIcon color="#6B5344" />
+                Ver no Mapa
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* Dress Code */}
+        {event.dressCode && (
+          <div className="mt-6 bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
+            <p
+              className="text-[#1A1410] text-base md:text-lg leading-relaxed"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              <span className="font-semibold">Código de Vestimenta:</span> {event.dressCode}
+            </p>
+          </div>
+        )}
+
+        {/* Message */}
+        {event.message && (
+          <div className="mt-8 bg-[#6B5344] p-8 rounded-2xl shadow-md">
+            <p
+              className="text-white text-base md:text-lg leading-relaxed italic"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              {event.message}
+            </p>
+          </div>
+        )}
+
+        {/* Rules */}
         {rules.length > 0 && (
           <div className="mt-12 bg-white p-9 md:p-12 rounded-2xl border-2 border-[#6B5344]/25 shadow-md">
+            <h3
+              className="text-xl text-[#1A1410] mb-6 text-center"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
+              Regras do Evento
+            </h3>
             <ul className="space-y-5 text-left">
               {rules.map((rule, i) => (
                 <li
@@ -318,6 +477,7 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
           </div>
         )}
 
+        {/* Contact */}
         {(event.supportEmail || event.supportPhone) && (
           <div className="mt-14 p-8 bg-white rounded-2xl border-2 border-[#6B5344]/20 shadow-sm">
             <p
@@ -773,6 +933,8 @@ export default function BridgertonTheme({
 }: ThemeProps) {
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
 
+  const couplePhotos = (event.couplePhotos as string[]) || [];
+
   const weddingDate = useMemo(() => {
     if (!event.date) return "";
     try {
@@ -797,10 +959,69 @@ export default function BridgertonTheme({
   }
 
   return (
-    <main className="bridgerton-theme bg-[#F8F1E3] min-h-screen text-[#1A1410]">
+    <main className="bridgerton-theme bg-[#F8F1E3] min-h-screen text-[#1A1410] relative">
+      {/* Scattered Polaroid Photos */}
+      {couplePhotos.length > 0 && (
+        <>
+          {couplePhotos[0] && (
+            <PolaroidPhoto
+              imageUrl={couplePhotos[0]}
+              rotation={-8}
+              top="20%"
+              left="5%"
+              size="large"
+            />
+          )}
+          {couplePhotos[1] && (
+            <PolaroidPhoto
+              imageUrl={couplePhotos[1]}
+              rotation={6}
+              top="25%"
+              right="5%"
+              size="medium"
+            />
+          )}
+          {couplePhotos[2] && (
+            <PolaroidPhoto
+              imageUrl={couplePhotos[2]}
+              rotation={-4}
+              top="60%"
+              left="3%"
+              size="medium"
+            />
+          )}
+          {couplePhotos[3] && (
+            <PolaroidPhoto
+              imageUrl={couplePhotos[3]}
+              rotation={10}
+              top="65%"
+              right="4%"
+              size="large"
+            />
+          )}
+          {couplePhotos[4] && (
+            <PolaroidPhoto
+              imageUrl={couplePhotos[4]}
+              rotation={-12}
+              top="85%"
+              left="10%"
+              size="small"
+            />
+          )}
+          {couplePhotos[5] && (
+            <PolaroidPhoto
+              imageUrl={couplePhotos[5]}
+              rotation={8}
+              top="90%"
+              right="8%"
+              size="small"
+            />
+          )}
+        </>
+      )}
+
       <BridgertonHero event={event} guestName={guestName} />
       <EventDetails event={event} />
-      <CouplePhotosSection event={event} />
       <ProgramSection event={event} />
       <GiftListSection event={event} />
       <RsvpForm
