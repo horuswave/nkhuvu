@@ -252,77 +252,86 @@ function BridgertonHero({
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap');
-        .bridgerton-glass {
-          background: #FFFbf5;
-          border: 1px solid rgba(107, 83, 68, 0.45);
+
+        .hero-scrim {
+          background:
+            linear-gradient(
+              to top,
+              rgba(10, 8, 7, 0.92) 0%,
+              rgba(10, 8, 7, 0.78) 18%,
+              rgba(10, 8, 7, 0.45) 40%,
+              rgba(10, 8, 7, 0.08) 72%,
+              rgba(10, 8, 7, 0.00) 100%
+            );
+        }
+
+        .hero-copy {
+          text-shadow:
+            0 2px 10px rgba(0,0,0,0.5),
+            0 1px 1px rgba(0,0,0,0.3);
+        }
+
+        .guest-pill {
+          backdrop-filter: blur(3px);
+          -webkit-backdrop-filter: blur(3px);
+          background: rgba(248, 241, 227, 0.78);
           box-shadow:
-            0 30px 70px rgba(0, 0, 0, 0.35),
-            0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+            0 10px 30px rgba(0,0,0,0.12),
+            inset 0 0 0 1px rgba(107, 83, 68, 0.18);
         }
       `}</style>
 
       <section
-        className="relative min-h-screen w-full flex items-center justify-center p-6 md:p-14 bg-cover bg-center"
+        className="relative min-h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden"
         style={{ backgroundImage: `url('${bgImg}')` }}
       >
-        <div className="absolute inset-0 bg-black/65" />
+        <div className="absolute inset-0 bg-black/25" />
+        <div className="absolute inset-0 hero-scrim" />
 
-        <div className="bridgerton-glass relative z-10 w-full max-w-3xl rounded-2xl p-10 md:p-16 text-center my-12 border-[4px] border-double border-[#6B5344]/70">
-          <CornerFlourish color={goldColor} className="top-4 left-4" />
-          <CornerFlourish
-            color={goldColor}
-            className="top-4 right-4 rotate-90"
-          />
-          <CornerFlourish
-            color={goldColor}
-            className="bottom-4 right-4 rotate-180"
-          />
-          <CornerFlourish
-            color={goldColor}
-            className="bottom-4 left-4 -rotate-90"
-          />
+        <div className="relative z-10 min-h-screen flex items-end justify-center px-6 md:px-14 pb-48 md:pb-8">
+          <div className="w-full max-w-5xl text-center hero-copy -translate-y-4 md:-translate-y-6">
+            <p
+              className="text-[10px] md:text-[11px] uppercase tracking-[0.45em] text-[#F6EBDD]/85 font-semibold mb-4"
+              style={{ fontFamily: "'Cinzel', serif" }}
+            >
+              Caríssimo Leitor, é Cordialmente Convidado Para
+            </p>
 
-          <p
-            className="text-[11px] md:text-xs uppercase tracking-[0.45em] text-[#3D2E24] font-semibold mb-5"
-            style={{ fontFamily: "'Cinzel', serif" }}
-          >
-            Caríssimo Leitor, é Cordialmente Convidado Para
-          </p>
+            <h1
+              className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#FFF7EF] tracking-wide leading-[1.05] drop-shadow-[0_4px_18px_rgba(0,0,0,0.35)]"
+              style={{ fontFamily: event.fontDisplay || "'Cinzel', serif" }}
+            >
+              {event.title}
+            </h1>
 
-          <h1
-            className="text-4xl md:text-6xl lg:text-7xl font-normal text-[#1A1410] tracking-wide leading-[1.1]"
-            style={{ fontFamily: event.fontDisplay || "'Cinzel', serif" }}
-          >
-            {event.title}
-          </h1>
-
-          <FloralDivider color={goldColor} />
-
-          <p
-            className="text-3xl md:text-5xl text-[#6B5344] mt-1 mb-1 italic leading-none"
-            style={{ fontFamily: "'Alex Brush', cursive" }}
-          >
-            {event.coupleNames}
-          </p>
-
-          {guestName && (
-            <div className="mt-10 inline-block px-8 py-3 rounded-full border-2 border-[#6B5344]/50 bg-[#F8F1E3]">
-              <span
-                className="text-[11px] md:text-xs text-[#1A1410] tracking-[0.2em] uppercase font-semibold"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                Convidado Ilustre:{" "}
-                <strong className="text-[#6B5344]">{guestName}</strong>
-              </span>
+            <div className="mt-4">
+              <FloralDivider color={goldColor} />
             </div>
-          )}
+
+            <p
+              className="text-3xl md:text-5xl text-[#F4DCC7] mt-3 italic leading-none"
+              style={{ fontFamily: "'Alex Brush', cursive" }}
+            >
+              {event.coupleNames}
+            </p>
+
+            {guestName && (
+              <div className="mt-6 inline-block px-5 py-2.5 rounded-full guest-pill border border-[#6B5344]/20">
+                <span
+                  className="text-[10px] md:text-[11px] text-[#1A1410] tracking-[0.2em] uppercase font-semibold"
+                  style={{ fontFamily: "'Cinzel', serif" }}
+                >
+                  Convidado Ilustre:{" "}
+                  <strong className="text-[#6B5344]">{guestName}</strong>
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </>
   );
-}
-
-/* =====================================================================
+}/* =====================================================================
    EVENT DETAILS
    ===================================================================== */
 function EventDetails({ event }: { event: ThemeProps["event"] }) {
@@ -789,6 +798,9 @@ function RsvpForm({
 /* =====================================================================
    ENVELOPE OPENING
    ===================================================================== */
+const WAX_NOISE_TEXTURE = "https://www.transparenttextures.com/patterns/dark-dotted-2.png";
+const PAPER_GRAIN_TEXTURE = "https://www.transparenttextures.com/patterns/cream-paper.png";
+
 function EnvelopeOpening({
   coupleNames = "E & V",
   weddingDate = "",
@@ -805,7 +817,8 @@ function EnvelopeOpening({
     const parts = coupleNames
       .split(/\s*(?:&|\+|\be\b|\bE\b)\s*/i)
       .filter(Boolean);
-    if (parts.length >= 2) return `${parts[0][0]} & ${parts[1][0]}`;
+
+    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`;
     return parts[0]?.[0] || "M";
   }, [coupleNames]);
 
@@ -815,7 +828,7 @@ function EnvelopeOpening({
     setTimeout(() => {
       setDestroyed(true);
       onOpen();
-    }, 1100);
+    }, 1200);
   };
 
   if (destroyed) return null;
@@ -823,96 +836,334 @@ function EnvelopeOpening({
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital@1&display=swap');
-        .envelope-container {
-          perspective: 1200px;
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+        .envelope-scene {
+          perspective: 1400px;
+          -webkit-perspective: 1400px;
         }
+
+        .envelope {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          max-width: 420px;
+          aspect-ratio: 5 / 3.4;
+          transform-style: preserve-3d;
+          filter: drop-shadow(0 25px 50px rgba(0,0,0,0.6));
+        }
+
+        .paper-texture {
+          position: absolute;
+          inset: 0;
+          background-image:
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E"),
+            url("${PAPER_GRAIN_TEXTURE}");
+          pointer-events: none;
+          z-index: 50;
+          mix-blend-mode: multiply;
+          border-radius: inherit;
+          opacity: 0.7;
+        }
+
+        .envelope-body {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(165deg, #1b1917 0%, #11100f 50%, #191715 100%);
+          border-radius: 5px;
+          overflow: hidden;
+          box-shadow:
+            inset 0 0 0 1px rgba(210, 175, 110, 0.08),
+            inset 0 2px 10px rgba(0,0,0,0.35);
+        }
+
         .flap-top {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 52%;
+          background: linear-gradient(180deg, #23201d 0%, #131110 100%);
+          clip-path: polygon(0 0, 100% 0, 50% 100%);
           transform-origin: top center;
-          transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: transform 0.95s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 30;
         }
+
         .flap-open {
-          transform: rotateX(-180deg);
+          transform: rotateX(-168deg);
         }
+
+        .flap-left {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(90deg, #171513 0%, #10100f 100%);
+          clip-path: polygon(0 0, 100% 38%, 100% 100%, 0 100%);
+          z-index: 15;
+        }
+
+        .flap-right {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(-90deg, #171513 0%, #10100f 100%);
+          clip-path: polygon(0 38%, 100% 0, 100% 100%, 0 100%);
+          z-index: 15;
+        }
+
+        .flap-bottom {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 62%;
+          background: linear-gradient(0deg, #191715 0%, #10100f 100%);
+          clip-path: polygon(0 100%, 100% 100%, 50% 0);
+          z-index: 20;
+        }
+
+        .letter {
+          position: absolute;
+          inset: 12% 8% 18% 8%;
+          background: linear-gradient(180deg, #f8f4ec 0%, #ece4d6 100%);
+          border-radius: 2px;
+          box-shadow:
+            0 2px 8px rgba(0,0,0,0.28),
+            inset 0 0 0 1px rgba(0,0,0,0.05);
+          z-index: 10;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 1.5rem 1rem;
+          text-align: center;
+        }
+
+        .seal {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 40;
+          width: 96px;
+          height: 96px;
+          border: none;
+          background: transparent;
+          padding: 0;
+          cursor: pointer;
+          transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .seal:hover {
+          transform: translate(-50%, -50%) scale(1.03);
+        }
+
+        .seal:active {
+          transform: translate(-50%, -50%) scale(0.98);
+        }
+
+        .seal-wax {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background:
+            radial-gradient(circle at 35% 28%, rgba(255,255,255,0.16) 0%, transparent 26%),
+            radial-gradient(circle at 68% 72%, rgba(75,50,15,0.12) 0%, transparent 42%),
+            radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 55%),
+            linear-gradient(145deg, #d5af63 0%, #c19443 36%, #aa7624 70%, #8d6220 100%);
+          box-shadow:
+            0 7px 16px rgba(0,0,0,0.24),
+            inset 0 1px 2px rgba(255,255,255,0.18),
+            inset 0 -2px 4px rgba(0,0,0,0.16);
+          overflow: hidden;
+        }
+
+        .seal-wax::before {
+          content: '';
+          position: absolute;
+          inset: 2px;
+          border-radius: 50%;
+          box-shadow:
+            inset 0 0 0 1px rgba(255,235,190,0.12),
+            inset 0 0 0 2px rgba(86,56,14,0.10);
+          pointer-events: none;
+        }
+
+        .seal-wax::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background-image: url("${WAX_NOISE_TEXTURE}");
+          background-size: 120px;
+          opacity: 0.10;
+          mix-blend-mode: multiply;
+          pointer-events: none;
+        }
+
+        .seal-botanical {
+          position: absolute;
+          left: 9px;
+          top: 9px;
+          bottom: 9px;
+          width: 34px;
+          opacity: 0.88;
+          background:
+            radial-gradient(circle at 20% 18%, transparent 0 7px, rgba(90,60,15,0.9) 7px 7.5px, transparent 7.5px),
+            radial-gradient(circle at 26% 30%, transparent 0 6.5px, rgba(90,60,15,0.86) 6.5px 7px, transparent 7px),
+            radial-gradient(circle at 31% 41%, transparent 0 6.5px, rgba(90,60,15,0.86) 6.5px 7px, transparent 7px);
+          transform: rotate(-18deg);
+          filter: drop-shadow(0 0 0.5px rgba(0,0,0,0.28));
+        }
+
+        .seal-monogram {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'Cinzel', serif;
+          color: rgba(88, 58, 16, 0.96);
+          text-shadow:
+            0.7px 0.7px 0 rgba(255,240,210,0.28),
+            -0.7px -0.7px 0 rgba(60,40,10,0.18);
+        }
+
+        .seal-letter {
+          font-size: 28px;
+          font-weight: 600;
+          line-height: 1;
+        }
+
+        .seal-amp {
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 1;
+          margin: 0 6px;
+          opacity: 0.9;
+          transform: translateY(-1px);
+        }
+
+        .seal-pressed {
+          position: absolute;
+          inset: 6px;
+          border-radius: 50%;
+          box-shadow:
+            inset 0 1px 2px rgba(255,255,255,0.12),
+            inset 0 -1px 2px rgba(0,0,0,0.12);
+          pointer-events: none;
+        }
+
         .seal-break {
-          transition: opacity 0.35s ease, transform 0.55s ease;
           opacity: 0;
-          transform: scale(1.25) translateY(-18px);
+          transform: translate(-50%, -50%) scale(1.2) translateY(-18px) !important;
+          transition: opacity 0.35s ease, transform 0.5s ease;
+          pointer-events: none;
+        }
+
+        .gold-edge {
+          position: absolute;
+          inset: 0;
+          border-radius: 5px;
+          pointer-events: none;
+          z-index: 45;
+          box-shadow: inset 0 0 0 1px rgba(210, 175, 110, 0.16);
+        }
+
+        @media (max-width: 640px) {
+          .envelope-wrapper {
+            padding: 0 !important;
+            align-items: stretch !important;
+            justify-content: stretch !important;
+          }
+
+          .envelope {
+            max-width: none;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
+            border-radius: 0;
+            filter: none;
+          }
+
+          .envelope-body,
+          .gold-edge {
+            border-radius: 0;
+          }
+
+          .letter {
+            inset: 14% 6% 20% 6%;
+          }
+
+          .seal {
+            width: 104px;
+            height: 104px;
+          }
         }
       `}</style>
 
       <div
-        className={`fixed inset-0 z-50 flex items-center justify-center bg-[#12100E] p-6 transition-opacity duration-700 ${
+        className={`envelope-wrapper fixed inset-0 z-50 flex items-center justify-center bg-[#0a0908] transition-opacity duration-700 ${
           opening ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
       >
-        <div className="envelope-container relative w-full max-w-md aspect-[4/3] bg-[#F8F1E3] rounded-2xl shadow-2xl border-2 border-[#6B5344]/40 flex flex-col justify-between overflow-hidden">
-          {/* Top flap */}
-          <div
-            className={`flap-top absolute top-0 left-0 right-0 h-1/2 bg-[#EDE6D4] border-b-2 border-[#6B5344]/35 z-30 ${
-              opening ? "flap-open" : ""
-            }`}
-            style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
-          />
+        <div className="envelope-scene w-full h-full flex items-center justify-center p-4 sm:p-6">
+          <div className="envelope">
+            <div className="envelope-body">
+              <div className="paper-texture" />
+              <div className="flap-left" />
+              <div className="flap-right" />
+              <div className="flap-bottom" />
+              <div className={`flap-top ${opening ? "flap-open" : ""}`} />
 
-          {/* Bottom flap */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-3/5 bg-[#E4DCC8] border-t border-[#6B5344]/30 z-20"
-            style={{ clipPath: "polygon(0 100%, 100% 100%, 50% 0)" }}
-          />
+              <div className="letter">
+                <span
+                  className="text-[9px] sm:text-[10px] uppercase tracking-[0.35em] text-[#6b5344] font-semibold"
+                  style={{ fontFamily: "'Cinzel', serif" }}
+                >
+                  Mensagem do Reino
+                </span>
+                <h1
+                  className="text-xl sm:text-2xl md:text-3xl text-[#1a1410] mt-3 mb-1 leading-tight"
+                  style={{ fontFamily: "'Cinzel', serif", fontWeight: 600 }}
+                >
+                  {coupleNames}
+                </h1>
+                {weddingDate && (
+                  <p
+                    className="text-sm text-[#6b5344] tracking-widest italic mt-1"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                  >
+                    {weddingDate}
+                  </p>
+                )}
+              </div>
 
-          {/* Letter content */}
-          <div className="relative z-10 p-9 text-center my-auto">
-            <span
-              className="text-[10px] uppercase tracking-[0.4em] text-[#6B5344] font-semibold"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              Mensagem do Reino
-            </span>
-            <h1
-              className="text-2xl md:text-3xl text-[#1A1410] mt-4 mb-1.5"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              {coupleNames}
-            </h1>
-            {weddingDate && (
-              <p
-                className="text-sm text-[#6B5344] tracking-widest italic"
-                style={{ fontFamily: "'Cormorant Garamond', serif" }}
+              <button
+                type="button"
+                onClick={handleOpen}
+                aria-label="Abrir envelope"
+                className={`seal ${opening ? "seal-break" : ""}`}
               >
-                {weddingDate}
-              </p>
-            )}
-          </div>
+                <div className="seal-wax">
+                  <div className="seal-botanical" />
+                  <div className="seal-monogram">
+                    <span className="seal-letter">{initials[0] || "M"}</span>
+                    <span className="seal-amp">&amp;</span>
+                    <span className="seal-letter">{initials[1] || ""}</span>
+                  </div>
+                  <div className="seal-pressed" />
+                </div>
+              </button>
 
-          {/* Wax seal */}
-          <button
-            type="button"
-            onClick={handleOpen}
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 w-28 h-28 rounded-full bg-[#6B5344] flex items-center justify-center shadow-2xl border-[4px] border-[#4A3A2F] transition-transform hover:scale-105 active:scale-95 cursor-pointer ${
-              opening ? "seal-break" : ""
-            }`}
-          >
-            <div className="w-22 h-22 rounded-full border-2 border-white/25 flex flex-col items-center justify-center">
-              <span className="text-2xl text-white font-serif tracking-widest">
-                {initials}
-              </span>
-              <span
-                className="text-[9px] uppercase tracking-widest text-white/90 mt-1"
-                style={{ fontFamily: "'Cinzel', serif" }}
-              >
-                Abrir
-              </span>
+              <div className="gold-edge" />
             </div>
-          </button>
-
-          <div className="absolute bottom-4 left-0 right-0 text-center z-30 pointer-events-none">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-[#1A1410]/50 font-medium"
-              style={{ fontFamily: "'Cinzel', serif" }}
-            >
-              Clique no Selo de Cera
-            </p>
           </div>
         </div>
       </div>
