@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, Volume2, VolumeX } from "lucide-react";
 import type { EventData } from "@/types";
 
 /* =====================================================================
@@ -184,7 +184,7 @@ const PROGRAM_ICONS: Record<ProgramItemType, React.ReactNode> = {
 };
 
 /* =====================================================================
-   POLAROID PHOTO
+   POLAROID PHOTO (desktop absolute decoration)
    ===================================================================== */
 function PolaroidPhoto({
   imageUrl,
@@ -211,7 +211,7 @@ function PolaroidPhoto({
 
   return (
     <div
-      className={`absolute ${sizeClasses[size]} bg-white p-3 shadow-2xl transform hover:scale-105 hover:z-50 transition-all duration-300`}
+      className={`absolute ${sizeClasses[size]} bg-white p-3 shadow-2xl pointer-events-none z-20 transition-transform duration-300`}
       style={{
         transform: `rotate(${rotation}deg)`,
         top,
@@ -228,6 +228,108 @@ function PolaroidPhoto({
         />
       </div>
     </div>
+  );
+}
+
+/* =====================================================================
+   INLINE POLAROID (mobile timeline — in flow)
+   ===================================================================== */
+function InlinePolaroid({
+  imageUrl,
+  rotation = -3,
+  align = "left",
+}: {
+  imageUrl: string;
+  rotation?: number;
+  align?: "left" | "right";
+}) {
+  return (
+    <div
+      className={`relative flex ${
+        align === "right" ? "justify-end pr-2" : "justify-start pl-2"
+      }`}
+    >
+      <div
+        className="w-40 h-48 bg-white p-2.5 shadow-xl"
+        style={{ transform: `rotate(${rotation}deg)` }}
+      >
+        <div className="w-full h-full bg-gray-100 overflow-hidden">
+          <img
+            src={imageUrl}
+            alt="Couple photo"
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =====================================================================
+   BACKGROUND MUSIC
+   Put the file at: public/music/all-my-life.mp3
+   ===================================================================== */
+function BackgroundMusic({ enabled }: { enabled: boolean }) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [muted, setMuted] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    if (!enabled || !audioRef.current) return;
+
+    const audio = audioRef.current;
+    audio.volume = 0.45;
+
+    const tryPlay = async () => {
+      try {
+        await audio.play();
+        setPlaying(true);
+      } catch {
+        setPlaying(false);
+      }
+    };
+
+    tryPlay();
+  }, [enabled]);
+
+  const toggleMute = () => {
+    if (!audioRef.current) return;
+    const next = !muted;
+    audioRef.current.muted = next;
+    setMuted(next);
+
+    if (!next && !playing) {
+      audioRef.current
+        .play()
+        .then(() => setPlaying(true))
+        .catch(() => {});
+    }
+  };
+
+  if (!enabled) return null;
+
+  return (
+    <>
+      <audio
+        ref={audioRef}
+        src="/music/all-my-life.mp3"
+        loop
+        preload="auto"
+        playsInline
+      />
+      <button
+        type="button"
+        onClick={toggleMute}
+        aria-label={muted ? "Ativar música" : "Silenciar música"}
+        className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#6B5344]/40 bg-[#F8F1E3]/95 text-[#6B5344] shadow-lg backdrop-blur-sm transition hover:bg-[#6B5344] hover:text-white"
+      >
+        {muted || !playing ? (
+          <VolumeX className="h-5 w-5" />
+        ) : (
+          <Volume2 className="h-5 w-5" />
+        )}
+      </button>
+    </>
   );
 }
 
@@ -331,7 +433,9 @@ function BridgertonHero({
       </section>
     </>
   );
-}/* =====================================================================
+}
+
+/* =====================================================================
    EVENT DETAILS
    ===================================================================== */
 function EventDetails({ event }: { event: ThemeProps["event"] }) {
@@ -347,7 +451,7 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
     : "";
 
   return (
-    <section className="bg-[#F8F1E3] py-24 px-6 relative border-y-2 border-[#6B5344]/30">
+    <section className="bg-[#F8F1E3] py-24 px-6 border-y-2 border-[#6B5344]/30">
       <div className="max-w-3xl mx-auto text-center">
         <span
           className="text-[11px] uppercase tracking-[0.35em] text-[#6B5344] font-semibold"
@@ -363,7 +467,6 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
         </h2>
         <FloralDivider color={goldColor} />
 
-        {/* Date, Time, Venue */}
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           <div className="bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
             <div className="text-[#6B5344] text-2xl mb-2">📅</div>
@@ -412,7 +515,6 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
           </div>
         </div>
 
-        {/* Address */}
         {event.address && (
           <div className="mt-8 bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
             <p
@@ -436,31 +538,35 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
           </div>
         )}
 
-        {/* Dress Code */}
         {event.dressCode && (
           <div className="mt-6 bg-white p-6 rounded-2xl border-2 border-[#6B5344]/25 shadow-sm">
             <p
               className="text-[#1A1410] text-base md:text-lg leading-relaxed"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              <span className="font-semibold">Código de Vestimenta:</span> {event.dressCode}
+              <span className="font-semibold">Código de Vestimenta:</span>{" "}
+              {event.dressCode}
             </p>
           </div>
         )}
 
-        {/* Message */}
         {event.message && (
           <div className="mt-8 bg-[#6B5344] p-8 rounded-2xl shadow-md">
-            <p
-              className="text-white text-base md:text-lg leading-relaxed italic"
+            <div
+              className="text-white text-base md:text-lg leading-relaxed italic space-y-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              {event.message}
-            </p>
+              {event.message
+                .split(/\n+/)
+                .map((line) => line.trim())
+                .filter(Boolean)
+                .map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+            </div>
           </div>
         )}
 
-        {/* Rules */}
         {rules.length > 0 && (
           <div className="mt-12 bg-white p-9 md:p-12 rounded-2xl border-2 border-[#6B5344]/25 shadow-md">
             <h3
@@ -486,7 +592,6 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
           </div>
         )}
 
-        {/* Contact */}
         {(event.supportEmail || event.supportPhone) && (
           <div className="mt-14 p-8 bg-white rounded-2xl border-2 border-[#6B5344]/20 shadow-sm">
             <p
@@ -527,12 +632,21 @@ function EventDetails({ event }: { event: ThemeProps["event"] }) {
 
 /* =====================================================================
    PROGRAM
+   Desktop: classic timeline
+   Mobile: card → polaroid → card → polaroid …
    ===================================================================== */
-function ProgramSection({ event }: { event: ThemeProps["event"] }) {
+function ProgramSection({
+  event,
+  couplePhotos = [],
+}: {
+  event: ThemeProps["event"];
+  couplePhotos?: string[];
+}) {
   const items: ProgramItem[] = event.programItems ?? [];
   if (items.length === 0) return null;
 
   const goldColor = event.primaryColor || "#6B5344";
+  const rotations = [-4, 5, -6, 3, -5, 7];
 
   return (
     <section className="bg-[#F8F1E3] py-24 px-6 border-b-2 border-[#6B5344]/25">
@@ -553,14 +667,15 @@ function ProgramSection({ event }: { event: ThemeProps["event"] }) {
           <FloralDivider color={goldColor} />
         </div>
 
-        <div className="relative border-l-[3px] border-[#6B5344]/50 ml-4 md:ml-24 space-y-12">
+        {/* ── Desktop timeline ── */}
+        <div className="relative hidden md:block border-l-[3px] border-[#6B5344]/50 ml-24 space-y-12">
           {items.map((item) => (
-            <div key={item.id} className="relative pl-10 md:pl-12">
-              <div className="absolute -left-[19px] top-1 flex h-9 w-9 items-center justify-center rounded-full bg-white border-[3px] border-[#6B5344] text-[#6B5344] shadow-md">
+            <div key={item.id} className="relative pl-12">
+              <div className="absolute -left-[19px] top-1 flex h-9 w-9 items-center justify-center rounded-full bg-white border-[3px] border-[#6B5344] text-[#6B5344] shadow-md z-10">
                 {PROGRAM_ICONS[item.type] ?? PROGRAM_ICONS.CUSTOM}
               </div>
 
-              <div className="bg-white p-7 rounded-2xl border-2 border-[#6B5344]/20 shadow-md">
+              <div className="bg-white p-7 rounded-2xl border-2 border-[#6B5344]/20 shadow-md relative z-10">
                 <span
                   className="inline-block px-3.5 py-1.5 bg-[#1A1410] text-white text-[11px] font-semibold rounded tracking-widest mb-3"
                   style={{ fontFamily: "'Cinzel', serif" }}
@@ -596,6 +711,75 @@ function ProgramSection({ event }: { event: ThemeProps["event"] }) {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* ── Mobile: alternate card / polaroid ── */}
+        <div className="md:hidden relative border-l-[3px] border-[#6B5344]/50 ml-4 space-y-10">
+          {items.map((item, index) => {
+            const photo =
+              couplePhotos[index % Math.max(couplePhotos.length, 1)];
+            const showPolaroid =
+              couplePhotos.length > 0 && index < couplePhotos.length * 2;
+
+            return (
+              <div key={item.id} className="space-y-10">
+                {/* Program card */}
+                <div className="relative pl-10">
+                  <div className="absolute -left-[19px] top-1 flex h-9 w-9 items-center justify-center rounded-full bg-white border-[3px] border-[#6B5344] text-[#6B5344] shadow-md z-10">
+                    {PROGRAM_ICONS[item.type] ?? PROGRAM_ICONS.CUSTOM}
+                  </div>
+
+                  <div className="bg-white p-6 rounded-2xl border-2 border-[#6B5344]/20 shadow-md relative z-10">
+                    <span
+                      className="inline-block px-3 py-1.5 bg-[#1A1410] text-white text-[11px] font-semibold rounded tracking-widest mb-3"
+                      style={{ fontFamily: "'Cinzel', serif" }}
+                    >
+                      {item.time}
+                    </span>
+                    <h3
+                      className="text-xl text-[#1A1410] font-medium"
+                      style={{ fontFamily: "'Cinzel', serif" }}
+                    >
+                      {item.label}
+                    </h3>
+                    {item.notes && (
+                      <p
+                        className="text-[#3D2E24] text-base mt-2 leading-relaxed"
+                        style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                      >
+                        {item.notes}
+                      </p>
+                    )}
+                    {item.locationUrl && (
+                      <a
+                        href={item.locationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 mt-4 text-[11px] tracking-wider uppercase text-[#6B5344] font-semibold hover:underline"
+                        style={{ fontFamily: "'Cinzel', serif" }}
+                      >
+                        <PinIcon color="#6B5344" />
+                        {item.locationLabel?.trim() || "Ver Localização"}
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Polaroid after every card (when photos exist) */}
+                {showPolaroid && photo && (
+                  <div className="relative pl-10">
+                    {/* small gold dot on the timeline */}
+                    <div className="absolute -left-[11px] top-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-[#6B5344]/40 border-2 border-[#6B5344] z-10" />
+                    <InlinePolaroid
+                      imageUrl={photo}
+                      rotation={rotations[index % rotations.length]}
+                      align={index % 2 === 0 ? "left" : "right"}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -798,8 +982,10 @@ function RsvpForm({
 /* =====================================================================
    ENVELOPE OPENING
    ===================================================================== */
-const WAX_NOISE_TEXTURE = "https://www.transparenttextures.com/patterns/dark-dotted-2.png";
-const PAPER_GRAIN_TEXTURE = "https://www.transparenttextures.com/patterns/cream-paper.png";
+const WAX_NOISE_TEXTURE =
+  "https://www.transparenttextures.com/patterns/dark-dotted-2.png";
+const PAPER_GRAIN_TEXTURE =
+  "https://www.transparenttextures.com/patterns/cream-paper.png";
 
 function EnvelopeOpening({
   coupleNames = "E & V",
@@ -1210,16 +1396,18 @@ export default function BridgertonTheme({
   }
 
   return (
-    <main className="bridgerton-theme bg-[#F8F1E3] min-h-screen text-[#1A1410] relative">
-      {/* Scattered Polaroid Photos */}
+    <main className="bridgerton-theme bg-[#F8F1E3] min-h-screen text-[#1A1410] relative overflow-x-hidden">
+      <BackgroundMusic enabled={envelopeOpened} />
+
+      {/* Desktop-only scattered polaroids */}
       {couplePhotos.length > 0 && (
-        <>
+        <div className="pointer-events-none absolute inset-0 z-20 hidden md:block">
           {couplePhotos[0] && (
             <PolaroidPhoto
               imageUrl={couplePhotos[0]}
               rotation={-8}
-              top="20%"
-              left="5%"
+              top="18%"
+              left="3%"
               size="large"
             />
           )}
@@ -1227,8 +1415,8 @@ export default function BridgertonTheme({
             <PolaroidPhoto
               imageUrl={couplePhotos[1]}
               rotation={6}
-              top="25%"
-              right="5%"
+              top="22%"
+              right="3%"
               size="medium"
             />
           )}
@@ -1236,8 +1424,8 @@ export default function BridgertonTheme({
             <PolaroidPhoto
               imageUrl={couplePhotos[2]}
               rotation={-4}
-              top="60%"
-              left="3%"
+              top="55%"
+              left="2%"
               size="medium"
             />
           )}
@@ -1245,8 +1433,8 @@ export default function BridgertonTheme({
             <PolaroidPhoto
               imageUrl={couplePhotos[3]}
               rotation={10}
-              top="65%"
-              right="4%"
+              top="58%"
+              right="2%"
               size="large"
             />
           )}
@@ -1254,8 +1442,8 @@ export default function BridgertonTheme({
             <PolaroidPhoto
               imageUrl={couplePhotos[4]}
               rotation={-12}
-              top="85%"
-              left="10%"
+              top="82%"
+              left="6%"
               size="small"
             />
           )}
@@ -1263,17 +1451,17 @@ export default function BridgertonTheme({
             <PolaroidPhoto
               imageUrl={couplePhotos[5]}
               rotation={8}
-              top="90%"
-              right="8%"
+              top="88%"
+              right="5%"
               size="small"
             />
           )}
-        </>
+        </div>
       )}
 
       <BridgertonHero event={event} guestName={guestName} />
       <EventDetails event={event} />
-      <ProgramSection event={event} />
+      <ProgramSection event={event} couplePhotos={couplePhotos} />
       <GiftListSection event={event} />
       <RsvpForm
         token={token}
